@@ -7,7 +7,7 @@
  * embedded software. Jithendra H S and the University of Colorado are not     *
  * liable for any misuse of this material.                                     *
  ******************************************************************************/
-#define DEBUG_PORT_ADDRESS 0xFFFF
+#define DEBUG_PORT_ADDRESS 0x7FFE
 #ifdef DEBUG
  #define DEBUGPORT(address, value) (*((volatile unsigned char*)(address)) = (value))
                                 // generates a MOVX 0FFFFh,x where x is an 8-bit

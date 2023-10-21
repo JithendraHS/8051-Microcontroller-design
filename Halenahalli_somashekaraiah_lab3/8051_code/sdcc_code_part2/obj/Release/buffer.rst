@@ -594,7 +594,7 @@
       0030B2 C0 02            [24]  594 	push	ar2
       0030B4 C0 01            [24]  595 	push	ar1
       0030B6 C0 00            [24]  596 	push	ar0
-      0030B8 12 3D CA         [24]  597 	lcall	_echo
+      0030B8 12 3D B3         [24]  597 	lcall	_echo
       0030BB 85 82 0C         [24]  598 	mov	_get_buffer_size_sloc1_1_0,dpl
       0030BE D0 00            [24]  599 	pop	ar0
       0030C0 D0 01            [24]  600 	pop	ar1
@@ -653,13 +653,13 @@
       003116 C0 02            [24]  653 	push	ar2
       003118 C0 01            [24]  654 	push	ar1
       00311A C0 00            [24]  655 	push	ar0
-      00311C 74 61            [12]  656 	mov	a,#___str_0
+      00311C 74 4A            [12]  656 	mov	a,#___str_0
       00311E C0 E0            [24]  657 	push	acc
       003120 74 4E            [12]  658 	mov	a,#(___str_0 >> 8)
       003122 C0 E0            [24]  659 	push	acc
       003124 74 80            [12]  660 	mov	a,#0x80
       003126 C0 E0            [24]  661 	push	acc
-      003128 12 44 19         [24]  662 	lcall	_printf
+      003128 12 44 02         [24]  662 	lcall	_printf
       00312B 15 81            [12]  663 	dec	sp
       00312D 15 81            [12]  664 	dec	sp
       00312F 15 81            [12]  665 	dec	sp
@@ -697,7 +697,7 @@
       003162 C0 02            [24]  697 	push	ar2
       003164 C0 01            [24]  698 	push	ar1
       003166 C0 00            [24]  699 	push	ar0
-      003168 12 3F 46         [24]  700 	lcall	__modulong
+      003168 12 3F 2F         [24]  700 	lcall	__modulong
       00316B AC 82            [24]  701 	mov	r4,dpl
       00316D AD 83            [24]  702 	mov	r5,dph
       00316F AE F0            [24]  703 	mov	r6,b
@@ -722,13 +722,13 @@
       00318D C0 09            [24]  722 	push	(_get_buffer_size_sloc0_1_0 + 1)
       00318F C0 0A            [24]  723 	push	(_get_buffer_size_sloc0_1_0 + 2)
       003191 C0 0B            [24]  724 	push	(_get_buffer_size_sloc0_1_0 + 3)
-      003193 74 9F            [12]  725 	mov	a,#___str_1
+      003193 74 88            [12]  725 	mov	a,#___str_1
       003195 C0 E0            [24]  726 	push	acc
       003197 74 4E            [12]  727 	mov	a,#(___str_1 >> 8)
       003199 C0 E0            [24]  728 	push	acc
       00319B 74 80            [12]  729 	mov	a,#0x80
       00319D C0 E0            [24]  730 	push	acc
-      00319F 12 44 19         [24]  731 	lcall	_printf
+      00319F 12 44 02         [24]  731 	lcall	_printf
       0031A2 E5 81            [12]  732 	mov	a,sp
       0031A4 24 F9            [12]  733 	add	a,#0xf9
       0031A6 F5 81            [12]  734 	mov	sp,a
@@ -768,13 +768,13 @@
       0031D5 C0 02            [24]  768 	push	ar2
       0031D7 C0 01            [24]  769 	push	ar1
       0031D9 C0 00            [24]  770 	push	ar0
-      0031DB 74 DB            [12]  771 	mov	a,#___str_2
+      0031DB 74 C4            [12]  771 	mov	a,#___str_2
       0031DD C0 E0            [24]  772 	push	acc
       0031DF 74 4E            [12]  773 	mov	a,#(___str_2 >> 8)
       0031E1 C0 E0            [24]  774 	push	acc
       0031E3 74 80            [12]  775 	mov	a,#0x80
       0031E5 C0 E0            [24]  776 	push	acc
-      0031E7 12 44 19         [24]  777 	lcall	_printf
+      0031E7 12 44 02         [24]  777 	lcall	_printf
       0031EA 15 81            [12]  778 	dec	sp
       0031EC 15 81            [12]  779 	dec	sp
       0031EE 15 81            [12]  780 	dec	sp
@@ -801,7 +801,7 @@
       00320D C0 02            [24]  801 	push	ar2
       00320F C0 01            [24]  802 	push	ar1
       003211 C0 00            [24]  803 	push	ar0
-      003213 12 42 2B         [24]  804 	lcall	__mulint
+      003213 12 42 14         [24]  804 	lcall	__mulint
       003216 AE 82            [24]  805 	mov	r6,dpl
       003218 AF 83            [24]  806 	mov	r7,dph
       00321A D0 00            [24]  807 	pop	ar0
@@ -828,13 +828,13 @@
                                     828 ;	buffer.c:68: printf("%d\r\n", buffer_size); // Display the validated buffer size to the user
       003239 C0 0D            [24]  829 	push	_get_buffer_size_sloc2_1_0
       00323B C0 0E            [24]  830 	push	(_get_buffer_size_sloc2_1_0 + 1)
-      00323D 74 F5            [12]  831 	mov	a,#___str_3
+      00323D 74 DE            [12]  831 	mov	a,#___str_3
       00323F C0 E0            [24]  832 	push	acc
       003241 74 4E            [12]  833 	mov	a,#(___str_3 >> 8)
       003243 C0 E0            [24]  834 	push	acc
       003245 74 80            [12]  835 	mov	a,#0x80
       003247 C0 E0            [24]  836 	push	acc
-      003249 12 44 19         [24]  837 	lcall	_printf
+      003249 12 44 02         [24]  837 	lcall	_printf
       00324C E5 81            [12]  838 	mov	a,sp
       00324E 24 FB            [12]  839 	add	a,#0xfb
       003250 F5 81            [12]  840 	mov	sp,a
@@ -846,8 +846,8 @@
                                     846 	.area CSEG    (CODE)
                                     847 	.area CONST   (CODE)
                                     848 	.area CONST   (CODE)
-      004E61                        849 ___str_0:
-      004E61 49 6E 70 75 74 20 76   850 	.ascii "Input value is out of expected range! Try a different value"
+      004E4A                        849 ___str_0:
+      004E4A 49 6E 70 75 74 20 76   850 	.ascii "Input value is out of expected range! Try a different value"
              61 6C 75 65 20 69 73
              20 6F 75 74 20 6F 66
              20 65 78 70 65 63 74
@@ -856,13 +856,13 @@
              61 20 64 69 66 66 65
              72 65 6E 74 20 76 61
              6C 75 65
-      004E9C 0D                     851 	.db 0x0d
-      004E9D 0A                     852 	.db 0x0a
-      004E9E 00                     853 	.db 0x00
+      004E85 0D                     851 	.db 0x0d
+      004E86 0A                     852 	.db 0x0a
+      004E87 00                     853 	.db 0x00
                                     854 	.area CSEG    (CODE)
                                     855 	.area CONST   (CODE)
-      004E9F                        856 ___str_1:
-      004E9F 49 6E 70 75 74 20 76   857 	.ascii "Input value is not divisible by %d! Try a different value"
+      004E88                        856 ___str_1:
+      004E88 49 6E 70 75 74 20 76   857 	.ascii "Input value is not divisible by %d! Try a different value"
              61 6C 75 65 20 69 73
              20 6E 6F 74 20 64 69
              76 69 73 69 62 6C 65
@@ -871,26 +871,26 @@
              64 69 66 66 65 72 65
              6E 74 20 76 61 6C 75
              65
-      004ED8 0D                     858 	.db 0x0d
-      004ED9 0A                     859 	.db 0x0a
-      004EDA 00                     860 	.db 0x00
+      004EC1 0D                     858 	.db 0x0d
+      004EC2 0A                     859 	.db 0x0a
+      004EC3 00                     860 	.db 0x00
                                     861 	.area CSEG    (CODE)
                                     862 	.area CONST   (CODE)
-      004EDB                        863 ___str_2:
-      004EDB 49 6E 76 61 6C 69 64   864 	.ascii "Invalid input character"
+      004EC4                        863 ___str_2:
+      004EC4 49 6E 76 61 6C 69 64   864 	.ascii "Invalid input character"
              20 69 6E 70 75 74 20
              63 68 61 72 61 63 74
              65 72
-      004EF2 0D                     865 	.db 0x0d
-      004EF3 0A                     866 	.db 0x0a
-      004EF4 00                     867 	.db 0x00
+      004EDB 0D                     865 	.db 0x0d
+      004EDC 0A                     866 	.db 0x0a
+      004EDD 00                     867 	.db 0x00
                                     868 	.area CSEG    (CODE)
                                     869 	.area CONST   (CODE)
-      004EF5                        870 ___str_3:
-      004EF5 25 64                  871 	.ascii "%d"
-      004EF7 0D                     872 	.db 0x0d
-      004EF8 0A                     873 	.db 0x0a
-      004EF9 00                     874 	.db 0x00
+      004EDE                        870 ___str_3:
+      004EDE 25 64                  871 	.ascii "%d"
+      004EE0 0D                     872 	.db 0x0d
+      004EE1 0A                     873 	.db 0x0a
+      004EE2 00                     874 	.db 0x00
                                     875 	.area CSEG    (CODE)
                                     876 	.area XINIT   (CODE)
                                     877 	.area CABS    (ABS,CODE)

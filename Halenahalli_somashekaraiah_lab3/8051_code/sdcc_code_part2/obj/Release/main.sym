@@ -436,20 +436,20 @@ Symbol Table
  18 ___str_12                                                      0001E9 R
  18 ___str_13                                                      0001EC R
  18 ___str_14                                                      00020A R
- 18 ___str_15                                                      000239 R
- 18 ___str_16                                                      000274 R
- 18 ___str_17                                                      0002A1 R
- 18 ___str_18                                                      0002D3 R
- 18 ___str_19                                                      0002FC R
+ 18 ___str_15                                                      000245 R
+ 18 ___str_16                                                      00028A R
+ 18 ___str_17                                                      0002AD R
+ 18 ___str_18                                                      0002CE R
+ 18 ___str_19                                                      00030C R
  18 ___str_2                                                       00005D R
- 18 ___str_20                                                      00031F R
- 18 ___str_21                                                      000347 R
- 18 ___str_22                                                      000365 R
- 18 ___str_23                                                      00037B R
- 18 ___str_24                                                      0003FA R
- 18 ___str_25                                                      000410 R
- 18 ___str_26                                                      000413 R
- 18 ___str_27                                                      00041A R
+ 18 ___str_20                                                      00034E R
+ 18 ___str_21                                                      00036C R
+ 18 ___str_22                                                      000382 R
+ 18 ___str_23                                                      000407 R
+ 18 ___str_24                                                      00041D R
+ 18 ___str_25                                                      000420 R
+ 18 ___str_26                                                      000425 R
+ 18 ___str_27                                                      00042C R
  18 ___str_3                                                       00009F R
  18 ___str_4                                                       0000C7 R
  18 ___str_5                                                       0000F2 R
@@ -726,8 +726,8 @@ Area Table
   14 GSINIT5                                    size      0   flags   20
   15 GSINIT                                     size      0   flags   20
   16 GSFINAL                                    size      3   flags   20
-  17 CSEG                                       size    ACE   flags   20
-  18 CONST                                      size    41E   flags   20
+  17 CSEG                                       size    AB7   flags   20
+  18 CONST                                      size    430   flags   20
   19 XINIT                                      size      0   flags   20
   1A CABS                                       size      0   flags   28
 

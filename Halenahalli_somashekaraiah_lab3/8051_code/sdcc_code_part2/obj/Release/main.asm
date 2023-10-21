@@ -616,7 +616,7 @@ __sdcc_external_startup:
 ;	-----------------------------------------
 _main:
 ;	main.c:59: while (1) {
-00185$:
+00183$:
 ;	main.c:66: int inserted = 0;
 	mov	dptr,#_main_inserted_131072_48
 	clr	a
@@ -706,7 +706,7 @@ _main:
 	dec	sp
 	dec	sp
 ;	main.c:78: continue;
-	ljmp	00185$
+	ljmp	00183$
 00102$:
 ;	main.c:80: buffer_array[buffer_count].buffer_size = user_input_1;
 	mov	dptr,#(_main_buffer_array_131072_48 + 0x0002)
@@ -767,7 +767,7 @@ _main:
 	inc	dptr
 	movx	@dptr,a
 ;	main.c:90: continue;
-	ljmp	00185$
+	ljmp	00183$
 00104$:
 ;	main.c:92: buffer_array[buffer_count].buffer_size = user_input_1;
 	mov	dptr,#(_main_buffer_array_131072_48 + 0x0008)
@@ -866,19 +866,19 @@ _main:
 	inc	dptr
 	movx	@dptr,a
 ;	main.c:107: while (1) {
-00181$:
+00179$:
 ;	main.c:108: __xdata uint8_t char_received = echo(); // Receive a character from UART
 	lcall	_echo
 	mov	r5,dpl
-;	main.c:111: if (((char_received >= 'A') && (char_received <= 'Z')) && !switch_case) {
+;	main.c:110: if (((char_received >= 'A') && (char_received <= 'Z')) && !switch_case) {
 	mov	ar4,r5
-	cjne	r4,#0x41,00380$
-00380$:
-	jc	00136$
+	cjne	r4,#0x41,00378$
+00378$:
+	jc	00138$
 	mov	ar4,r5
 	mov	a,r4
 	add	a,#0xff - 0x5a
-	jc	00136$
+	jc	00138$
 	mov	dptr,#_main_switch_case_131074_52
 	movx	a,@dptr
 	mov	b,a
@@ -891,8 +891,8 @@ _main:
 	inc	dptr
 	movx	a,@dptr
 	orl	a,b
-	jnz	00136$
-;	main.c:112: switch_case = 1;
+	jnz	00138$
+;	main.c:111: switch_case = 1;
 	mov	dptr,#_main_switch_case_131074_52
 	mov	a,#0x01
 	movx	@dptr,a
@@ -903,11 +903,11 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	ljmp	00137$
-00136$:
-;	main.c:113: } else if (char_received == '+') {
-	cjne	r5,#0x2b,00133$
-;	main.c:114: if (!switch_case) {
+	ljmp	00139$
+00138$:
+;	main.c:112: } else if (char_received == '+') {
+	cjne	r5,#0x2b,00135$
+;	main.c:113: if (!switch_case) {
 	mov	dptr,#_main_switch_case_131074_52
 	movx	a,@dptr
 	mov	b,a
@@ -921,7 +921,7 @@ _main:
 	movx	a,@dptr
 	orl	a,b
 	jnz	00106$
-;	main.c:115: printf(" mode, specify buffer size (range 20 to 400): \n\r");
+;	main.c:114: printf(" mode, specify buffer size (range 20 to 400): \n\r");
 	push	ar5
 	mov	a,#___str_8
 	push	acc
@@ -934,7 +934,7 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-;	main.c:116: switch_case = 2;
+;	main.c:115: switch_case = 2;
 	mov	dptr,#_main_switch_case_131074_52
 	mov	a,#0x02
 	movx	@dptr,a
@@ -945,9 +945,9 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	ljmp	00137$
+	ljmp	00139$
 00106$:
-;	main.c:118: printf("First exit the current mode \n\r");
+;	main.c:117: printf("First exit the current mode \n\r");
 	push	ar5
 	mov	a,#___str_9
 	push	acc
@@ -960,11 +960,11 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-	ljmp	00137$
-00133$:
-;	main.c:120: } else if (char_received == '-') {
-	cjne	r5,#0x2d,00130$
-;	main.c:121: if (!switch_case) {
+	ljmp	00139$
+00135$:
+;	main.c:119: } else if (char_received == '-') {
+	cjne	r5,#0x2d,00132$
+;	main.c:120: if (!switch_case) {
 	mov	dptr,#_main_switch_case_131074_52
 	movx	a,@dptr
 	mov	b,a
@@ -978,7 +978,7 @@ _main:
 	movx	a,@dptr
 	orl	a,b
 	jnz	00109$
-;	main.c:122: printf(" mode, specify buffer number to destroy: \n\r");
+;	main.c:121: printf(" mode, specify buffer number to destroy: \n\r");
 	push	ar5
 	mov	a,#___str_10
 	push	acc
@@ -991,7 +991,7 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-;	main.c:123: switch_case = 3;
+;	main.c:122: switch_case = 3;
 	mov	dptr,#_main_switch_case_131074_52
 	mov	a,#0x03
 	movx	@dptr,a
@@ -1002,9 +1002,9 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	ljmp	00137$
+	ljmp	00139$
 00109$:
-;	main.c:125: printf("First exit the current mode \n\r");
+;	main.c:124: printf("First exit the current mode \n\r");
 	push	ar5
 	mov	a,#___str_9
 	push	acc
@@ -1017,11 +1017,11 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-	ljmp	00137$
-00130$:
-;	main.c:127: } else if (char_received == '?') {
-	cjne	r5,#0x3f,00127$
-;	main.c:128: if (!switch_case) {
+	ljmp	00139$
+00132$:
+;	main.c:126: } else if (char_received == '?') {
+	cjne	r5,#0x3f,00129$
+;	main.c:127: if (!switch_case) {
 	mov	dptr,#_main_switch_case_131074_52
 	movx	a,@dptr
 	mov	b,a
@@ -1035,7 +1035,7 @@ _main:
 	movx	a,@dptr
 	orl	a,b
 	jnz	00112$
-;	main.c:129: printf(" mode\n\r");
+;	main.c:128: printf(" mode\n\r");
 	push	ar5
 	mov	a,#___str_11
 	push	acc
@@ -1048,7 +1048,7 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-;	main.c:130: switch_case = 4;
+;	main.c:129: switch_case = 4;
 	mov	dptr,#_main_switch_case_131074_52
 	mov	a,#0x04
 	movx	@dptr,a
@@ -1059,9 +1059,9 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	ljmp	00137$
+	ljmp	00139$
 00112$:
-;	main.c:132: printf("First exit the current mode \n\r");
+;	main.c:131: printf("First exit the current mode \n\r");
 	push	ar5
 	mov	a,#___str_9
 	push	acc
@@ -1074,42 +1074,15 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-	ljmp	00137$
-00127$:
-;	main.c:134: } else if ((char_received == '\n') || (char_received == '\r')) {
-	cjne	r5,#0x0a,00393$
-	sjmp	00122$
-00393$:
-	cjne	r5,#0x0d,00123$
-00122$:
-;	main.c:135: printf("\n\r");
-	push	ar5
-	mov	a,#___str_12
-	push	acc
-	mov	a,#(___str_12 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-	pop	ar5
-;	main.c:136: switch_case = 0;
-	mov	dptr,#_main_switch_case_131074_52
-	clr	a
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-	sjmp	00137$
-00123$:
-;	main.c:137: } else if (char_received == '=') {
-	cjne	r5,#0x3d,00120$
-;	main.c:138: if (!switch_case) {
+	ljmp	00139$
+00129$:
+;	main.c:133: } else if ((char_received == '\n') || (char_received == '\r')) {
+	cjne	r5,#0x0a,00391$
+	sjmp	00124$
+00391$:
+	cjne	r5,#0x0d,00125$
+00124$:
+;	main.c:134: if(!switch_case){
 	mov	dptr,#_main_switch_case_131074_52
 	movx	a,@dptr
 	mov	b,a
@@ -1123,7 +1096,49 @@ _main:
 	movx	a,@dptr
 	orl	a,b
 	jnz	00115$
-;	main.c:139: printf(" mode\n\r");
+;	main.c:135: printf("\n\r");
+	push	ar5
+	mov	a,#___str_12
+	push	acc
+	mov	a,#(___str_12 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+	pop	ar5
+00115$:
+;	main.c:137: switch_case = 0;
+	mov	dptr,#_main_switch_case_131074_52
+	clr	a
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+	inc	dptr
+	movx	@dptr,a
+	sjmp	00139$
+00125$:
+;	main.c:138: } else if (char_received == '=') {
+	cjne	r5,#0x3d,00122$
+;	main.c:139: if (!switch_case) {
+	mov	dptr,#_main_switch_case_131074_52
+	movx	a,@dptr
+	mov	b,a
+	inc	dptr
+	movx	a,@dptr
+	orl	b,a
+	inc	dptr
+	movx	a,@dptr
+	orl	b,a
+	inc	dptr
+	movx	a,@dptr
+	orl	a,b
+	jnz	00117$
+;	main.c:140: printf(" mode\n\r");
 	push	ar5
 	mov	a,#___str_11
 	push	acc
@@ -1136,7 +1151,7 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-;	main.c:140: switch_case = 5;
+;	main.c:141: switch_case = 5;
 	mov	dptr,#_main_switch_case_131074_52
 	mov	a,#0x05
 	movx	@dptr,a
@@ -1147,9 +1162,9 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-	sjmp	00137$
-00115$:
-;	main.c:142: printf("First exit the current mode \n\r");
+	sjmp	00139$
+00117$:
+;	main.c:143: printf("First exit the current mode \n\r");
 	push	ar5
 	mov	a,#___str_9
 	push	acc
@@ -1162,11 +1177,11 @@ _main:
 	dec	sp
 	dec	sp
 	pop	ar5
-	sjmp	00137$
-00120$:
-;	main.c:144: } else if (char_received == '@') {
-	cjne	r5,#0x40,00137$
-;	main.c:145: printf(" mode - restarting program \n\r");
+	sjmp	00139$
+00122$:
+;	main.c:145: } else if (char_received == '@') {
+	cjne	r5,#0x40,00139$
+;	main.c:146: printf(" mode - restarting program \n\r");
 	mov	a,#___str_13
 	push	acc
 	mov	a,#(___str_13 >> 8)
@@ -1177,10 +1192,10 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	main.c:146: break;
-	ljmp	00245$
-00137$:
-;	main.c:150: switch (switch_case) {
+;	main.c:147: break;
+	ljmp	00243$
+00139$:
+;	main.c:151: switch (switch_case) {
 	mov	dptr,#_main_switch_case_131074_52
 	movx	a,@dptr
 	mov	r1,a
@@ -1193,69 +1208,40 @@ _main:
 	inc	dptr
 	movx	a,@dptr
 	mov	r4,a
-	cjne	r1,#0x01,00401$
+	cjne	r1,#0x01,00400$
+	cjne	r2,#0x00,00400$
+	cjne	r3,#0x00,00400$
+	cjne	r4,#0x00,00400$
+	sjmp	00142$
+00400$:
+	cjne	r1,#0x02,00401$
 	cjne	r2,#0x00,00401$
 	cjne	r3,#0x00,00401$
 	cjne	r4,#0x00,00401$
-	sjmp	00140$
+	ljmp	00146$
 00401$:
-	cjne	r1,#0x02,00402$
+	cjne	r1,#0x03,00402$
 	cjne	r2,#0x00,00402$
 	cjne	r3,#0x00,00402$
 	cjne	r4,#0x00,00402$
-	ljmp	00148$
+	ljmp	00155$
 00402$:
-	cjne	r1,#0x03,00403$
+	cjne	r1,#0x04,00403$
 	cjne	r2,#0x00,00403$
 	cjne	r3,#0x00,00403$
 	cjne	r4,#0x00,00403$
-	ljmp	00157$
+	ljmp	00163$
 00403$:
-	cjne	r1,#0x04,00404$
+	cjne	r1,#0x05,00404$
 	cjne	r2,#0x00,00404$
 	cjne	r3,#0x00,00404$
 	cjne	r4,#0x00,00404$
-	ljmp	00165$
+	ljmp	00241$
 00404$:
-	cjne	r1,#0x05,00405$
-	cjne	r2,#0x00,00405$
-	cjne	r3,#0x00,00405$
-	cjne	r4,#0x00,00405$
-	ljmp	00243$
-00405$:
-	ljmp	00181$
-;	main.c:151: case 1:
-00140$:
-;	main.c:152: if ((char_received == '\n') || (char_received == '\r')) {
-	cjne	r5,#0x0a,00406$
-	sjmp	00144$
-00406$:
-	cjne	r5,#0x0d,00145$
-00144$:
-;	main.c:153: printf("Characters added to buffer 0 - exiting mode \n\r");
-	mov	a,#___str_14
-	push	acc
-	mov	a,#(___str_14 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	dec	sp
-	dec	sp
-	dec	sp
-;	main.c:154: switch_case = 0;
-	mov	dptr,#_main_switch_case_131074_52
-	clr	a
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-	inc	dptr
-	movx	@dptr,a
-	ljmp	00181$
-00145$:
-;	main.c:155: } else if (buffer_array[0].buffer_occupied < user_input_1) {
+	ljmp	00179$
+;	main.c:152: case 1:
+00142$:
+;	main.c:157: if (buffer_array[0].buffer_occupied < user_input_1) {
 	mov	dptr,#(_main_buffer_array_131072_48 + 0x0004)
 	movx	a,@dptr
 	mov	r3,a
@@ -1270,8 +1256,8 @@ _main:
 	mov	b,(_main_sloc3_1_0 + 1)
 	xrl	b,#0x80
 	subb	a,b
-	jnc	00142$
-;	main.c:156: buffer_array[0].buffer_pointer[buffer_array[0].buffer_occupied] = char_received;
+	jnc	00144$
+;	main.c:158: buffer_array[0].buffer_pointer[buffer_array[0].buffer_occupied] = char_received;
 	mov	dptr,#_main_buffer_array_131072_48
 	movx	a,@dptr
 	mov	r3,a
@@ -1292,7 +1278,7 @@ _main:
 	mov	dph,a
 	mov	a,r5
 	movx	@dptr,a
-;	main.c:157: buffer_array[0].buffer_occupied++;
+;	main.c:159: buffer_array[0].buffer_occupied++;
 	mov	dptr,#(_main_buffer_array_131072_48 + 0x0004)
 	movx	a,@dptr
 	mov	r3,a
@@ -1300,24 +1286,24 @@ _main:
 	movx	a,@dptr
 	mov	r4,a
 	inc	r3
-	cjne	r3,#0x00,00410$
+	cjne	r3,#0x00,00406$
 	inc	r4
-00410$:
+00406$:
 	mov	dptr,#(_main_buffer_array_131072_48 + 0x0004)
 	mov	a,r3
 	movx	@dptr,a
 	mov	a,r4
 	inc	dptr
 	movx	@dptr,a
-	ljmp	00181$
-00142$:
-;	main.c:159: printf("\n\rNot enough memory to load, echoing to serial output %c\n\r", char_received);
+	ljmp	00179$
+00144$:
+;	main.c:161: printf("\n\rNot enough memory to load, echoing to serial output %c\n\r", char_received);
 	mov	r4,#0x00
 	push	ar5
 	push	ar4
-	mov	a,#___str_15
+	mov	a,#___str_14
 	push	acc
-	mov	a,#(___str_15 >> 8)
+	mov	a,#(___str_14 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1325,7 +1311,7 @@ _main:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	main.c:160: switch_case = 0;
+;	main.c:162: switch_case = 0;
 	mov	dptr,#_main_switch_case_131074_52
 	clr	a
 	movx	@dptr,a
@@ -1335,11 +1321,11 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:162: break;
-	ljmp	00181$
-;	main.c:163: case 2:
-00148$:
-;	main.c:165: user_input_2 = get_buffer_size(20, 400, DIVISIBLE);
+;	main.c:164: break;
+	ljmp	00179$
+;	main.c:165: case 2:
+00146$:
+;	main.c:167: user_input_2 = get_buffer_size(20, 400, DIVISIBLE);
 	mov	dptr,#_get_buffer_size_PARM_2
 	mov	a,#0x90
 	movx	@dptr,a
@@ -1367,12 +1353,12 @@ _main:
 	lcall	_get_buffer_size
 	mov	_main_sloc2_1_0,dpl
 	mov	(_main_sloc2_1_0 + 1),dph
-;	main.c:166: for (int32_t index = 1; index < 10; index++) {
+;	main.c:168: for (int32_t index = 1; index < 10; index++) {
 	mov	r0,#0x01
 	mov	r1,#0x00
 	mov	r2,#0x00
 	mov	r3,#0x00
-00188$:
+00186$:
 	clr	c
 	mov	a,r0
 	subb	a,#0x0a
@@ -1383,10 +1369,10 @@ _main:
 	mov	a,r3
 	xrl	a,#0x80
 	subb	a,#0x80
-	jc	00411$
-	ljmp	00154$
-00411$:
-;	main.c:167: if (buffer_array[index].buffer_pointer == NULL) {
+	jc	00407$
+	ljmp	00152$
+00407$:
+;	main.c:169: if (buffer_array[index].buffer_pointer == NULL) {
 	mov	dptr,#__mullong_PARM_2
 	mov	a,r0
 	movx	@dptr,a
@@ -1429,8 +1415,8 @@ _main:
 	movx	a,@dptr
 	mov	r5,a
 	orl	a,r4
-	jnz	00189$
-;	main.c:168: buffer_array[index].buffer_pointer = (int8_t *)malloc(user_input_2 * sizeof(int8_t));
+	jnz	00187$
+;	main.c:170: buffer_array[index].buffer_pointer = (int8_t *)malloc(user_input_2 * sizeof(int8_t));
 	mov	r4,_main_sloc2_1_0
 	mov	r5,(_main_sloc2_1_0 + 1)
 	mov	dpl,r4
@@ -1453,14 +1439,14 @@ _main:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	main.c:169: if (buffer_array[index].buffer_pointer == NULL) {
+;	main.c:171: if (buffer_array[index].buffer_pointer == NULL) {
 	mov	a,r4
 	orl	a,r5
-	jnz	00150$
-;	main.c:170: printf("Failed to allocate memory  - exiting mode \n\r");
-	mov	a,#___str_16
+	jnz	00148$
+;	main.c:172: printf("Failed to allocate memory for buffer, try deleting some using '-' \n\r");
+	mov	a,#___str_15
 	push	acc
-	mov	a,#(___str_16 >> 8)
+	mov	a,#(___str_15 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1468,9 +1454,9 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-	sjmp	00154$
-00150$:
-;	main.c:172: buffer_array[index].buffer_size = user_input_2;
+	sjmp	00152$
+00148$:
+;	main.c:174: buffer_array[index].buffer_size = user_input_2;
 	mov	a,_main_sloc0_1_0
 	add	a,#_main_buffer_array_131072_48
 	mov	r4,a
@@ -1486,7 +1472,7 @@ _main:
 	mov	a,(_main_sloc2_1_0 + 1)
 	inc	dptr
 	movx	@dptr,a
-;	main.c:173: buffer_array[index].buffer_occupied = 0;
+;	main.c:175: buffer_array[index].buffer_occupied = 0;
 	mov	dpl,r4
 	mov	dph,r5
 	inc	dptr
@@ -1497,45 +1483,45 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:174: inserted = index;
+;	main.c:176: inserted = index;
 	mov	dptr,#_main_inserted_131072_48
 	mov	a,r0
 	movx	@dptr,a
 	mov	a,r1
 	inc	dptr
 	movx	@dptr,a
-;	main.c:176: break;
-	sjmp	00154$
-00189$:
-;	main.c:166: for (int32_t index = 1; index < 10; index++) {
+;	main.c:178: break;
+	sjmp	00152$
+00187$:
+;	main.c:168: for (int32_t index = 1; index < 10; index++) {
 	inc	r0
-	cjne	r0,#0x00,00414$
+	cjne	r0,#0x00,00410$
 	inc	r1
-	cjne	r1,#0x00,00414$
+	cjne	r1,#0x00,00410$
 	inc	r2
-	cjne	r2,#0x00,00414$
+	cjne	r2,#0x00,00410$
 	inc	r3
-00414$:
-	ljmp	00188$
-00154$:
-;	main.c:179: if (inserted) {
+00410$:
+	ljmp	00186$
+00152$:
+;	main.c:181: if (inserted) {
 	mov	dptr,#_main_inserted_131072_48
 	movx	a,@dptr
 	mov	b,a
 	inc	dptr
 	movx	a,@dptr
 	orl	a,b
-	jz	00156$
-;	main.c:180: printf("Allocated memory as buffer #%d  - exiting mode \n\r", inserted);
+	jz	00154$
+;	main.c:182: printf("Allocated memory for buffer #%d \n\r", inserted);
 	mov	dptr,#_main_inserted_131072_48
 	movx	a,@dptr
 	push	acc
 	inc	dptr
 	movx	a,@dptr
 	push	acc
-	mov	a,#___str_17
+	mov	a,#___str_16
 	push	acc
-	mov	a,#(___str_17 >> 8)
+	mov	a,#(___str_16 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1543,7 +1529,7 @@ _main:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	main.c:181: buffer_count++;
+;	main.c:183: buffer_count++;
 	mov	dptr,#_main_buffer_count_131072_48
 	movx	a,@dptr
 	add	a,#0x01
@@ -1552,14 +1538,14 @@ _main:
 	movx	a,@dptr
 	addc	a,#0x00
 	movx	@dptr,a
-;	main.c:182: inserted = 0;
+;	main.c:184: inserted = 0;
 	mov	dptr,#_main_inserted_131072_48
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-00156$:
-;	main.c:184: switch_case = 0;
+00154$:
+;	main.c:186: switch_case = 0;
 	mov	dptr,#_main_switch_case_131074_52
 	clr	a
 	movx	@dptr,a
@@ -1569,11 +1555,11 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:185: break;
-	ljmp	00181$
-;	main.c:186: case 3:
-00157$:
-;	main.c:187: user_input_2 = get_buffer_size(ZERO, ARRAY_SIZE, ONE);
+;	main.c:187: break;
+	ljmp	00179$
+;	main.c:188: case 3:
+00155$:
+;	main.c:189: user_input_2 = get_buffer_size(ZERO, ARRAY_SIZE, ONE);
 	mov	dptr,#_get_buffer_size_PARM_2
 	mov	a,#0x0a
 	movx	@dptr,a
@@ -1600,14 +1586,14 @@ _main:
 	lcall	_get_buffer_size
 	mov	r4,dpl
 	mov	r5,dph
-;	main.c:188: if (user_input_2 == 0) {
+;	main.c:190: if (user_input_2 == 0) {
 	mov	a,r4
 	orl	a,r5
-	jnz	00163$
-;	main.c:189: printf("Cannot remove buffer 0 - exiting mode \n\r");
-	mov	a,#___str_18
+	jnz	00161$
+;	main.c:191: printf("Not allowed to remove buffer 0\n\r");
+	mov	a,#___str_17
 	push	acc
-	mov	a,#(___str_18 >> 8)
+	mov	a,#(___str_17 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1615,9 +1601,9 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-	ljmp	00164$
-00163$:
-;	main.c:190: } else if ((user_input_2 < buffer_count) && (buffer_array[user_input_2].buffer_pointer != NULL)) {
+	ljmp	00162$
+00161$:
+;	main.c:192: } else if ((user_input_2 < buffer_count) && (buffer_array[user_input_2].buffer_pointer != NULL)) {
 	mov	dptr,#_main_buffer_count_131072_48
 	movx	a,@dptr
 	mov	r2,a
@@ -1634,9 +1620,9 @@ _main:
 	mov	b,r3
 	xrl	b,#0x80
 	subb	a,b
-	jc	00417$
-	ljmp	00159$
-00417$:
+	jc	00413$
+	ljmp	00157$
+00413$:
 	mov	dptr,#__mulint_PARM_2
 	mov	a,r4
 	movx	@dptr,a
@@ -1670,8 +1656,8 @@ _main:
 	mov	(_main_sloc1_1_0 + 1),a
 	mov	a,_main_sloc1_1_0
 	orl	a,(_main_sloc1_1_0 + 1)
-	jz	00159$
-;	main.c:191: free(buffer_array[user_input_2].buffer_pointer);
+	jz	00157$
+;	main.c:193: free(buffer_array[user_input_2].buffer_pointer);
 	mov	r6,_main_sloc1_1_0
 	mov	r1,(_main_sloc1_1_0 + 1)
 	mov	r7,#0x00
@@ -1687,14 +1673,14 @@ _main:
 	pop	ar3
 	pop	ar4
 	pop	ar5
-;	main.c:192: buffer_array[user_input_2].buffer_pointer = NULL;
+;	main.c:194: buffer_array[user_input_2].buffer_pointer = NULL;
 	mov	dpl,_main_sloc2_1_0
 	mov	dph,(_main_sloc2_1_0 + 1)
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:193: buffer_array[user_input_2].buffer_size = 0;
+;	main.c:195: buffer_array[user_input_2].buffer_size = 0;
 	mov	a,_main_sloc0_1_0
 	add	a,#_main_buffer_array_131072_48
 	mov	r6,a
@@ -1709,7 +1695,7 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:194: buffer_array[user_input_2].buffer_occupied = 0;
+;	main.c:196: buffer_array[user_input_2].buffer_occupied = 0;
 	mov	dpl,r6
 	mov	dph,r7
 	inc	dptr
@@ -1719,14 +1705,14 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:195: printf("Freed buffer #%d - exiting mode \n\r", user_input_2);
+;	main.c:197: printf("Freed buffer #%d, try '?' to get info of existing buffers  \n\r", user_input_2);
 	push	ar3
 	push	ar2
 	push	ar4
 	push	ar5
-	mov	a,#___str_19
+	mov	a,#___str_18
 	push	acc
-	mov	a,#(___str_19 >> 8)
+	mov	a,#(___str_18 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1736,23 +1722,23 @@ _main:
 	mov	sp,a
 	pop	ar2
 	pop	ar3
-;	main.c:196: buffer_count--;
+;	main.c:198: buffer_count--;
 	dec	r2
-	cjne	r2,#0xff,00419$
+	cjne	r2,#0xff,00415$
 	dec	r3
-00419$:
+00415$:
 	mov	dptr,#_main_buffer_count_131072_48
 	mov	a,r2
 	movx	@dptr,a
 	mov	a,r3
 	inc	dptr
 	movx	@dptr,a
-	sjmp	00164$
-00159$:
-;	main.c:198: printf("No such buffer exists - exiting mode \n\r");
-	mov	a,#___str_20
+	sjmp	00162$
+00157$:
+;	main.c:200: printf("No such buffer exists, try '?' to get info of existing buffers \n\r");
+	mov	a,#___str_19
 	push	acc
-	mov	a,#(___str_20 >> 8)
+	mov	a,#(___str_19 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1760,8 +1746,8 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-00164$:
-;	main.c:200: switch_case = 0;
+00162$:
+;	main.c:202: switch_case = 0;
 	mov	dptr,#_main_switch_case_131074_52
 	clr	a
 	movx	@dptr,a
@@ -1771,20 +1757,20 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:201: break;
-	ljmp	00181$
-;	main.c:202: case 4:
-00165$:
-;	main.c:204: printf("Total characters count: %d \n\r", total_characters_count);
+;	main.c:203: break;
+	ljmp	00179$
+;	main.c:204: case 4:
+00163$:
+;	main.c:206: printf("Total characters count: %d \n\r", total_characters_count);
 	mov	dptr,#_total_characters_count
 	movx	a,@dptr
 	push	acc
 	inc	dptr
 	movx	a,@dptr
 	push	acc
-	mov	a,#___str_21
+	mov	a,#___str_20
 	push	acc
-	mov	a,#(___str_21 >> 8)
+	mov	a,#(___str_20 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1792,7 +1778,7 @@ _main:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	main.c:205: printf("Since last '?': %d \n\r", (total_characters_count - since_last));
+;	main.c:207: printf("Since last '?': %d \n\r", (total_characters_count - since_last));
 	mov	dptr,#_main_since_last_131073_49
 	movx	a,@dptr
 	mov	r4,a
@@ -1814,9 +1800,9 @@ _main:
 	mov	r5,a
 	push	ar4
 	push	ar5
-	mov	a,#___str_22
+	mov	a,#___str_21
 	push	acc
-	mov	a,#(___str_22 >> 8)
+	mov	a,#(___str_21 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1824,7 +1810,7 @@ _main:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	main.c:206: since_last = total_characters_count;
+;	main.c:208: since_last = total_characters_count;
 	mov	dptr,#_total_characters_count
 	movx	a,@dptr
 	mov	r4,a
@@ -1837,7 +1823,7 @@ _main:
 	mov	a,r5
 	inc	dptr
 	movx	@dptr,a
-;	main.c:207: for (int8_t index = 0; index <= buffer_count; index++) {
+;	main.c:209: for (int8_t index = 0; index <= buffer_count; index++) {
 	mov	dptr,#_main_buffer_count_131072_48
 	movx	a,@dptr
 	mov	r4,a
@@ -1845,7 +1831,7 @@ _main:
 	movx	a,@dptr
 	mov	r5,a
 	mov	_main_sloc1_1_0,#0x00
-00194$:
+00192$:
 	mov	a,_main_sloc1_1_0
 	mov	r1,a
 	rlc	a
@@ -1859,27 +1845,27 @@ _main:
 	mov	b,r2
 	xrl	b,#0x80
 	subb	a,b
-	jnc	00420$
-	ljmp	00173$
-00420$:
-;	main.c:208: if (buffer_array[index].buffer_pointer == NULL) {
+	jnc	00416$
+	ljmp	00171$
+00416$:
+;	main.c:210: if (buffer_array[index].buffer_pointer == NULL) {
 	clr	F0
 	mov	b,#0x06
 	mov	a,_main_sloc1_1_0
-	jnb	acc.7,00421$
+	jnb	acc.7,00417$
 	cpl	F0
 	cpl	a
 	inc	a
-00421$:
+00417$:
 	mul	ab
-	jnb	F0,00422$
+	jnb	F0,00418$
 	cpl	a
 	add	a,#0x01
 	xch	a,b
 	cpl	a
 	addc	a,#0x00
 	xch	a,b
-00422$:
+00418$:
 	mov	_main_sloc2_1_0,a
 	mov	(_main_sloc2_1_0 + 1),b
 	add	a,#_main_buffer_array_131072_48
@@ -1893,10 +1879,10 @@ _main:
 	movx	a,@dptr
 	mov	r7,a
 	orl	a,r0
-	jnz	00423$
-	ljmp	00172$
-00423$:
-;	main.c:216: (buffer_array[index].buffer_size - buffer_array[index].buffer_occupied));
+	jnz	00419$
+	ljmp	00170$
+00419$:
+;	main.c:218: (buffer_array[index].buffer_size - buffer_array[index].buffer_occupied));
 	push	ar4
 	push	ar5
 	mov	a,_main_sloc2_1_0
@@ -1932,7 +1918,7 @@ _main:
 	mov	a,r5
 	subb	a,(_main_sloc0_1_0 + 1)
 	mov	(_main_sloc4_1_0 + 1),a
-;	main.c:214: (buffer_array[index].buffer_pointer + buffer_array[index].buffer_size),
+;	main.c:216: (buffer_array[index].buffer_pointer + buffer_array[index].buffer_size),
 	mov	dpl,r6
 	mov	dph,r7
 	movx	a,@dptr
@@ -1949,11 +1935,11 @@ _main:
 	mov	_main_sloc6_1_0,r3
 	mov	(_main_sloc6_1_0 + 1),r4
 	mov	(_main_sloc6_1_0 + 2),#0x00
-;	main.c:213: buffer_array[index].buffer_pointer,
+;	main.c:215: buffer_array[index].buffer_pointer,
 	mov	r6,_main_sloc5_1_0
 	mov	r7,(_main_sloc5_1_0 + 1)
 	mov	r4,#0x00
-;	main.c:212: "Storage character counts: %u, Free space available: %u\n\r", index,
+;	main.c:214: "Storage character counts: %u\n\r Free space available: %u\n\r", index,
 	push	ar5
 	push	ar4
 	push	ar2
@@ -1972,9 +1958,9 @@ _main:
 	push	ar4
 	push	ar1
 	push	ar2
-	mov	a,#___str_23
+	mov	a,#___str_22
 	push	acc
-	mov	a,#(___str_23 >> 8)
+	mov	a,#(___str_22 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1984,12 +1970,12 @@ _main:
 	mov	sp,a
 	pop	ar1
 	pop	ar2
-;	main.c:217: printf("Buffer %d content: \n\r", index);
+;	main.c:219: printf("Buffer %d content: \n\r", index);
 	push	ar1
 	push	ar2
-	mov	a,#___str_24
+	mov	a,#___str_23
 	push	acc
-	mov	a,#(___str_24 >> 8)
+	mov	a,#(___str_23 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1999,7 +1985,7 @@ _main:
 	mov	sp,a
 	pop	ar4
 	pop	ar5
-;	main.c:218: for (int j = 0; j < buffer_array[index].buffer_occupied; j++) {
+;	main.c:220: for (int j = 0; j < buffer_array[index].buffer_occupied; j++) {
 	mov	a,_main_sloc2_1_0
 	add	a,#_main_buffer_array_131072_48
 	mov	_main_sloc6_1_0,a
@@ -2021,11 +2007,11 @@ _main:
 	clr	a
 	mov	_main_sloc4_1_0,a
 	mov	(_main_sloc4_1_0 + 1),a
-;	main.c:248: for (int8_t l = 0; l < ARRAY_SIZE; l++) {
+;	main.c:250: for (int8_t l = 0; l < ARRAY_SIZE; l++) {
 	pop	ar5
 	pop	ar4
-;	main.c:218: for (int j = 0; j < buffer_array[index].buffer_occupied; j++) {
-00191$:
+;	main.c:220: for (int j = 0; j < buffer_array[index].buffer_occupied; j++) {
+00189$:
 	mov	dpl,_main_sloc5_1_0
 	mov	dph,(_main_sloc5_1_0 + 1)
 	movx	a,@dptr
@@ -2043,10 +2029,10 @@ _main:
 	mov	b,r7
 	xrl	b,#0x80
 	subb	a,b
-	jc	00424$
-	ljmp	00168$
-00424$:
-;	main.c:219: if (!(j % 32)) {
+	jc	00420$
+	ljmp	00166$
+00420$:
+;	main.c:221: if (!(j % 32)) {
 	mov	dptr,#__modsint_PARM_2
 	mov	a,#0x20
 	movx	@dptr,a
@@ -2063,8 +2049,8 @@ _main:
 	pop	ar4
 	pop	ar5
 	orl	a,b
-	jnz	00167$
-;	main.c:220: printf("\n\r");
+	jnz	00165$
+;	main.c:222: printf("\n\r");
 	push	ar5
 	push	ar4
 	mov	a,#___str_12
@@ -2079,8 +2065,8 @@ _main:
 	dec	sp
 	pop	ar4
 	pop	ar5
-00167$:
-;	main.c:222: printf("%c", buffer_array[index].buffer_pointer[j]);
+00165$:
+;	main.c:224: printf("%c", buffer_array[index].buffer_pointer[j]);
 	mov	dpl,_main_sloc6_1_0
 	mov	dph,(_main_sloc6_1_0 + 1)
 	movx	a,@dptr
@@ -2101,9 +2087,9 @@ _main:
 	push	ar4
 	push	ar7
 	push	ar6
-	mov	a,#___str_25
+	mov	a,#___str_24
 	push	acc
-	mov	a,#(___str_25 >> 8)
+	mov	a,#(___str_24 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -2113,7 +2099,7 @@ _main:
 	mov	sp,a
 	pop	ar4
 	pop	ar5
-;	main.c:223: buffer_array[index].buffer_pointer[j] = 0;
+;	main.c:225: buffer_array[index].buffer_pointer[j] = 0;
 	mov	dpl,_main_sloc6_1_0
 	mov	dph,(_main_sloc6_1_0 + 1)
 	movx	a,@dptr
@@ -2129,20 +2115,20 @@ _main:
 	mov	dph,a
 	clr	a
 	movx	@dptr,a
-;	main.c:218: for (int j = 0; j < buffer_array[index].buffer_occupied; j++) {
+;	main.c:220: for (int j = 0; j < buffer_array[index].buffer_occupied; j++) {
 	inc	_main_sloc4_1_0
 ;	genFromRTrack removed	clr	a
-	cjne	a,_main_sloc4_1_0,00426$
+	cjne	a,_main_sloc4_1_0,00422$
 	inc	(_main_sloc4_1_0 + 1)
-00426$:
-	ljmp	00191$
-00168$:
-;	main.c:225: printf("\n\r");
+00422$:
+	ljmp	00189$
+00166$:
+;	main.c:227: printf("\n\r\n\r");
 	push	ar5
 	push	ar4
-	mov	a,#___str_12
+	mov	a,#___str_25
 	push	acc
-	mov	a,#(___str_12 >> 8)
+	mov	a,#(___str_25 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -2152,19 +2138,19 @@ _main:
 	dec	sp
 	pop	ar4
 	pop	ar5
-;	main.c:226: buffer_array[index].buffer_occupied = 0;
+;	main.c:228: buffer_array[index].buffer_occupied = 0;
 	mov	dpl,_main_sloc5_1_0
 	mov	dph,(_main_sloc5_1_0 + 1)
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-00172$:
-;	main.c:207: for (int8_t index = 0; index <= buffer_count; index++) {
+00170$:
+;	main.c:209: for (int8_t index = 0; index <= buffer_count; index++) {
 	inc	_main_sloc1_1_0
-	ljmp	00194$
-00173$:
-;	main.c:229: switch_case = 0;
+	ljmp	00192$
+00171$:
+;	main.c:231: switch_case = 0;
 	mov	dptr,#_main_switch_case_131074_52
 	clr	a
 	movx	@dptr,a
@@ -2174,13 +2160,13 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:230: break;
-	ljmp	00181$
-;	main.c:233: for (int k = 0; k < buffer_array[0].buffer_size; k++) {
-00243$:
+;	main.c:232: break;
+	ljmp	00179$
+;	main.c:235: for (int k = 0; k < buffer_array[0].buffer_size; k++) {
+00241$:
 	mov	r6,#0x00
 	mov	r7,#0x00
-00196$:
+00194$:
 	mov	dptr,#(_main_buffer_array_131072_48 + 0x0002)
 	movx	a,@dptr
 	mov	r4,a
@@ -2197,10 +2183,10 @@ _main:
 	mov	b,r5
 	xrl	b,#0x80
 	subb	a,b
-	jc	00427$
-	ljmp	00177$
-00427$:
-;	main.c:234: if (!(k % 16)) {
+	jc	00423$
+	ljmp	00175$
+00423$:
+;	main.c:236: if (!(k % 16)) {
 	mov	dptr,#__modsint_PARM_2
 	mov	a,#0x10
 	movx	@dptr,a
@@ -2217,8 +2203,8 @@ _main:
 	pop	ar6
 	pop	ar7
 	orl	a,b
-	jnz	00176$
-;	main.c:235: printf("\n\r%p :", &buffer_array[0].buffer_pointer[k]);
+	jnz	00174$
+;	main.c:237: printf("\n\r%p :", &buffer_array[0].buffer_pointer[k]);
 	mov	dptr,#_main_buffer_array_131072_48
 	movx	a,@dptr
 	mov	r4,a
@@ -2249,8 +2235,8 @@ _main:
 	mov	sp,a
 	pop	ar6
 	pop	ar7
-00176$:
-;	main.c:237: printf(" %x", buffer_array[0].buffer_pointer[k]);
+00174$:
+;	main.c:239: printf(" %x", buffer_array[0].buffer_pointer[k]);
 	mov	dptr,#_main_buffer_array_131072_48
 	movx	a,@dptr
 	mov	r4,a
@@ -2282,14 +2268,14 @@ _main:
 	mov	sp,a
 	pop	ar6
 	pop	ar7
-;	main.c:233: for (int k = 0; k < buffer_array[0].buffer_size; k++) {
+;	main.c:235: for (int k = 0; k < buffer_array[0].buffer_size; k++) {
 	inc	r6
-	cjne	r6,#0x00,00429$
+	cjne	r6,#0x00,00425$
 	inc	r7
-00429$:
-	ljmp	00196$
-00177$:
-;	main.c:239: printf("\n\r");
+00425$:
+	ljmp	00194$
+00175$:
+;	main.c:241: printf("\n\r");
 	mov	a,#___str_12
 	push	acc
 	mov	a,#(___str_12 >> 8)
@@ -2300,7 +2286,7 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	main.c:240: switch_case = 0;
+;	main.c:242: switch_case = 0;
 	mov	dptr,#_main_switch_case_131074_52
 	clr	a
 	movx	@dptr,a
@@ -2310,37 +2296,37 @@ _main:
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:241: break;
-	ljmp	00181$
-;	main.c:248: for (int8_t l = 0; l < ARRAY_SIZE; l++) {
-00245$:
+;	main.c:243: break;
+	ljmp	00179$
+;	main.c:250: for (int8_t l = 0; l < ARRAY_SIZE; l++) {
+00243$:
 	mov	r7,#0x00
-00199$:
+00197$:
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
 	subb	a,#0x8a
-	jc	00430$
-	ljmp	00185$
-00430$:
-;	main.c:249: free(buffer_array[l].buffer_pointer);
+	jc	00426$
+	ljmp	00183$
+00426$:
+;	main.c:251: free(buffer_array[l].buffer_pointer);
 	clr	F0
 	mov	b,#0x06
 	mov	a,r7
-	jnb	acc.7,00431$
+	jnb	acc.7,00427$
 	cpl	F0
 	cpl	a
 	inc	a
-00431$:
+00427$:
 	mul	ab
-	jnb	F0,00432$
+	jnb	F0,00428$
 	cpl	a
 	add	a,#0x01
 	xch	a,b
 	cpl	a
 	addc	a,#0x00
 	xch	a,b
-00432$:
+00428$:
 	add	a,#_main_buffer_array_131072_48
 	mov	r5,a
 	mov	a,#(_main_buffer_array_131072_48 >> 8)
@@ -2364,17 +2350,17 @@ _main:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	main.c:250: buffer_array[l].buffer_pointer = NULL;
+;	main.c:252: buffer_array[l].buffer_pointer = NULL;
 	mov	dpl,r5
 	mov	dph,r6
 	clr	a
 	movx	@dptr,a
 	inc	dptr
 	movx	@dptr,a
-;	main.c:248: for (int8_t l = 0; l < ARRAY_SIZE; l++) {
+;	main.c:250: for (int8_t l = 0; l < ARRAY_SIZE; l++) {
 	inc	r7
-;	main.c:253: }
-	sjmp	00199$
+;	main.c:255: }
+	sjmp	00197$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___sdcc_heap_size:
@@ -2479,13 +2465,6 @@ ___str_13:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_14:
-	.ascii "Characters added to buffer 0 - exiting mode "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_15:
 	.db 0x0a
 	.db 0x0d
 	.ascii "Not enough memory to load, echoing to serial output %c"
@@ -2494,73 +2473,96 @@ ___str_15:
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
+___str_15:
+	.ascii "Failed to allocate memory for buffer, try deleting some usin"
+	.ascii "g '-' "
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
 ___str_16:
-	.ascii "Failed to allocate memory  - exiting mode "
+	.ascii "Allocated memory for buffer #%d "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_17:
-	.ascii "Allocated memory as buffer #%d  - exiting mode "
+	.ascii "Not allowed to remove buffer 0"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_18:
-	.ascii "Cannot remove buffer 0 - exiting mode "
+	.ascii "Freed buffer #%d, try '?' to get info of existing buffers  "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_19:
-	.ascii "Freed buffer #%d - exiting mode "
+	.ascii "No such buffer exists, try '?' to get info of existing buffe"
+	.ascii "rs "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_20:
-	.ascii "No such buffer exists - exiting mode "
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_21:
 	.ascii "Total characters count: %d "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_22:
+___str_21:
 	.ascii "Since last '?': %d "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_23:
-	.ascii "Buffer %d --> Start address: %p, End address: %p, Allocated "
-	.ascii "size: %u, Storage character counts: %u, Free space available"
-	.ascii ": %u"
+___str_22:
+	.ascii "Buffer %d -->"
+	.db 0x0a
+	.db 0x0d
+	.ascii " Start address: %p"
+	.db 0x0a
+	.db 0x0d
+	.ascii " End address: %p"
+	.db 0x0a
+	.db 0x0d
+	.ascii " Allocated size: %u"
+	.db 0x0a
+	.db 0x0d
+	.ascii " Storage character counts: %u"
+	.db 0x0a
+	.db 0x0d
+	.ascii " Free space available: %u"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_24:
+___str_23:
 	.ascii "Buffer %d content: "
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_25:
+___str_24:
 	.ascii "%c"
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_25:
+	.db 0x0a
+	.db 0x0d
+	.db 0x0a
+	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

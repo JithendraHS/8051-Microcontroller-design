@@ -12,9 +12,21 @@
 				<Option object_output="obj/Release/" />
 				<Option type="5" />
 				<Option compiler="sdcc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
 				<Compiler>
+					<Add option="--out-fmt-ihx" />
+					<Add option="--model-large" />
+					<Add option="-mmcs51" />
 					<Add option="--opt-code-size" />
+					<Add option="--std-sdcc99" />
+					<Add option="--verbose" />
+					<Add directory="../LAB_3_PART3" />
 				</Compiler>
+				<Linker>
+					<Add option="--code-loc 0x3000 --code-size 0x4F40 --xram-loc 0x0000 --xram-size  0x1f40 -D DEBUG=1" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -30,9 +42,19 @@
 		<ExtraCommands>
 			<Add after='cmd /c &quot;packihx &lt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).ihx &gt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).hex&quot;' />
 		</ExtraCommands>
+		<Unit filename="_heap.h" />
+		<Unit filename="buffer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="buffer.h" />
+		<Unit filename="debug.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="uart.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

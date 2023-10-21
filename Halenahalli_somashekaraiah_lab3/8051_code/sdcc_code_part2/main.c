@@ -106,7 +106,6 @@ void main(void)
         // User interaction loop
         while (1) {
             __xdata uint8_t char_received = echo(); // Receive a character from UART
-
             // Handle user input based on cases
             if (((char_received >= 'A') && (char_received <= 'Z')) && !switch_case) {
                 switch_case = 1;
@@ -132,7 +131,9 @@ void main(void)
                     printf("First exit the current mode \n\r");
                 }
             } else if ((char_received == '\n') || (char_received == '\r')) {
-                printf("\n\r");
+                if(!switch_case){
+                    printf("\n\r");
+                }
                 switch_case = 0;
             } else if (char_received == '=') {
                 if (!switch_case) {
@@ -149,10 +150,11 @@ void main(void)
             // Handle different modes of operation
             switch (switch_case) {
                 case 1:
-                    if ((char_received == '\n') || (char_received == '\r')) {
-                        printf("Characters added to buffer 0 - exiting mode \n\r");
-                        switch_case = 0;
-                    } else if (buffer_array[0].buffer_occupied < user_input_1) {
+                    //if ((char_received == '\n') || (char_received == '\r')) {
+                    //    printf("Characters added to buffer 0 - exiting mode \n\r");
+                    //    switch_case = 0;
+                    //} else
+                    if (buffer_array[0].buffer_occupied < user_input_1) {
                         buffer_array[0].buffer_pointer[buffer_array[0].buffer_occupied] = char_received;
                         buffer_array[0].buffer_occupied++;
                     } else {
@@ -167,7 +169,7 @@ void main(void)
                         if (buffer_array[index].buffer_pointer == NULL) {
                             buffer_array[index].buffer_pointer = (int8_t *)malloc(user_input_2 * sizeof(int8_t));
                             if (buffer_array[index].buffer_pointer == NULL) {
-                                printf("Failed to allocate memory  - exiting mode \n\r");
+                                printf("Failed to allocate memory for buffer, try deleting some using '-' \n\r");
                             } else {
                                 buffer_array[index].buffer_size = user_input_2;
                                 buffer_array[index].buffer_occupied = 0;
@@ -177,7 +179,7 @@ void main(void)
                         }
                     }
                     if (inserted) {
-                        printf("Allocated memory as buffer #%d  - exiting mode \n\r", inserted);
+                        printf("Allocated memory for buffer #%d \n\r", inserted);
                         buffer_count++;
                         inserted = 0;
                     }
@@ -186,16 +188,16 @@ void main(void)
                 case 3:
                     user_input_2 = get_buffer_size(ZERO, ARRAY_SIZE, ONE);
                     if (user_input_2 == 0) {
-                        printf("Cannot remove buffer 0 - exiting mode \n\r");
+                        printf("Not allowed to remove buffer 0\n\r");
                     } else if ((user_input_2 < buffer_count) && (buffer_array[user_input_2].buffer_pointer != NULL)) {
                         free(buffer_array[user_input_2].buffer_pointer);
                         buffer_array[user_input_2].buffer_pointer = NULL;
                         buffer_array[user_input_2].buffer_size = 0;
                         buffer_array[user_input_2].buffer_occupied = 0;
-                        printf("Freed buffer #%d - exiting mode \n\r", user_input_2);
+                        printf("Freed buffer #%d, try '?' to get info of existing buffers  \n\r", user_input_2);
                         buffer_count--;
                     } else {
-                        printf("No such buffer exists - exiting mode \n\r");
+                        printf("No such buffer exists, try '?' to get info of existing buffers \n\r");
                     }
                     switch_case = 0;
                     break;
@@ -208,8 +210,8 @@ void main(void)
                         if (buffer_array[index].buffer_pointer == NULL) {
                             continue;
                         } else {
-                            printf("Buffer %d --> Start address: %p, End address: %p, Allocated size: %u, "
-                                   "Storage character counts: %u, Free space available: %u\n\r", index,
+                            printf("Buffer %d -->\n\r Start address: %p\n\r End address: %p\n\r Allocated size: %u\n\r "
+                                   "Storage character counts: %u\n\r Free space available: %u\n\r", index,
                                    buffer_array[index].buffer_pointer,
                                    (buffer_array[index].buffer_pointer + buffer_array[index].buffer_size),
                                    buffer_array[index].buffer_size, buffer_array[index].buffer_occupied,
@@ -222,7 +224,7 @@ void main(void)
                                 printf("%c", buffer_array[index].buffer_pointer[j]);
                                 buffer_array[index].buffer_pointer[j] = 0;
                             }
-                            printf("\n\r");
+                            printf("\n\r\n\r");
                             buffer_array[index].buffer_occupied = 0;
                         }
                     }
@@ -244,7 +246,7 @@ void main(void)
             }
         }
 
-        // Free allocated memory and reset character count before restarting the program
+        // Free allocated memory before restarting the program
         for (int8_t l = 0; l < ARRAY_SIZE; l++) {
             free(buffer_array[l].buffer_pointer);
             buffer_array[l].buffer_pointer = NULL;
