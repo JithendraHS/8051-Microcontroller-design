@@ -1,0 +1,128 @@
+A51 MACRO ASSEMBLER  LAB2_ASSIGNMENT_PART1                                                09/29/2023 16:05:14 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\LAB2_assignment_part1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE C:\Users\jithe\OneDrive\Desktop\ESD\Classwork\LAB_1_Assignment_part1\sr
+                      c\LAB2_assignment_part1.asm SET(SMALL) DEBUG PRINT(.\LAB2_assignment_part1.lst) OBJECT(.\LAB2_assignment_part1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+                       6     
+                       7     
+                       8     
+                       9     
+                      10     
+                      11     
+                      12     
+                      13     
+                      14     
+                      15     
+                      16     
+                      17     
+                      18     
+                      19     
+                      20     
+                      21     
+                      22     
+                      23     
+                      24     
+0000                  25            ORG 0000H 
+0000 02000E           26            LJMP MAIN                     
+                      27     
+000B                  28            ORG 000BH                     
+000B 020069           29            LJMP ISR_TIMER0               
+                      30     
+000E                  31     MAIN :
+000E C291             32            CLR P1.1                      
+0010 C292             33            CLR P1.2                      
+0012 D293             34            SETB P1.3                      
+0014 438901           35            ORL TMOD, #01H                
+0017                  36        WHILE:
+0017 7F01             37             MOV R7,#01H                  
+0019                  38         FAST_RESET:
+0019 309323           39             JNB P1.3, SLOW                
+001C 758C00           40             MOV TH0, #000H               
+001F 758A00           41             MOV TL0, #000H               
+0022 D28C             42         FAST_REMAINING: SETB TR0         
+0024 308DFD           43         FAST_POLL: JNB TF0, FAST_POLL    
+0027 C28C             44             CLR TR0                      
+0029 C28D             45             CLR TF0                      
+002B 0F               46             INC R7                       
+002C BF06EA           47             CJNE R7,#06H, FAST_RESET     
+002F D2AF             48             SETB EA                      
+0031 D2A9             49             SETB ET0                     
+0033 7F00             50             MOV R7, #00H                 
+0035 758CE3           51             MOV TH0, #0E3H               
+0038 758AD7           52             MOV TL0, #0D7H               
+003B 80E5             53             SJMP FAST_REMAINING          
+003D 80D8             54         SJMP WHILE                       
+003F                  55         SLOW : 
+003F 7F01             56              MOV R7, #01H                
+0041                  57         SLOW_RESET: 
+A51 MACRO ASSEMBLER  LAB2_ASSIGNMENT_PART1                                                09/29/2023 16:05:14 PAGE     2
+
+0041 2093D3           58                         JB P1.3, WHILE      
+0044 758C00           59                                     MOV TH0, #00H        
+0047 758A00           60                     MOV TL0, #00H        
+004A D28C             61         SLOW_REMAINING: SETB TR0         
+004C 308DFD           62         SLOW_POLL: JNB TF0, SLOW_POLL    
+004F C28C             63             CLR TR0                      
+0051 C28D             64             CLR TF0                      
+0053 0F               65             INC R7                       
+0054 BF18EA           66             CJNE R7,#18H, SLOW_RESET     
+0057 D2AF             67             SETB EA                      
+0059 D2A9             68             SETB ET0                     
+005B 7F00             69             MOV R7, #00H                 
+005D 758CA8           70             MOV TH0, #0A8H               
+0060 758AF6           71             MOV TL0, #0F6H               
+0063 D293             72                     SETB P1.3                     
+0065 80E3             73             SJMP SLOW_REMAINING          
+0067 80AE             74         SJMP WHILE                       
+                      75     
+0069                  76     ISR_TIMER0 :
+0069 B292             77             CPL P1.2                     
+006B B291             78             CPL P1.1                     
+006D C2A9             79             CLR ET0                      
+006F D28D             80             SETB TF0                     
+0071 B292             81                     CPL P1.2                     
+0073 32               82             RETI
+                      83                     
+                      84     END
+A51 MACRO ASSEMBLER  LAB2_ASSIGNMENT_PART1                                                09/29/2023 16:05:14 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+FAST_POLL. . . . .  C ADDR   0024H   A   
+FAST_REMAINING . .  C ADDR   0022H   A   
+FAST_RESET . . . .  C ADDR   0019H   A   
+ISR_TIMER0 . . . .  C ADDR   0069H   A   
+MAIN . . . . . . .  C ADDR   000EH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SLOW . . . . . . .  C ADDR   003FH   A   
+SLOW_POLL. . . . .  C ADDR   004CH   A   
+SLOW_REMAINING . .  C ADDR   004AH   A   
+SLOW_RESET . . . .  C ADDR   0041H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+WHILE. . . . . . .  C ADDR   0017H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

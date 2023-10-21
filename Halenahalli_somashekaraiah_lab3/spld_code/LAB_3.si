@@ -1,0 +1,25 @@
+Name     LAB_3;
+PartNo   00;
+Date     10/9/2023;
+Revision 01;
+Designer Jithendra H S;
+Company  University of Colorado;
+Assembly None;
+Location ;
+Device   g16v8a;
+
+
+ORDER: A10, A11, A12, A13, A14, A15, PSEN, RD, WR, WRITE, CE, WE, OE; 
+
+
+VECTORS:
+000001000****
+100000000****
+010000000****
+001000000****
+000100000****
+000010000****
+000000010****
+000000001****
+000000000****
+000001001****

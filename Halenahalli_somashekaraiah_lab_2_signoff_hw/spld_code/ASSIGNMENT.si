@@ -1,0 +1,24 @@
+Name     ASSIGNMENT;
+PartNo   ESD001;
+Date     09/07/2023;
+Revision 04;
+Designer Jithendra HS;
+Company  University of Colorado Boulder;
+Assembly None;
+Location None;
+Device   g16v8a;
+
+
+ORDER: A12, A13, A14, A15, RD, PSEN, READ, CSPERIPH; 
+
+
+VECTORS:
+000000LH
+000100LH
+001100LH
+011100LH
+111101LL
+000011HH
+000010LH
+000001LH
+000000LH

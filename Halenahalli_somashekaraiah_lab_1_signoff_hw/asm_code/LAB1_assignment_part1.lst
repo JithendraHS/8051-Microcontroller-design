@@ -1,0 +1,87 @@
+AX51 MACRO ASSEMBLER  LAB1_ASSIGNMENT_PART1                                                 09/15/23 20:02:10 PAGE     1
+
+
+MACRO ASSEMBLER AX51 V3.15.3.0
+OBJECT MODULE PLACED IN .\src\LAB1_assignment_part1.OBJ
+ASSEMBLER INVOKED BY: C:\SiliconLabs\SimplicityStudio\v5\developer\toolchains\keil_8051\9.60\BIN\AX51.exe C:\Users\jithe
+                      \SimplicityStudio\v5_workspace\LAB_1_Assign\src\LAB1_assignment_part1.asm ERRORPRINT SET(SMALL,SIL
+                      ABS_STARTUP=1) DEBUG MACRO NOMOD51 INCDIR(C:/SiliconLabs/SimplicityStudio/v5/developer/sdks/8051/v
+                      4.3.0//Device/shared/si8051Base;C:/SiliconLabs/SimplicityStudio/v5/developer/sdks/8051/v4.3.0//Dev
+                      ice/EFM8BB1/inc) PRINT(.\src\LAB1_assignment_part1.lst) COND SYMBOLS PAGEWIDTH(120) PAGELENGTH(65)
+                       OBJECT(.\src\LAB1_assignment_part1.OBJ) 
+
+LOC    OBJ             LINE     SOURCE
+
+                          1     ; Name: Jithendra H S
+                          2     ; Description: Program to find Z = (X)/(Y*4)
+                          3     ; Date: 09-15-2023
+                          4     
+000000                    5     ORG 0000H  ; Initiating IRAM to 0000h address
+                          6     
+000000 7440               7     MOV A,#40H ; Initializing X value to Accumulator
+000002 75F003             8     MOV B,#03H ; Initializing Y value to B(math register)
+000005 7A04               9     MOV R2,#04H ; Constant 4
+                         10     
+000007 752000            11     MOV 20H,#0H ; Initializing expected memory addresses 20H-25H and 30H to Zero
+00000A 752100            12     MOV 21H,#0H
+00000D 752200            13     MOV 22H,#0H
+000010 752300            14     MOV 23H,#0H
+000013 752400            15     MOV 24H,#0H
+000016 752500            16     MOV 25H,#0H
+000019 753000            17     MOV 30H,#0H
+                         18     
+00001C 7820              19     MOV R0,#20H ; Creating indirect addressing
+00001E 7922              20     MOV R1,#22H
+000020 F6                21     MOV @R0,A   ; Putting Accumulator(X) value to address 20H
+                         22     
+000021 E5F0              23     MOV A,B     ; Moving Divisor to A to do operations
+000023 601D              24     JZ DIVISOR_ZERO ; Check for divisor not zero
+000025 A7F0              25     MOV @R1,B   ; Putting B register(Y) value to address 22H
+000027                   26     MULTIPLY :
+000027 33                27               RLC A  ; Rotate left with carry
+000028 401D              28               JC EXCEEDED ;Checking if value going behind 8-bit
+00002A 1A                29               DEC R2  ; decrement constant multiply value by 2
+00002B DAFA              30               DJNZ R2,MULTIPLY ; Loop if constant multiply value not reduced to zero
+                         31     
+00002D F5F0              32     MOV B,A  ; Store the denominator value(Y*4) back to B register
+00002F 85F023            33     MOV 023H,B ; Store B(y*4) in 023H address
+000032 E6                34     MOV A,@R0  ; take back X value into accumulator
+000033 08                35     INC R0
+000034 F6                36     MOV @R0,A  ; placing X value to address 21H address
+000035 7824              37     MOV R0,#24H ; creating indirect addressing
+000037                   38     DIVIDE :
+000037 F525              39              MOV 25H,A ; Storing remainder
+000039 95F0              40              SUBB A,B  ; Subtracting Dividend by divisor
+00003B 4003              41              JC ENDLOOP ; Jump if carry bit is set in the PSW(this happens when Dividend val
+                               ue less than Divisor)
+00003D 06                42              INC @R0 ; Location for Z variable(quotient)
+00003E 80F7              43              SJMP DIVIDE ; Loop for next iteration of subtraction
+                         44     
+000040 80FE              45     ENDLOOP : SJMP ENDLOOP
+000042 753001            46     DIVISOR_ZERO : MOV 30H,#01 ;loading error code
+000045 80F9              47                    SJMP ENDLOOP
+000047 753002            48     EXCEEDED : MOV 30H,#02H ;loading error code
+00004A 80F4              49                SJMP ENDLOOP
+AX51 MACRO ASSEMBLER  LAB1_ASSIGNMENT_PART1                                                 09/15/23 20:02:10 PAGE     2
+
+                         50     END
+AX51 MACRO ASSEMBLER  LAB1_ASSIGNMENT_PART1                                                 09/15/23 20:02:10 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                                    T Y P E  V A L U E     ATTRIBUTES
+
+B . . . . . . . . . . . . . . . . . . .    D  ADDR  00F0H     A   
+DIVIDE. . . . . . . . . . . . . . . . .    C  ADDR  0037H     R   SEG=?CO?LAB1_ASSIGNMENT_PART1?0
+DIVISOR_ZERO. . . . . . . . . . . . . .    C  ADDR  0042H     R   SEG=?CO?LAB1_ASSIGNMENT_PART1?0
+ENDLOOP . . . . . . . . . . . . . . . .    C  ADDR  0040H     R   SEG=?CO?LAB1_ASSIGNMENT_PART1?0
+EXCEEDED. . . . . . . . . . . . . . . .    C  ADDR  0047H     R   SEG=?CO?LAB1_ASSIGNMENT_PART1?0
+MULTIPLY. . . . . . . . . . . . . . . .    C  ADDR  0027H     R   SEG=?CO?LAB1_ASSIGNMENT_PART1?0
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S).
