@@ -14,6 +14,9 @@
  * @author Jithendra H S
  * @date 10-20-2023
  */
+/*
+ Linker setting : --code-loc 0x3000 --code-size 0x4F40 --xram-loc 0x0000 --xram-size  0x1f40 -D DEBUG=1
+*/
 
 #include <at89c51ed2.h>
 #include <mcs51/8051.h>
