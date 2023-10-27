@@ -1,0 +1,21 @@
+-muwx
+-i bin\Release\LAB3_FINAL_PART.ihx
+-M
+-X 0x1f40
+-C 0x4f40
+-b HOME = 0x3000
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Program Files\sdcc\lib
+-k C:\Program Files\SDCC\bin\..\lib\small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+obj\Release\main.rel
+obj\Release\menu.rel
+obj\Release\pca_mode.rel
+obj\Release\uart.rel
+
+-e

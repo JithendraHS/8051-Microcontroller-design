@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1698429968 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab3_final_part\uart.c
+	<uart.h>
+
+1698381982 c:\users\jithe\onedrive\desktop\esd\classwork\lab3_final_part\uart.h
+	<stdint.h>
+	<at89c51ed2.h>
+
+1698436283 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab3_final_part\main.c
+	<at89c51ed2.h>
+	<mcs51/8051.h>
+	<mcs51reg.h>
+	<stdio.h>
+	<stdlib.h>
+	<uart.h>
+	<_heap.h>
+	"pca_modes.h"
+
+1697764529 c:\users\jithe\onedrive\desktop\esd\classwork\lab3_final_part\_heap.h
+
+1698436251 c:\users\jithe\onedrive\desktop\esd\classwork\lab3_final_part\pca_modes.h
+
