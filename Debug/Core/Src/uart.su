@@ -1,9 +1,0 @@
-../Drivers/CMSIS/Include/core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
-../Core/Src/uart.c:27:6:UART_Init	8	static
-../Core/Src/uart.c:61:8:USART_Tx	16	static
-../Core/Src/uart.c:83:8:USART_Rx	16	static
-../Core/Src/uart.c:101:6:USART2_IRQHandler	4	static
-../Core/Src/uart.c:123:6:Tx_char	16	static
-../Core/Src/uart.c:145:6:print_uart	24	static
-../Core/Src/uart.c:171:6:print_decimal	16	static
-../Core/Src/uart.c:192:6:print_string	16	static

@@ -1,8 +1,0 @@
-../Drivers/CMSIS/Include/core_cm4.h:1688:22:__NVIC_EnableIRQ	2
-../Drivers/CMSIS/Include/core_cm4.h:1724:22:__NVIC_DisableIRQ	2
-../Core/Src/pwm.c:39:6:PWM_Init	1
-../Core/Src/pwm.c:66:6:Button_Init	1
-../Core/Src/pwm.c:75:6:TIM2_Init	1
-../Core/Src/pwm.c:89:6:TIM2_IRQHandler	3
-../Core/Src/pwm.c:110:6:Check_button_status	4
-../Core/Src/pwm.c:137:9:modify_duty_cycle	8
