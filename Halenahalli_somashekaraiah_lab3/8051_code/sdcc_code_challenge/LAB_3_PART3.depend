@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1698548505 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\main.c
+	<at89c51ed2.h>
+	<mcs51/8051.h>
+	<mcs51reg.h>
+	<stdio.h>
+	<stdlib.h>
+	"_heap.h"
+	"uart.h"
+	"buffer.h"
+
+1698460531 c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\_heap.h
+
+1697834876 c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\uart.h
+	<stdint.h>
+	<at89c51ed2.h>
+
+1697834904 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\uart.c
+	<uart.h>
+
+1697838392 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\buffer.c
+	<buffer.h>
+	<uart.h>
+	<stdio.h>
+
+1698548595 c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\buffer.h
+	<stdint.h>
+
+1697837384 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\debug.c
+	<debug.h>
+
+1698540387 c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\debug.h
+
+1697740755 source:c:\users\jithe\onedrive\desktop\esd\classwork\lab_3_part3\lab_3_part3\_heap.c
+
