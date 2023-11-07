@@ -1,0 +1,1264 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.2.0 #13081 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module eeprom
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _echo
+                                     12 	.globl _eeprom_reset
+                                     13 	.globl _Byte_Read_Sequential
+                                     14 	.globl _Byte_Read
+                                     15 	.globl _Byte_Write
+                                     16 	.globl _printf_tiny
+                                     17 	.globl _P5_7
+                                     18 	.globl _P5_6
+                                     19 	.globl _P5_5
+                                     20 	.globl _P5_4
+                                     21 	.globl _P5_3
+                                     22 	.globl _P5_2
+                                     23 	.globl _P5_1
+                                     24 	.globl _P5_0
+                                     25 	.globl _P4_7
+                                     26 	.globl _P4_6
+                                     27 	.globl _P4_5
+                                     28 	.globl _P4_4
+                                     29 	.globl _P4_3
+                                     30 	.globl _P4_2
+                                     31 	.globl _P4_1
+                                     32 	.globl _P4_0
+                                     33 	.globl _PX0L
+                                     34 	.globl _PT0L
+                                     35 	.globl _PX1L
+                                     36 	.globl _PT1L
+                                     37 	.globl _PSL
+                                     38 	.globl _PT2L
+                                     39 	.globl _PPCL
+                                     40 	.globl _EC
+                                     41 	.globl _CCF0
+                                     42 	.globl _CCF1
+                                     43 	.globl _CCF2
+                                     44 	.globl _CCF3
+                                     45 	.globl _CCF4
+                                     46 	.globl _CR
+                                     47 	.globl _CF
+                                     48 	.globl _TF2
+                                     49 	.globl _EXF2
+                                     50 	.globl _RCLK
+                                     51 	.globl _TCLK
+                                     52 	.globl _EXEN2
+                                     53 	.globl _TR2
+                                     54 	.globl _C_T2
+                                     55 	.globl _CP_RL2
+                                     56 	.globl _T2CON_7
+                                     57 	.globl _T2CON_6
+                                     58 	.globl _T2CON_5
+                                     59 	.globl _T2CON_4
+                                     60 	.globl _T2CON_3
+                                     61 	.globl _T2CON_2
+                                     62 	.globl _T2CON_1
+                                     63 	.globl _T2CON_0
+                                     64 	.globl _PT2
+                                     65 	.globl _ET2
+                                     66 	.globl _CY
+                                     67 	.globl _AC
+                                     68 	.globl _F0
+                                     69 	.globl _RS1
+                                     70 	.globl _RS0
+                                     71 	.globl _OV
+                                     72 	.globl _F1
+                                     73 	.globl _P
+                                     74 	.globl _PS
+                                     75 	.globl _PT1
+                                     76 	.globl _PX1
+                                     77 	.globl _PT0
+                                     78 	.globl _PX0
+                                     79 	.globl _RD
+                                     80 	.globl _WR
+                                     81 	.globl _T1
+                                     82 	.globl _T0
+                                     83 	.globl _INT1
+                                     84 	.globl _INT0
+                                     85 	.globl _TXD
+                                     86 	.globl _RXD
+                                     87 	.globl _P3_7
+                                     88 	.globl _P3_6
+                                     89 	.globl _P3_5
+                                     90 	.globl _P3_4
+                                     91 	.globl _P3_3
+                                     92 	.globl _P3_2
+                                     93 	.globl _P3_1
+                                     94 	.globl _P3_0
+                                     95 	.globl _EA
+                                     96 	.globl _ES
+                                     97 	.globl _ET1
+                                     98 	.globl _EX1
+                                     99 	.globl _ET0
+                                    100 	.globl _EX0
+                                    101 	.globl _P2_7
+                                    102 	.globl _P2_6
+                                    103 	.globl _P2_5
+                                    104 	.globl _P2_4
+                                    105 	.globl _P2_3
+                                    106 	.globl _P2_2
+                                    107 	.globl _P2_1
+                                    108 	.globl _P2_0
+                                    109 	.globl _SM0
+                                    110 	.globl _SM1
+                                    111 	.globl _SM2
+                                    112 	.globl _REN
+                                    113 	.globl _TB8
+                                    114 	.globl _RB8
+                                    115 	.globl _TI
+                                    116 	.globl _RI
+                                    117 	.globl _P1_7
+                                    118 	.globl _P1_6
+                                    119 	.globl _P1_5
+                                    120 	.globl _P1_4
+                                    121 	.globl _P1_3
+                                    122 	.globl _P1_2
+                                    123 	.globl _P1_1
+                                    124 	.globl _P1_0
+                                    125 	.globl _TF1
+                                    126 	.globl _TR1
+                                    127 	.globl _TF0
+                                    128 	.globl _TR0
+                                    129 	.globl _IE1
+                                    130 	.globl _IT1
+                                    131 	.globl _IE0
+                                    132 	.globl _IT0
+                                    133 	.globl _P0_7
+                                    134 	.globl _P0_6
+                                    135 	.globl _P0_5
+                                    136 	.globl _P0_4
+                                    137 	.globl _P0_3
+                                    138 	.globl _P0_2
+                                    139 	.globl _P0_1
+                                    140 	.globl _P0_0
+                                    141 	.globl _EECON
+                                    142 	.globl _KBF
+                                    143 	.globl _KBE
+                                    144 	.globl _KBLS
+                                    145 	.globl _BRL
+                                    146 	.globl _BDRCON
+                                    147 	.globl _T2MOD
+                                    148 	.globl _SPDAT
+                                    149 	.globl _SPSTA
+                                    150 	.globl _SPCON
+                                    151 	.globl _SADEN
+                                    152 	.globl _SADDR
+                                    153 	.globl _WDTPRG
+                                    154 	.globl _WDTRST
+                                    155 	.globl _P5
+                                    156 	.globl _P4
+                                    157 	.globl _IPH1
+                                    158 	.globl _IPL1
+                                    159 	.globl _IPH0
+                                    160 	.globl _IPL0
+                                    161 	.globl _IEN1
+                                    162 	.globl _IEN0
+                                    163 	.globl _CMOD
+                                    164 	.globl _CL
+                                    165 	.globl _CH
+                                    166 	.globl _CCON
+                                    167 	.globl _CCAPM4
+                                    168 	.globl _CCAPM3
+                                    169 	.globl _CCAPM2
+                                    170 	.globl _CCAPM1
+                                    171 	.globl _CCAPM0
+                                    172 	.globl _CCAP4L
+                                    173 	.globl _CCAP3L
+                                    174 	.globl _CCAP2L
+                                    175 	.globl _CCAP1L
+                                    176 	.globl _CCAP0L
+                                    177 	.globl _CCAP4H
+                                    178 	.globl _CCAP3H
+                                    179 	.globl _CCAP2H
+                                    180 	.globl _CCAP1H
+                                    181 	.globl _CCAP0H
+                                    182 	.globl _CKCON1
+                                    183 	.globl _CKCON0
+                                    184 	.globl _CKRL
+                                    185 	.globl _AUXR1
+                                    186 	.globl _AUXR
+                                    187 	.globl _TH2
+                                    188 	.globl _TL2
+                                    189 	.globl _RCAP2H
+                                    190 	.globl _RCAP2L
+                                    191 	.globl _T2CON
+                                    192 	.globl _B
+                                    193 	.globl _ACC
+                                    194 	.globl _PSW
+                                    195 	.globl _IP
+                                    196 	.globl _P3
+                                    197 	.globl _IE
+                                    198 	.globl _P2
+                                    199 	.globl _SBUF
+                                    200 	.globl _SCON
+                                    201 	.globl _P1
+                                    202 	.globl _TH1
+                                    203 	.globl _TH0
+                                    204 	.globl _TL1
+                                    205 	.globl _TL0
+                                    206 	.globl _TMOD
+                                    207 	.globl _TCON
+                                    208 	.globl _PCON
+                                    209 	.globl _DPH
+                                    210 	.globl _DPL
+                                    211 	.globl _SP
+                                    212 	.globl _P0
+                                    213 	.globl _get_hex_value
+                                    214 	.globl _user_input_write_handle
+                                    215 	.globl _user_input_read_handle
+                                    216 	.globl _user_input_hex_dump_handle
+                                    217 	.globl _user_input_reset_handle
+                                    218 ;--------------------------------------------------------
+                                    219 ; special function registers
+                                    220 ;--------------------------------------------------------
+                                    221 	.area RSEG    (ABS,DATA)
+      000000                        222 	.org 0x0000
+                           000080   223 _P0	=	0x0080
+                           000081   224 _SP	=	0x0081
+                           000082   225 _DPL	=	0x0082
+                           000083   226 _DPH	=	0x0083
+                           000087   227 _PCON	=	0x0087
+                           000088   228 _TCON	=	0x0088
+                           000089   229 _TMOD	=	0x0089
+                           00008A   230 _TL0	=	0x008a
+                           00008B   231 _TL1	=	0x008b
+                           00008C   232 _TH0	=	0x008c
+                           00008D   233 _TH1	=	0x008d
+                           000090   234 _P1	=	0x0090
+                           000098   235 _SCON	=	0x0098
+                           000099   236 _SBUF	=	0x0099
+                           0000A0   237 _P2	=	0x00a0
+                           0000A8   238 _IE	=	0x00a8
+                           0000B0   239 _P3	=	0x00b0
+                           0000B8   240 _IP	=	0x00b8
+                           0000D0   241 _PSW	=	0x00d0
+                           0000E0   242 _ACC	=	0x00e0
+                           0000F0   243 _B	=	0x00f0
+                           0000C8   244 _T2CON	=	0x00c8
+                           0000CA   245 _RCAP2L	=	0x00ca
+                           0000CB   246 _RCAP2H	=	0x00cb
+                           0000CC   247 _TL2	=	0x00cc
+                           0000CD   248 _TH2	=	0x00cd
+                           00008E   249 _AUXR	=	0x008e
+                           0000A2   250 _AUXR1	=	0x00a2
+                           000097   251 _CKRL	=	0x0097
+                           00008F   252 _CKCON0	=	0x008f
+                           0000AF   253 _CKCON1	=	0x00af
+                           0000FA   254 _CCAP0H	=	0x00fa
+                           0000FB   255 _CCAP1H	=	0x00fb
+                           0000FC   256 _CCAP2H	=	0x00fc
+                           0000FD   257 _CCAP3H	=	0x00fd
+                           0000FE   258 _CCAP4H	=	0x00fe
+                           0000EA   259 _CCAP0L	=	0x00ea
+                           0000EB   260 _CCAP1L	=	0x00eb
+                           0000EC   261 _CCAP2L	=	0x00ec
+                           0000ED   262 _CCAP3L	=	0x00ed
+                           0000EE   263 _CCAP4L	=	0x00ee
+                           0000DA   264 _CCAPM0	=	0x00da
+                           0000DB   265 _CCAPM1	=	0x00db
+                           0000DC   266 _CCAPM2	=	0x00dc
+                           0000DD   267 _CCAPM3	=	0x00dd
+                           0000DE   268 _CCAPM4	=	0x00de
+                           0000D8   269 _CCON	=	0x00d8
+                           0000F9   270 _CH	=	0x00f9
+                           0000E9   271 _CL	=	0x00e9
+                           0000D9   272 _CMOD	=	0x00d9
+                           0000A8   273 _IEN0	=	0x00a8
+                           0000B1   274 _IEN1	=	0x00b1
+                           0000B8   275 _IPL0	=	0x00b8
+                           0000B7   276 _IPH0	=	0x00b7
+                           0000B2   277 _IPL1	=	0x00b2
+                           0000B3   278 _IPH1	=	0x00b3
+                           0000C0   279 _P4	=	0x00c0
+                           0000E8   280 _P5	=	0x00e8
+                           0000A6   281 _WDTRST	=	0x00a6
+                           0000A7   282 _WDTPRG	=	0x00a7
+                           0000A9   283 _SADDR	=	0x00a9
+                           0000B9   284 _SADEN	=	0x00b9
+                           0000C3   285 _SPCON	=	0x00c3
+                           0000C4   286 _SPSTA	=	0x00c4
+                           0000C5   287 _SPDAT	=	0x00c5
+                           0000C9   288 _T2MOD	=	0x00c9
+                           00009B   289 _BDRCON	=	0x009b
+                           00009A   290 _BRL	=	0x009a
+                           00009C   291 _KBLS	=	0x009c
+                           00009D   292 _KBE	=	0x009d
+                           00009E   293 _KBF	=	0x009e
+                           0000D2   294 _EECON	=	0x00d2
+                                    295 ;--------------------------------------------------------
+                                    296 ; special function bits
+                                    297 ;--------------------------------------------------------
+                                    298 	.area RSEG    (ABS,DATA)
+      000000                        299 	.org 0x0000
+                           000080   300 _P0_0	=	0x0080
+                           000081   301 _P0_1	=	0x0081
+                           000082   302 _P0_2	=	0x0082
+                           000083   303 _P0_3	=	0x0083
+                           000084   304 _P0_4	=	0x0084
+                           000085   305 _P0_5	=	0x0085
+                           000086   306 _P0_6	=	0x0086
+                           000087   307 _P0_7	=	0x0087
+                           000088   308 _IT0	=	0x0088
+                           000089   309 _IE0	=	0x0089
+                           00008A   310 _IT1	=	0x008a
+                           00008B   311 _IE1	=	0x008b
+                           00008C   312 _TR0	=	0x008c
+                           00008D   313 _TF0	=	0x008d
+                           00008E   314 _TR1	=	0x008e
+                           00008F   315 _TF1	=	0x008f
+                           000090   316 _P1_0	=	0x0090
+                           000091   317 _P1_1	=	0x0091
+                           000092   318 _P1_2	=	0x0092
+                           000093   319 _P1_3	=	0x0093
+                           000094   320 _P1_4	=	0x0094
+                           000095   321 _P1_5	=	0x0095
+                           000096   322 _P1_6	=	0x0096
+                           000097   323 _P1_7	=	0x0097
+                           000098   324 _RI	=	0x0098
+                           000099   325 _TI	=	0x0099
+                           00009A   326 _RB8	=	0x009a
+                           00009B   327 _TB8	=	0x009b
+                           00009C   328 _REN	=	0x009c
+                           00009D   329 _SM2	=	0x009d
+                           00009E   330 _SM1	=	0x009e
+                           00009F   331 _SM0	=	0x009f
+                           0000A0   332 _P2_0	=	0x00a0
+                           0000A1   333 _P2_1	=	0x00a1
+                           0000A2   334 _P2_2	=	0x00a2
+                           0000A3   335 _P2_3	=	0x00a3
+                           0000A4   336 _P2_4	=	0x00a4
+                           0000A5   337 _P2_5	=	0x00a5
+                           0000A6   338 _P2_6	=	0x00a6
+                           0000A7   339 _P2_7	=	0x00a7
+                           0000A8   340 _EX0	=	0x00a8
+                           0000A9   341 _ET0	=	0x00a9
+                           0000AA   342 _EX1	=	0x00aa
+                           0000AB   343 _ET1	=	0x00ab
+                           0000AC   344 _ES	=	0x00ac
+                           0000AF   345 _EA	=	0x00af
+                           0000B0   346 _P3_0	=	0x00b0
+                           0000B1   347 _P3_1	=	0x00b1
+                           0000B2   348 _P3_2	=	0x00b2
+                           0000B3   349 _P3_3	=	0x00b3
+                           0000B4   350 _P3_4	=	0x00b4
+                           0000B5   351 _P3_5	=	0x00b5
+                           0000B6   352 _P3_6	=	0x00b6
+                           0000B7   353 _P3_7	=	0x00b7
+                           0000B0   354 _RXD	=	0x00b0
+                           0000B1   355 _TXD	=	0x00b1
+                           0000B2   356 _INT0	=	0x00b2
+                           0000B3   357 _INT1	=	0x00b3
+                           0000B4   358 _T0	=	0x00b4
+                           0000B5   359 _T1	=	0x00b5
+                           0000B6   360 _WR	=	0x00b6
+                           0000B7   361 _RD	=	0x00b7
+                           0000B8   362 _PX0	=	0x00b8
+                           0000B9   363 _PT0	=	0x00b9
+                           0000BA   364 _PX1	=	0x00ba
+                           0000BB   365 _PT1	=	0x00bb
+                           0000BC   366 _PS	=	0x00bc
+                           0000D0   367 _P	=	0x00d0
+                           0000D1   368 _F1	=	0x00d1
+                           0000D2   369 _OV	=	0x00d2
+                           0000D3   370 _RS0	=	0x00d3
+                           0000D4   371 _RS1	=	0x00d4
+                           0000D5   372 _F0	=	0x00d5
+                           0000D6   373 _AC	=	0x00d6
+                           0000D7   374 _CY	=	0x00d7
+                           0000AD   375 _ET2	=	0x00ad
+                           0000BD   376 _PT2	=	0x00bd
+                           0000C8   377 _T2CON_0	=	0x00c8
+                           0000C9   378 _T2CON_1	=	0x00c9
+                           0000CA   379 _T2CON_2	=	0x00ca
+                           0000CB   380 _T2CON_3	=	0x00cb
+                           0000CC   381 _T2CON_4	=	0x00cc
+                           0000CD   382 _T2CON_5	=	0x00cd
+                           0000CE   383 _T2CON_6	=	0x00ce
+                           0000CF   384 _T2CON_7	=	0x00cf
+                           0000C8   385 _CP_RL2	=	0x00c8
+                           0000C9   386 _C_T2	=	0x00c9
+                           0000CA   387 _TR2	=	0x00ca
+                           0000CB   388 _EXEN2	=	0x00cb
+                           0000CC   389 _TCLK	=	0x00cc
+                           0000CD   390 _RCLK	=	0x00cd
+                           0000CE   391 _EXF2	=	0x00ce
+                           0000CF   392 _TF2	=	0x00cf
+                           0000DF   393 _CF	=	0x00df
+                           0000DE   394 _CR	=	0x00de
+                           0000DC   395 _CCF4	=	0x00dc
+                           0000DB   396 _CCF3	=	0x00db
+                           0000DA   397 _CCF2	=	0x00da
+                           0000D9   398 _CCF1	=	0x00d9
+                           0000D8   399 _CCF0	=	0x00d8
+                           0000AE   400 _EC	=	0x00ae
+                           0000BE   401 _PPCL	=	0x00be
+                           0000BD   402 _PT2L	=	0x00bd
+                           0000BC   403 _PSL	=	0x00bc
+                           0000BB   404 _PT1L	=	0x00bb
+                           0000BA   405 _PX1L	=	0x00ba
+                           0000B9   406 _PT0L	=	0x00b9
+                           0000B8   407 _PX0L	=	0x00b8
+                           0000C0   408 _P4_0	=	0x00c0
+                           0000C1   409 _P4_1	=	0x00c1
+                           0000C2   410 _P4_2	=	0x00c2
+                           0000C3   411 _P4_3	=	0x00c3
+                           0000C4   412 _P4_4	=	0x00c4
+                           0000C5   413 _P4_5	=	0x00c5
+                           0000C6   414 _P4_6	=	0x00c6
+                           0000C7   415 _P4_7	=	0x00c7
+                           0000E8   416 _P5_0	=	0x00e8
+                           0000E9   417 _P5_1	=	0x00e9
+                           0000EA   418 _P5_2	=	0x00ea
+                           0000EB   419 _P5_3	=	0x00eb
+                           0000EC   420 _P5_4	=	0x00ec
+                           0000ED   421 _P5_5	=	0x00ed
+                           0000EE   422 _P5_6	=	0x00ee
+                           0000EF   423 _P5_7	=	0x00ef
+                                    424 ;--------------------------------------------------------
+                                    425 ; overlayable register banks
+                                    426 ;--------------------------------------------------------
+                                    427 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        428 	.ds 8
+                                    429 ;--------------------------------------------------------
+                                    430 ; internal ram data
+                                    431 ;--------------------------------------------------------
+                                    432 	.area DSEG    (DATA)
+                                    433 ;--------------------------------------------------------
+                                    434 ; overlayable items in internal ram
+                                    435 ;--------------------------------------------------------
+                                    436 ;--------------------------------------------------------
+                                    437 ; indirectly addressable internal ram data
+                                    438 ;--------------------------------------------------------
+                                    439 	.area ISEG    (DATA)
+                                    440 ;--------------------------------------------------------
+                                    441 ; absolute internal ram data
+                                    442 ;--------------------------------------------------------
+                                    443 	.area IABS    (ABS,DATA)
+                                    444 	.area IABS    (ABS,DATA)
+                                    445 ;--------------------------------------------------------
+                                    446 ; bit data
+                                    447 ;--------------------------------------------------------
+                                    448 	.area BSEG    (BIT)
+                                    449 ;--------------------------------------------------------
+                                    450 ; paged external ram data
+                                    451 ;--------------------------------------------------------
+                                    452 	.area PSEG    (PAG,XDATA)
+                                    453 ;--------------------------------------------------------
+                                    454 ; external ram data
+                                    455 ;--------------------------------------------------------
+                                    456 	.area XSEG    (XDATA)
+      000000                        457 _get_hex_value_char_received_196608_51:
+      000000                        458 	.ds 1
+                                    459 ;--------------------------------------------------------
+                                    460 ; absolute external ram data
+                                    461 ;--------------------------------------------------------
+                                    462 	.area XABS    (ABS,XDATA)
+                                    463 ;--------------------------------------------------------
+                                    464 ; external initialized ram data
+                                    465 ;--------------------------------------------------------
+                                    466 	.area XISEG   (XDATA)
+                                    467 	.area HOME    (CODE)
+                                    468 	.area GSINIT0 (CODE)
+                                    469 	.area GSINIT1 (CODE)
+                                    470 	.area GSINIT2 (CODE)
+                                    471 	.area GSINIT3 (CODE)
+                                    472 	.area GSINIT4 (CODE)
+                                    473 	.area GSINIT5 (CODE)
+                                    474 	.area GSINIT  (CODE)
+                                    475 	.area GSFINAL (CODE)
+                                    476 	.area CSEG    (CODE)
+                                    477 ;--------------------------------------------------------
+                                    478 ; global & static initialisations
+                                    479 ;--------------------------------------------------------
+                                    480 	.area HOME    (CODE)
+                                    481 	.area GSINIT  (CODE)
+                                    482 	.area GSFINAL (CODE)
+                                    483 	.area GSINIT  (CODE)
+                                    484 ;--------------------------------------------------------
+                                    485 ; Home
+                                    486 ;--------------------------------------------------------
+                                    487 	.area HOME    (CODE)
+                                    488 	.area HOME    (CODE)
+                                    489 ;--------------------------------------------------------
+                                    490 ; code
+                                    491 ;--------------------------------------------------------
+                                    492 	.area CSEG    (CODE)
+                                    493 ;------------------------------------------------------------
+                                    494 ;Allocation info for local variables in function 'get_hex_value'
+                                    495 ;------------------------------------------------------------
+                                    496 ;value                     Allocated to registers r7 
+                                    497 ;i                         Allocated to registers r5 r6 
+                                    498 ;char_received             Allocated with name '_get_hex_value_char_received_196608_51'
+                                    499 ;------------------------------------------------------------
+                                    500 ;	eeprom.c:7: __xdata uint8_t get_hex_value(){
+                                    501 ;	-----------------------------------------
+                                    502 ;	 function get_hex_value
+                                    503 ;	-----------------------------------------
+      003062                        504 _get_hex_value:
+                           000007   505 	ar7 = 0x07
+                           000006   506 	ar6 = 0x06
+                           000005   507 	ar5 = 0x05
+                           000004   508 	ar4 = 0x04
+                           000003   509 	ar3 = 0x03
+                           000002   510 	ar2 = 0x02
+                           000001   511 	ar1 = 0x01
+                           000000   512 	ar0 = 0x00
+                                    513 ;	eeprom.c:8: int8_t value = 0;
+      003062 7F 00            [12]  514 	mov	r7,#0x00
+                                    515 ;	eeprom.c:9: printf_tiny("0x");
+      003064 C0 07            [24]  516 	push	ar7
+      003066 74 F2            [12]  517 	mov	a,#___str_0
+      003068 C0 E0            [24]  518 	push	acc
+      00306A 74 40            [12]  519 	mov	a,#(___str_0 >> 8)
+      00306C C0 E0            [24]  520 	push	acc
+      00306E 12 3F 4A         [24]  521 	lcall	_printf_tiny
+      003071 15 81            [12]  522 	dec	sp
+      003073 15 81            [12]  523 	dec	sp
+      003075 D0 07            [24]  524 	pop	ar7
+                                    525 ;	eeprom.c:10: for(int i = 0; i < 2; i++){
+      003077 7D 00            [12]  526 	mov	r5,#0x00
+      003079 7E 00            [12]  527 	mov	r6,#0x00
+      00307B                        528 00118$:
+      00307B C3               [12]  529 	clr	c
+      00307C ED               [12]  530 	mov	a,r5
+      00307D 94 02            [12]  531 	subb	a,#0x02
+      00307F EE               [12]  532 	mov	a,r6
+      003080 64 80            [12]  533 	xrl	a,#0x80
+      003082 94 80            [12]  534 	subb	a,#0x80
+      003084 40 03            [24]  535 	jc	00158$
+      003086 02 31 2F         [24]  536 	ljmp	00116$
+      003089                        537 00158$:
+                                    538 ;	eeprom.c:11: __xdata uint8_t char_received = echo(); // Read a character from UART
+      003089 C0 07            [24]  539 	push	ar7
+      00308B C0 06            [24]  540 	push	ar6
+      00308D C0 05            [24]  541 	push	ar5
+      00308F 12 3F 31         [24]  542 	lcall	_echo
+      003092 AC 82            [24]  543 	mov	r4,dpl
+      003094 D0 05            [24]  544 	pop	ar5
+      003096 D0 06            [24]  545 	pop	ar6
+      003098 D0 07            [24]  546 	pop	ar7
+      00309A 90 00 00         [24]  547 	mov	dptr,#_get_hex_value_char_received_196608_51
+      00309D EC               [12]  548 	mov	a,r4
+      00309E F0               [24]  549 	movx	@dptr,a
+                                    550 ;	eeprom.c:12: if((char_received >= '0') && (char_received <= '9')){
+      00309F 8C 03            [24]  551 	mov	ar3,r4
+      0030A1 BB 30 00         [24]  552 	cjne	r3,#0x30,00159$
+      0030A4                        553 00159$:
+      0030A4 40 10            [24]  554 	jc	00113$
+      0030A6 8C 03            [24]  555 	mov	ar3,r4
+      0030A8 EB               [12]  556 	mov	a,r3
+      0030A9 24 C6            [12]  557 	add	a,#0xff - 0x39
+      0030AB 40 09            [24]  558 	jc	00113$
+                                    559 ;	eeprom.c:13: char_received = char_received - '0'; // Convert ASCII character to its
+      0030AD EC               [12]  560 	mov	a,r4
+      0030AE 24 D0            [12]  561 	add	a,#0xd0
+      0030B0 90 00 00         [24]  562 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030B3 F0               [24]  563 	movx	@dptr,a
+      0030B4 80 52            [24]  564 	sjmp	00114$
+      0030B6                        565 00113$:
+                                    566 ;	eeprom.c:15: }else if((char_received >= 'A') && (char_received <= 'F')){
+      0030B6 90 00 00         [24]  567 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030B9 E0               [24]  568 	movx	a,@dptr
+      0030BA FC               [12]  569 	mov	r4,a
+      0030BB BC 41 00         [24]  570 	cjne	r4,#0x41,00162$
+      0030BE                        571 00162$:
+      0030BE 40 0E            [24]  572 	jc	00109$
+      0030C0 EC               [12]  573 	mov	a,r4
+      0030C1 24 B9            [12]  574 	add	a,#0xff - 0x46
+      0030C3 40 09            [24]  575 	jc	00109$
+                                    576 ;	eeprom.c:16: char_received = char_received - 'A' + 10; // Convert ASCII character to its
+      0030C5 90 00 00         [24]  577 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030C8 74 C9            [12]  578 	mov	a,#0xc9
+      0030CA 2C               [12]  579 	add	a,r4
+      0030CB F0               [24]  580 	movx	@dptr,a
+      0030CC 80 3A            [24]  581 	sjmp	00114$
+      0030CE                        582 00109$:
+                                    583 ;	eeprom.c:18: }else if((char_received >= 'a') && (char_received <= 'f')){
+      0030CE 90 00 00         [24]  584 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030D1 E0               [24]  585 	movx	a,@dptr
+      0030D2 FC               [12]  586 	mov	r4,a
+      0030D3 BC 61 00         [24]  587 	cjne	r4,#0x61,00165$
+      0030D6                        588 00165$:
+      0030D6 40 0E            [24]  589 	jc	00105$
+      0030D8 EC               [12]  590 	mov	a,r4
+      0030D9 24 99            [12]  591 	add	a,#0xff - 0x66
+      0030DB 40 09            [24]  592 	jc	00105$
+                                    593 ;	eeprom.c:19: char_received = char_received - 'a' + 10; // Convert ASCII character to its
+      0030DD 90 00 00         [24]  594 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030E0 74 A9            [12]  595 	mov	a,#0xa9
+      0030E2 2C               [12]  596 	add	a,r4
+      0030E3 F0               [24]  597 	movx	@dptr,a
+      0030E4 80 22            [24]  598 	sjmp	00114$
+      0030E6                        599 00105$:
+                                    600 ;	eeprom.c:21: }else if((char_received == '\n') || (char_received == '\r')){
+      0030E6 90 00 00         [24]  601 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030E9 E0               [24]  602 	movx	a,@dptr
+      0030EA FC               [12]  603 	mov	r4,a
+      0030EB BC 0A 02         [24]  604 	cjne	r4,#0x0a,00168$
+      0030EE 80 03            [24]  605 	sjmp	00101$
+      0030F0                        606 00168$:
+      0030F0 BC 0D 15         [24]  607 	cjne	r4,#0x0d,00114$
+      0030F3                        608 00101$:
+                                    609 ;	eeprom.c:22: printf_tiny("\n\r");
+      0030F3 C0 07            [24]  610 	push	ar7
+      0030F5 74 F5            [12]  611 	mov	a,#___str_1
+      0030F7 C0 E0            [24]  612 	push	acc
+      0030F9 74 40            [12]  613 	mov	a,#(___str_1 >> 8)
+      0030FB C0 E0            [24]  614 	push	acc
+      0030FD 12 3F 4A         [24]  615 	lcall	_printf_tiny
+      003100 15 81            [12]  616 	dec	sp
+      003102 15 81            [12]  617 	dec	sp
+      003104 D0 07            [24]  618 	pop	ar7
+                                    619 ;	eeprom.c:23: break;
+      003106 80 27            [24]  620 	sjmp	00116$
+      003108                        621 00114$:
+                                    622 ;	eeprom.c:25: value |= char_received << ((1 - i) * 4);
+      003108 8D 04            [24]  623 	mov	ar4,r5
+      00310A 74 01            [12]  624 	mov	a,#0x01
+      00310C C3               [12]  625 	clr	c
+      00310D 9C               [12]  626 	subb	a,r4
+      00310E 25 E0            [12]  627 	add	a,acc
+      003110 25 E0            [12]  628 	add	a,acc
+      003112 FC               [12]  629 	mov	r4,a
+      003113 90 00 00         [24]  630 	mov	dptr,#_get_hex_value_char_received_196608_51
+      003116 E0               [24]  631 	movx	a,@dptr
+      003117 FB               [12]  632 	mov	r3,a
+      003118 8C F0            [24]  633 	mov	b,r4
+      00311A 05 F0            [12]  634 	inc	b
+      00311C EB               [12]  635 	mov	a,r3
+      00311D 80 02            [24]  636 	sjmp	00173$
+      00311F                        637 00171$:
+      00311F 25 E0            [12]  638 	add	a,acc
+      003121                        639 00173$:
+      003121 D5 F0 FB         [24]  640 	djnz	b,00171$
+      003124 FC               [12]  641 	mov	r4,a
+      003125 42 07            [12]  642 	orl	ar7,a
+                                    643 ;	eeprom.c:10: for(int i = 0; i < 2; i++){
+      003127 0D               [12]  644 	inc	r5
+      003128 BD 00 01         [24]  645 	cjne	r5,#0x00,00174$
+      00312B 0E               [12]  646 	inc	r6
+      00312C                        647 00174$:
+      00312C 02 30 7B         [24]  648 	ljmp	00118$
+      00312F                        649 00116$:
+                                    650 ;	eeprom.c:27: printf_tiny("\n\r");
+      00312F C0 07            [24]  651 	push	ar7
+      003131 74 F5            [12]  652 	mov	a,#___str_1
+      003133 C0 E0            [24]  653 	push	acc
+      003135 74 40            [12]  654 	mov	a,#(___str_1 >> 8)
+      003137 C0 E0            [24]  655 	push	acc
+      003139 12 3F 4A         [24]  656 	lcall	_printf_tiny
+      00313C 15 81            [12]  657 	dec	sp
+      00313E 15 81            [12]  658 	dec	sp
+      003140 D0 07            [24]  659 	pop	ar7
+                                    660 ;	eeprom.c:28: return value;
+      003142 8F 82            [24]  661 	mov	dpl,r7
+                                    662 ;	eeprom.c:29: }
+      003144 22               [24]  663 	ret
+                                    664 ;------------------------------------------------------------
+                                    665 ;Allocation info for local variables in function 'user_input_write_handle'
+                                    666 ;------------------------------------------------------------
+                                    667 ;address                   Allocated with name '_user_input_write_handle_address_65536_56'
+                                    668 ;data                      Allocated with name '_user_input_write_handle_data_65536_56'
+                                    669 ;block                     Allocated with name '_user_input_write_handle_block_65536_56'
+                                    670 ;------------------------------------------------------------
+                                    671 ;	eeprom.c:30: void user_input_write_handle(){
+                                    672 ;	-----------------------------------------
+                                    673 ;	 function user_input_write_handle
+                                    674 ;	-----------------------------------------
+      003145                        675 _user_input_write_handle:
+                                    676 ;	eeprom.c:34: while(1){
+      003145                        677 00104$:
+                                    678 ;	eeprom.c:35: printf_tiny("Please enter block # in hex format to store data\n\r");
+      003145 74 F8            [12]  679 	mov	a,#___str_2
+      003147 C0 E0            [24]  680 	push	acc
+      003149 74 40            [12]  681 	mov	a,#(___str_2 >> 8)
+      00314B C0 E0            [24]  682 	push	acc
+      00314D 12 3F 4A         [24]  683 	lcall	_printf_tiny
+      003150 15 81            [12]  684 	dec	sp
+      003152 15 81            [12]  685 	dec	sp
+                                    686 ;	eeprom.c:36: block = get_hex_value();
+      003154 12 30 62         [24]  687 	lcall	_get_hex_value
+                                    688 ;	eeprom.c:37: if(block > 7){
+      003157 E5 82            [12]  689 	mov	a,dpl
+      003159 FF               [12]  690 	mov	r7,a
+      00315A 24 F8            [12]  691 	add	a,#0xff - 0x07
+      00315C 50 11            [24]  692 	jnc	00102$
+                                    693 ;	eeprom.c:38: printf_tiny("Please enter block # in range of 0-7\n\r");
+      00315E 74 2B            [12]  694 	mov	a,#___str_3
+      003160 C0 E0            [24]  695 	push	acc
+      003162 74 41            [12]  696 	mov	a,#(___str_3 >> 8)
+      003164 C0 E0            [24]  697 	push	acc
+      003166 12 3F 4A         [24]  698 	lcall	_printf_tiny
+      003169 15 81            [12]  699 	dec	sp
+      00316B 15 81            [12]  700 	dec	sp
+                                    701 ;	eeprom.c:39: continue;
+      00316D 80 D6            [24]  702 	sjmp	00104$
+      00316F                        703 00102$:
+                                    704 ;	eeprom.c:41: printf_tiny("Please enter address in hex format to store the data byte\n\r");
+      00316F C0 07            [24]  705 	push	ar7
+      003171 74 52            [12]  706 	mov	a,#___str_4
+      003173 C0 E0            [24]  707 	push	acc
+      003175 74 41            [12]  708 	mov	a,#(___str_4 >> 8)
+      003177 C0 E0            [24]  709 	push	acc
+      003179 12 3F 4A         [24]  710 	lcall	_printf_tiny
+      00317C 15 81            [12]  711 	dec	sp
+      00317E 15 81            [12]  712 	dec	sp
+                                    713 ;	eeprom.c:42: address = get_hex_value();
+      003180 12 30 62         [24]  714 	lcall	_get_hex_value
+      003183 AE 82            [24]  715 	mov	r6,dpl
+                                    716 ;	eeprom.c:43: printf_tiny("Please enter data in hex format to store\n\r");
+      003185 C0 06            [24]  717 	push	ar6
+      003187 74 8E            [12]  718 	mov	a,#___str_5
+      003189 C0 E0            [24]  719 	push	acc
+      00318B 74 41            [12]  720 	mov	a,#(___str_5 >> 8)
+      00318D C0 E0            [24]  721 	push	acc
+      00318F 12 3F 4A         [24]  722 	lcall	_printf_tiny
+      003192 15 81            [12]  723 	dec	sp
+      003194 15 81            [12]  724 	dec	sp
+                                    725 ;	eeprom.c:44: data = get_hex_value();
+      003196 12 30 62         [24]  726 	lcall	_get_hex_value
+      003199 AD 82            [24]  727 	mov	r5,dpl
+      00319B D0 06            [24]  728 	pop	ar6
+      00319D D0 07            [24]  729 	pop	ar7
+                                    730 ;	eeprom.c:47: Byte_Write(data, block, address);
+      00319F 90 00 01         [24]  731 	mov	dptr,#_Byte_Write_PARM_2
+      0031A2 EF               [12]  732 	mov	a,r7
+      0031A3 F0               [24]  733 	movx	@dptr,a
+      0031A4 90 00 02         [24]  734 	mov	dptr,#_Byte_Write_PARM_3
+      0031A7 EE               [12]  735 	mov	a,r6
+      0031A8 F0               [24]  736 	movx	@dptr,a
+      0031A9 8D 82            [24]  737 	mov	dpl,r5
+      0031AB 12 33 E1         [24]  738 	lcall	_Byte_Write
+                                    739 ;	eeprom.c:48: printf_tiny("=========================================================================\n\r");
+      0031AE 74 B9            [12]  740 	mov	a,#___str_6
+      0031B0 C0 E0            [24]  741 	push	acc
+      0031B2 74 41            [12]  742 	mov	a,#(___str_6 >> 8)
+      0031B4 C0 E0            [24]  743 	push	acc
+      0031B6 12 3F 4A         [24]  744 	lcall	_printf_tiny
+      0031B9 15 81            [12]  745 	dec	sp
+      0031BB 15 81            [12]  746 	dec	sp
+                                    747 ;	eeprom.c:49: }
+      0031BD 22               [24]  748 	ret
+                                    749 ;------------------------------------------------------------
+                                    750 ;Allocation info for local variables in function 'user_input_read_handle'
+                                    751 ;------------------------------------------------------------
+                                    752 ;address                   Allocated with name '_user_input_read_handle_address_65536_59'
+                                    753 ;data                      Allocated with name '_user_input_read_handle_data_65536_59'
+                                    754 ;block                     Allocated with name '_user_input_read_handle_block_65536_59'
+                                    755 ;------------------------------------------------------------
+                                    756 ;	eeprom.c:51: void user_input_read_handle(){
+                                    757 ;	-----------------------------------------
+                                    758 ;	 function user_input_read_handle
+                                    759 ;	-----------------------------------------
+      0031BE                        760 _user_input_read_handle:
+                                    761 ;	eeprom.c:55: while(1){
+      0031BE                        762 00104$:
+                                    763 ;	eeprom.c:56: printf_tiny("Please enter block # in hex format to store data\n\r");
+      0031BE 74 F8            [12]  764 	mov	a,#___str_2
+      0031C0 C0 E0            [24]  765 	push	acc
+      0031C2 74 40            [12]  766 	mov	a,#(___str_2 >> 8)
+      0031C4 C0 E0            [24]  767 	push	acc
+      0031C6 12 3F 4A         [24]  768 	lcall	_printf_tiny
+      0031C9 15 81            [12]  769 	dec	sp
+      0031CB 15 81            [12]  770 	dec	sp
+                                    771 ;	eeprom.c:57: block = get_hex_value();
+      0031CD 12 30 62         [24]  772 	lcall	_get_hex_value
+                                    773 ;	eeprom.c:58: if(block > 7){
+      0031D0 E5 82            [12]  774 	mov	a,dpl
+      0031D2 FF               [12]  775 	mov	r7,a
+      0031D3 24 F8            [12]  776 	add	a,#0xff - 0x07
+      0031D5 50 11            [24]  777 	jnc	00102$
+                                    778 ;	eeprom.c:59: printf_tiny("Please enter block # in range of 0-7\n\r");
+      0031D7 74 2B            [12]  779 	mov	a,#___str_3
+      0031D9 C0 E0            [24]  780 	push	acc
+      0031DB 74 41            [12]  781 	mov	a,#(___str_3 >> 8)
+      0031DD C0 E0            [24]  782 	push	acc
+      0031DF 12 3F 4A         [24]  783 	lcall	_printf_tiny
+      0031E2 15 81            [12]  784 	dec	sp
+      0031E4 15 81            [12]  785 	dec	sp
+                                    786 ;	eeprom.c:60: continue;
+      0031E6 80 D6            [24]  787 	sjmp	00104$
+      0031E8                        788 00102$:
+                                    789 ;	eeprom.c:62: printf_tiny("Please enter address in hex format to get the data byte\n\r");
+      0031E8 C0 07            [24]  790 	push	ar7
+      0031EA 74 05            [12]  791 	mov	a,#___str_7
+      0031EC C0 E0            [24]  792 	push	acc
+      0031EE 74 42            [12]  793 	mov	a,#(___str_7 >> 8)
+      0031F0 C0 E0            [24]  794 	push	acc
+      0031F2 12 3F 4A         [24]  795 	lcall	_printf_tiny
+      0031F5 15 81            [12]  796 	dec	sp
+      0031F7 15 81            [12]  797 	dec	sp
+                                    798 ;	eeprom.c:63: address = get_hex_value();
+      0031F9 12 30 62         [24]  799 	lcall	_get_hex_value
+      0031FC AE 82            [24]  800 	mov	r6,dpl
+      0031FE D0 07            [24]  801 	pop	ar7
+                                    802 ;	eeprom.c:66: data = Byte_Read(block, address);
+      003200 90 00 04         [24]  803 	mov	dptr,#_Byte_Read_PARM_2
+      003203 EE               [12]  804 	mov	a,r6
+      003204 F0               [24]  805 	movx	@dptr,a
+      003205 8F 82            [24]  806 	mov	dpl,r7
+      003207 C0 06            [24]  807 	push	ar6
+      003209 12 35 21         [24]  808 	lcall	_Byte_Read
+      00320C AF 82            [24]  809 	mov	r7,dpl
+      00320E D0 06            [24]  810 	pop	ar6
+                                    811 ;	eeprom.c:67: printf_tiny("Read byte--> 0x%x: 0x%x\n\r", address, data);
+      003210 7D 00            [12]  812 	mov	r5,#0x00
+      003212 7C 00            [12]  813 	mov	r4,#0x00
+      003214 C0 07            [24]  814 	push	ar7
+      003216 C0 05            [24]  815 	push	ar5
+      003218 C0 06            [24]  816 	push	ar6
+      00321A C0 04            [24]  817 	push	ar4
+      00321C 74 3F            [12]  818 	mov	a,#___str_8
+      00321E C0 E0            [24]  819 	push	acc
+      003220 74 42            [12]  820 	mov	a,#(___str_8 >> 8)
+      003222 C0 E0            [24]  821 	push	acc
+      003224 12 3F 4A         [24]  822 	lcall	_printf_tiny
+      003227 E5 81            [12]  823 	mov	a,sp
+      003229 24 FA            [12]  824 	add	a,#0xfa
+      00322B F5 81            [12]  825 	mov	sp,a
+                                    826 ;	eeprom.c:68: printf_tiny("=========================================================================\n\r");
+      00322D 74 B9            [12]  827 	mov	a,#___str_6
+      00322F C0 E0            [24]  828 	push	acc
+      003231 74 41            [12]  829 	mov	a,#(___str_6 >> 8)
+      003233 C0 E0            [24]  830 	push	acc
+      003235 12 3F 4A         [24]  831 	lcall	_printf_tiny
+      003238 15 81            [12]  832 	dec	sp
+      00323A 15 81            [12]  833 	dec	sp
+                                    834 ;	eeprom.c:69: }
+      00323C 22               [24]  835 	ret
+                                    836 ;------------------------------------------------------------
+                                    837 ;Allocation info for local variables in function 'user_input_hex_dump_handle'
+                                    838 ;------------------------------------------------------------
+                                    839 ;buffer                    Allocated to registers r4 r7 
+                                    840 ;address_range             Allocated to registers r5 
+                                    841 ;i                         Allocated to registers r2 r3 
+                                    842 ;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_62'
+                                    843 ;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_62'
+                                    844 ;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_62'
+                                    845 ;------------------------------------------------------------
+                                    846 ;	eeprom.c:71: void user_input_hex_dump_handle(){
+                                    847 ;	-----------------------------------------
+                                    848 ;	 function user_input_hex_dump_handle
+                                    849 ;	-----------------------------------------
+      00323D                        850 _user_input_hex_dump_handle:
+                                    851 ;	eeprom.c:76: while(1){
+      00323D                        852 00106$:
+                                    853 ;	eeprom.c:77: printf_tiny("Please enter block # in hex format to store data\n\r");
+      00323D 74 F8            [12]  854 	mov	a,#___str_2
+      00323F C0 E0            [24]  855 	push	acc
+      003241 74 40            [12]  856 	mov	a,#(___str_2 >> 8)
+      003243 C0 E0            [24]  857 	push	acc
+      003245 12 3F 4A         [24]  858 	lcall	_printf_tiny
+      003248 15 81            [12]  859 	dec	sp
+      00324A 15 81            [12]  860 	dec	sp
+                                    861 ;	eeprom.c:78: block = get_hex_value();
+      00324C 12 30 62         [24]  862 	lcall	_get_hex_value
+                                    863 ;	eeprom.c:79: if(block > 7){
+      00324F E5 82            [12]  864 	mov	a,dpl
+      003251 FF               [12]  865 	mov	r7,a
+      003252 24 F8            [12]  866 	add	a,#0xff - 0x07
+      003254 50 11            [24]  867 	jnc	00102$
+                                    868 ;	eeprom.c:80: printf_tiny("Please enter block # in range of 0-7\n\r");
+      003256 74 2B            [12]  869 	mov	a,#___str_3
+      003258 C0 E0            [24]  870 	push	acc
+      00325A 74 41            [12]  871 	mov	a,#(___str_3 >> 8)
+      00325C C0 E0            [24]  872 	push	acc
+      00325E 12 3F 4A         [24]  873 	lcall	_printf_tiny
+      003261 15 81            [12]  874 	dec	sp
+      003263 15 81            [12]  875 	dec	sp
+                                    876 ;	eeprom.c:81: continue;
+      003265 80 D6            [24]  877 	sjmp	00106$
+      003267                        878 00102$:
+                                    879 ;	eeprom.c:83: printf_tiny("Please enter start address in hex format\n\r");
+      003267 C0 07            [24]  880 	push	ar7
+      003269 74 59            [12]  881 	mov	a,#___str_9
+      00326B C0 E0            [24]  882 	push	acc
+      00326D 74 42            [12]  883 	mov	a,#(___str_9 >> 8)
+      00326F C0 E0            [24]  884 	push	acc
+      003271 12 3F 4A         [24]  885 	lcall	_printf_tiny
+      003274 15 81            [12]  886 	dec	sp
+      003276 15 81            [12]  887 	dec	sp
+                                    888 ;	eeprom.c:84: start_address = get_hex_value();
+      003278 12 30 62         [24]  889 	lcall	_get_hex_value
+      00327B AE 82            [24]  890 	mov	r6,dpl
+                                    891 ;	eeprom.c:85: printf_tiny("Please enter end address in hex format\n\r");
+      00327D C0 06            [24]  892 	push	ar6
+      00327F 74 84            [12]  893 	mov	a,#___str_10
+      003281 C0 E0            [24]  894 	push	acc
+      003283 74 42            [12]  895 	mov	a,#(___str_10 >> 8)
+      003285 C0 E0            [24]  896 	push	acc
+      003287 12 3F 4A         [24]  897 	lcall	_printf_tiny
+      00328A 15 81            [12]  898 	dec	sp
+      00328C 15 81            [12]  899 	dec	sp
+                                    900 ;	eeprom.c:86: end_address = get_hex_value();
+      00328E 12 30 62         [24]  901 	lcall	_get_hex_value
+      003291 AD 82            [24]  902 	mov	r5,dpl
+      003293 D0 06            [24]  903 	pop	ar6
+      003295 D0 07            [24]  904 	pop	ar7
+                                    905 ;	eeprom.c:87: if(end_address > start_address){
+      003297 C3               [12]  906 	clr	c
+      003298 EE               [12]  907 	mov	a,r6
+      003299 9D               [12]  908 	subb	a,r5
+      00329A 40 11            [24]  909 	jc	00107$
+                                    910 ;	eeprom.c:90: printf_tiny("Invalid address range, end address should be greater than start address\n\r");
+      00329C 74 AD            [12]  911 	mov	a,#___str_11
+      00329E C0 E0            [24]  912 	push	acc
+      0032A0 74 42            [12]  913 	mov	a,#(___str_11 >> 8)
+      0032A2 C0 E0            [24]  914 	push	acc
+      0032A4 12 3F 4A         [24]  915 	lcall	_printf_tiny
+      0032A7 15 81            [12]  916 	dec	sp
+      0032A9 15 81            [12]  917 	dec	sp
+      0032AB 80 90            [24]  918 	sjmp	00106$
+      0032AD                        919 00107$:
+                                    920 ;	eeprom.c:92: uint8_t address_range = end_address - start_address;
+      0032AD ED               [12]  921 	mov	a,r5
+      0032AE C3               [12]  922 	clr	c
+      0032AF 9E               [12]  923 	subb	a,r6
+      0032B0 FD               [12]  924 	mov	r5,a
+                                    925 ;	eeprom.c:93: buffer = Byte_Read_Sequential(block, start_address, address_range);
+      0032B1 90 00 06         [24]  926 	mov	dptr,#_Byte_Read_Sequential_PARM_2
+      0032B4 EE               [12]  927 	mov	a,r6
+      0032B5 F0               [24]  928 	movx	@dptr,a
+      0032B6 90 00 07         [24]  929 	mov	dptr,#_Byte_Read_Sequential_PARM_3
+      0032B9 ED               [12]  930 	mov	a,r5
+      0032BA F0               [24]  931 	movx	@dptr,a
+      0032BB 8F 82            [24]  932 	mov	dpl,r7
+      0032BD C0 06            [24]  933 	push	ar6
+      0032BF C0 05            [24]  934 	push	ar5
+      0032C1 12 37 07         [24]  935 	lcall	_Byte_Read_Sequential
+      0032C4 AC 82            [24]  936 	mov	r4,dpl
+      0032C6 AF 83            [24]  937 	mov	r7,dph
+      0032C8 D0 05            [24]  938 	pop	ar5
+      0032CA D0 06            [24]  939 	pop	ar6
+                                    940 ;	eeprom.c:94: for(int i = 0; i < (address_range + 1); i++){
+      0032CC 7A 00            [12]  941 	mov	r2,#0x00
+      0032CE 7B 00            [12]  942 	mov	r3,#0x00
+      0032D0                        943 00112$:
+      0032D0 8D 00            [24]  944 	mov	ar0,r5
+      0032D2 79 00            [12]  945 	mov	r1,#0x00
+      0032D4 08               [12]  946 	inc	r0
+      0032D5 B8 00 01         [24]  947 	cjne	r0,#0x00,00143$
+      0032D8 09               [12]  948 	inc	r1
+      0032D9                        949 00143$:
+      0032D9 C3               [12]  950 	clr	c
+      0032DA EA               [12]  951 	mov	a,r2
+      0032DB 98               [12]  952 	subb	a,r0
+      0032DC EB               [12]  953 	mov	a,r3
+      0032DD 64 80            [12]  954 	xrl	a,#0x80
+      0032DF 89 F0            [24]  955 	mov	b,r1
+      0032E1 63 F0 80         [24]  956 	xrl	b,#0x80
+      0032E4 95 F0            [12]  957 	subb	a,b
+      0032E6 40 03            [24]  958 	jc	00144$
+      0032E8 02 33 8B         [24]  959 	ljmp	00110$
+      0032EB                        960 00144$:
+                                    961 ;	eeprom.c:95: if(i % 16 == 0){
+      0032EB 75 0D 10         [24]  962 	mov	__modsint_PARM_2,#0x10
+      0032EE 75 0E 00         [24]  963 	mov	(__modsint_PARM_2 + 1),#0x00
+      0032F1 8A 82            [24]  964 	mov	dpl,r2
+      0032F3 8B 83            [24]  965 	mov	dph,r3
+      0032F5 C0 07            [24]  966 	push	ar7
+      0032F7 C0 06            [24]  967 	push	ar6
+      0032F9 C0 05            [24]  968 	push	ar5
+      0032FB C0 04            [24]  969 	push	ar4
+      0032FD C0 03            [24]  970 	push	ar3
+      0032FF C0 02            [24]  971 	push	ar2
+      003301 12 40 BC         [24]  972 	lcall	__modsint
+      003304 E5 82            [12]  973 	mov	a,dpl
+      003306 85 83 F0         [24]  974 	mov	b,dph
+      003309 D0 02            [24]  975 	pop	ar2
+      00330B D0 03            [24]  976 	pop	ar3
+      00330D D0 04            [24]  977 	pop	ar4
+      00330F D0 05            [24]  978 	pop	ar5
+      003311 D0 06            [24]  979 	pop	ar6
+      003313 D0 07            [24]  980 	pop	ar7
+      003315 45 F0            [12]  981 	orl	a,b
+                                    982 ;	eeprom.c:96: printf_tiny("\n\r0x%x :",start_address);
+      003317 70 30            [24]  983 	jnz	00109$
+      003319 8E 00            [24]  984 	mov	ar0,r6
+      00331B F9               [12]  985 	mov	r1,a
+      00331C C0 07            [24]  986 	push	ar7
+      00331E C0 06            [24]  987 	push	ar6
+      003320 C0 05            [24]  988 	push	ar5
+      003322 C0 04            [24]  989 	push	ar4
+      003324 C0 03            [24]  990 	push	ar3
+      003326 C0 02            [24]  991 	push	ar2
+      003328 C0 00            [24]  992 	push	ar0
+      00332A C0 01            [24]  993 	push	ar1
+      00332C 74 F7            [12]  994 	mov	a,#___str_12
+      00332E C0 E0            [24]  995 	push	acc
+      003330 74 42            [12]  996 	mov	a,#(___str_12 >> 8)
+      003332 C0 E0            [24]  997 	push	acc
+      003334 12 3F 4A         [24]  998 	lcall	_printf_tiny
+      003337 E5 81            [12]  999 	mov	a,sp
+      003339 24 FC            [12] 1000 	add	a,#0xfc
+      00333B F5 81            [12] 1001 	mov	sp,a
+      00333D D0 02            [24] 1002 	pop	ar2
+      00333F D0 03            [24] 1003 	pop	ar3
+      003341 D0 04            [24] 1004 	pop	ar4
+      003343 D0 05            [24] 1005 	pop	ar5
+      003345 D0 06            [24] 1006 	pop	ar6
+      003347 D0 07            [24] 1007 	pop	ar7
+      003349                       1008 00109$:
+                                   1009 ;	eeprom.c:98: printf_tiny(" 0x%x", buffer[i]);
+      003349 EA               [12] 1010 	mov	a,r2
+      00334A 2C               [12] 1011 	add	a,r4
+      00334B F5 82            [12] 1012 	mov	dpl,a
+      00334D EB               [12] 1013 	mov	a,r3
+      00334E 3F               [12] 1014 	addc	a,r7
+      00334F F5 83            [12] 1015 	mov	dph,a
+      003351 E0               [24] 1016 	movx	a,@dptr
+      003352 F8               [12] 1017 	mov	r0,a
+      003353 79 00            [12] 1018 	mov	r1,#0x00
+      003355 C0 07            [24] 1019 	push	ar7
+      003357 C0 06            [24] 1020 	push	ar6
+      003359 C0 05            [24] 1021 	push	ar5
+      00335B C0 04            [24] 1022 	push	ar4
+      00335D C0 03            [24] 1023 	push	ar3
+      00335F C0 02            [24] 1024 	push	ar2
+      003361 C0 00            [24] 1025 	push	ar0
+      003363 C0 01            [24] 1026 	push	ar1
+      003365 74 00            [12] 1027 	mov	a,#___str_13
+      003367 C0 E0            [24] 1028 	push	acc
+      003369 74 43            [12] 1029 	mov	a,#(___str_13 >> 8)
+      00336B C0 E0            [24] 1030 	push	acc
+      00336D 12 3F 4A         [24] 1031 	lcall	_printf_tiny
+      003370 E5 81            [12] 1032 	mov	a,sp
+      003372 24 FC            [12] 1033 	add	a,#0xfc
+      003374 F5 81            [12] 1034 	mov	sp,a
+      003376 D0 02            [24] 1035 	pop	ar2
+      003378 D0 03            [24] 1036 	pop	ar3
+      00337A D0 04            [24] 1037 	pop	ar4
+      00337C D0 05            [24] 1038 	pop	ar5
+      00337E D0 06            [24] 1039 	pop	ar6
+      003380 D0 07            [24] 1040 	pop	ar7
+                                   1041 ;	eeprom.c:99: start_address++;
+      003382 0E               [12] 1042 	inc	r6
+                                   1043 ;	eeprom.c:94: for(int i = 0; i < (address_range + 1); i++){
+      003383 0A               [12] 1044 	inc	r2
+      003384 BA 00 01         [24] 1045 	cjne	r2,#0x00,00146$
+      003387 0B               [12] 1046 	inc	r3
+      003388                       1047 00146$:
+      003388 02 32 D0         [24] 1048 	ljmp	00112$
+      00338B                       1049 00110$:
+                                   1050 ;	eeprom.c:101: printf_tiny("\n\r");
+      00338B 74 F5            [12] 1051 	mov	a,#___str_1
+      00338D C0 E0            [24] 1052 	push	acc
+      00338F 74 40            [12] 1053 	mov	a,#(___str_1 >> 8)
+      003391 C0 E0            [24] 1054 	push	acc
+      003393 12 3F 4A         [24] 1055 	lcall	_printf_tiny
+      003396 15 81            [12] 1056 	dec	sp
+      003398 15 81            [12] 1057 	dec	sp
+                                   1058 ;	eeprom.c:102: printf_tiny("=========================================================================\n\r");
+      00339A 74 B9            [12] 1059 	mov	a,#___str_6
+      00339C C0 E0            [24] 1060 	push	acc
+      00339E 74 41            [12] 1061 	mov	a,#(___str_6 >> 8)
+      0033A0 C0 E0            [24] 1062 	push	acc
+      0033A2 12 3F 4A         [24] 1063 	lcall	_printf_tiny
+      0033A5 15 81            [12] 1064 	dec	sp
+      0033A7 15 81            [12] 1065 	dec	sp
+                                   1066 ;	eeprom.c:103: }
+      0033A9 22               [24] 1067 	ret
+                                   1068 ;------------------------------------------------------------
+                                   1069 ;Allocation info for local variables in function 'user_input_reset_handle'
+                                   1070 ;------------------------------------------------------------
+                                   1071 ;	eeprom.c:105: void user_input_reset_handle(){
+                                   1072 ;	-----------------------------------------
+                                   1073 ;	 function user_input_reset_handle
+                                   1074 ;	-----------------------------------------
+      0033AA                       1075 _user_input_reset_handle:
+                                   1076 ;	eeprom.c:106: printf_tiny("Reset mode\n\r");
+      0033AA 74 06            [12] 1077 	mov	a,#___str_14
+      0033AC C0 E0            [24] 1078 	push	acc
+      0033AE 74 43            [12] 1079 	mov	a,#(___str_14 >> 8)
+      0033B0 C0 E0            [24] 1080 	push	acc
+      0033B2 12 3F 4A         [24] 1081 	lcall	_printf_tiny
+      0033B5 15 81            [12] 1082 	dec	sp
+      0033B7 15 81            [12] 1083 	dec	sp
+                                   1084 ;	eeprom.c:107: eeprom_reset();
+      0033B9 12 3D 61         [24] 1085 	lcall	_eeprom_reset
+                                   1086 ;	eeprom.c:108: printf_tiny("=========================================================================\n\r");
+      0033BC 74 B9            [12] 1087 	mov	a,#___str_6
+      0033BE C0 E0            [24] 1088 	push	acc
+      0033C0 74 41            [12] 1089 	mov	a,#(___str_6 >> 8)
+      0033C2 C0 E0            [24] 1090 	push	acc
+      0033C4 12 3F 4A         [24] 1091 	lcall	_printf_tiny
+      0033C7 15 81            [12] 1092 	dec	sp
+      0033C9 15 81            [12] 1093 	dec	sp
+                                   1094 ;	eeprom.c:109: }
+      0033CB 22               [24] 1095 	ret
+                                   1096 	.area CSEG    (CODE)
+                                   1097 	.area CONST   (CODE)
+                                   1098 	.area CONST   (CODE)
+      0040F2                       1099 ___str_0:
+      0040F2 30 78                 1100 	.ascii "0x"
+      0040F4 00                    1101 	.db 0x00
+                                   1102 	.area CSEG    (CODE)
+                                   1103 	.area CONST   (CODE)
+      0040F5                       1104 ___str_1:
+      0040F5 0A                    1105 	.db 0x0a
+      0040F6 0D                    1106 	.db 0x0d
+      0040F7 00                    1107 	.db 0x00
+                                   1108 	.area CSEG    (CODE)
+                                   1109 	.area CONST   (CODE)
+      0040F8                       1110 ___str_2:
+      0040F8 50 6C 65 61 73 65 20  1111 	.ascii "Please enter block # in hex format to store data"
+             65 6E 74 65 72 20 62
+             6C 6F 63 6B 20 23 20
+             69 6E 20 68 65 78 20
+             66 6F 72 6D 61 74 20
+             74 6F 20 73 74 6F 72
+             65 20 64 61 74 61
+      004128 0A                    1112 	.db 0x0a
+      004129 0D                    1113 	.db 0x0d
+      00412A 00                    1114 	.db 0x00
+                                   1115 	.area CSEG    (CODE)
+                                   1116 	.area CONST   (CODE)
+      00412B                       1117 ___str_3:
+      00412B 50 6C 65 61 73 65 20  1118 	.ascii "Please enter block # in range of 0-7"
+             65 6E 74 65 72 20 62
+             6C 6F 63 6B 20 23 20
+             69 6E 20 72 61 6E 67
+             65 20 6F 66 20 30 2D
+             37
+      00414F 0A                    1119 	.db 0x0a
+      004150 0D                    1120 	.db 0x0d
+      004151 00                    1121 	.db 0x00
+                                   1122 	.area CSEG    (CODE)
+                                   1123 	.area CONST   (CODE)
+      004152                       1124 ___str_4:
+      004152 50 6C 65 61 73 65 20  1125 	.ascii "Please enter address in hex format to store the data byte"
+             65 6E 74 65 72 20 61
+             64 64 72 65 73 73 20
+             69 6E 20 68 65 78 20
+             66 6F 72 6D 61 74 20
+             74 6F 20 73 74 6F 72
+             65 20 74 68 65 20 64
+             61 74 61 20 62 79 74
+             65
+      00418B 0A                    1126 	.db 0x0a
+      00418C 0D                    1127 	.db 0x0d
+      00418D 00                    1128 	.db 0x00
+                                   1129 	.area CSEG    (CODE)
+                                   1130 	.area CONST   (CODE)
+      00418E                       1131 ___str_5:
+      00418E 50 6C 65 61 73 65 20  1132 	.ascii "Please enter data in hex format to store"
+             65 6E 74 65 72 20 64
+             61 74 61 20 69 6E 20
+             68 65 78 20 66 6F 72
+             6D 61 74 20 74 6F 20
+             73 74 6F 72 65
+      0041B6 0A                    1133 	.db 0x0a
+      0041B7 0D                    1134 	.db 0x0d
+      0041B8 00                    1135 	.db 0x00
+                                   1136 	.area CSEG    (CODE)
+                                   1137 	.area CONST   (CODE)
+      0041B9                       1138 ___str_6:
+      0041B9 3D 3D 3D 3D 3D 3D 3D  1139 	.ascii "============================================================"
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D 3D 3D 3D
+             3D 3D 3D 3D
+      0041F5 3D 3D 3D 3D 3D 3D 3D  1140 	.ascii "============="
+             3D 3D 3D 3D 3D 3D
+      004202 0A                    1141 	.db 0x0a
+      004203 0D                    1142 	.db 0x0d
+      004204 00                    1143 	.db 0x00
+                                   1144 	.area CSEG    (CODE)
+                                   1145 	.area CONST   (CODE)
+      004205                       1146 ___str_7:
+      004205 50 6C 65 61 73 65 20  1147 	.ascii "Please enter address in hex format to get the data byte"
+             65 6E 74 65 72 20 61
+             64 64 72 65 73 73 20
+             69 6E 20 68 65 78 20
+             66 6F 72 6D 61 74 20
+             74 6F 20 67 65 74 20
+             74 68 65 20 64 61 74
+             61 20 62 79 74 65
+      00423C 0A                    1148 	.db 0x0a
+      00423D 0D                    1149 	.db 0x0d
+      00423E 00                    1150 	.db 0x00
+                                   1151 	.area CSEG    (CODE)
+                                   1152 	.area CONST   (CODE)
+      00423F                       1153 ___str_8:
+      00423F 52 65 61 64 20 62 79  1154 	.ascii "Read byte--> 0x%x: 0x%x"
+             74 65 2D 2D 3E 20 30
+             78 25 78 3A 20 30 78
+             25 78
+      004256 0A                    1155 	.db 0x0a
+      004257 0D                    1156 	.db 0x0d
+      004258 00                    1157 	.db 0x00
+                                   1158 	.area CSEG    (CODE)
+                                   1159 	.area CONST   (CODE)
+      004259                       1160 ___str_9:
+      004259 50 6C 65 61 73 65 20  1161 	.ascii "Please enter start address in hex format"
+             65 6E 74 65 72 20 73
+             74 61 72 74 20 61 64
+             64 72 65 73 73 20 69
+             6E 20 68 65 78 20 66
+             6F 72 6D 61 74
+      004281 0A                    1162 	.db 0x0a
+      004282 0D                    1163 	.db 0x0d
+      004283 00                    1164 	.db 0x00
+                                   1165 	.area CSEG    (CODE)
+                                   1166 	.area CONST   (CODE)
+      004284                       1167 ___str_10:
+      004284 50 6C 65 61 73 65 20  1168 	.ascii "Please enter end address in hex format"
+             65 6E 74 65 72 20 65
+             6E 64 20 61 64 64 72
+             65 73 73 20 69 6E 20
+             68 65 78 20 66 6F 72
+             6D 61 74
+      0042AA 0A                    1169 	.db 0x0a
+      0042AB 0D                    1170 	.db 0x0d
+      0042AC 00                    1171 	.db 0x00
+                                   1172 	.area CSEG    (CODE)
+                                   1173 	.area CONST   (CODE)
+      0042AD                       1174 ___str_11:
+      0042AD 49 6E 76 61 6C 69 64  1175 	.ascii "Invalid address range, end address should be greater than st"
+             20 61 64 64 72 65 73
+             73 20 72 61 6E 67 65
+             2C 20 65 6E 64 20 61
+             64 64 72 65 73 73 20
+             73 68 6F 75 6C 64 20
+             62 65 20 67 72 65 61
+             74 65 72 20 74 68 61
+             6E 20 73 74
+      0042E9 61 72 74 20 61 64 64  1176 	.ascii "art address"
+             72 65 73 73
+      0042F4 0A                    1177 	.db 0x0a
+      0042F5 0D                    1178 	.db 0x0d
+      0042F6 00                    1179 	.db 0x00
+                                   1180 	.area CSEG    (CODE)
+                                   1181 	.area CONST   (CODE)
+      0042F7                       1182 ___str_12:
+      0042F7 0A                    1183 	.db 0x0a
+      0042F8 0D                    1184 	.db 0x0d
+      0042F9 30 78 25 78 20 3A     1185 	.ascii "0x%x :"
+      0042FF 00                    1186 	.db 0x00
+                                   1187 	.area CSEG    (CODE)
+                                   1188 	.area CONST   (CODE)
+      004300                       1189 ___str_13:
+      004300 20 30 78 25 78        1190 	.ascii " 0x%x"
+      004305 00                    1191 	.db 0x00
+                                   1192 	.area CSEG    (CODE)
+                                   1193 	.area CONST   (CODE)
+      004306                       1194 ___str_14:
+      004306 52 65 73 65 74 20 6D  1195 	.ascii "Reset mode"
+             6F 64 65
+      004310 0A                    1196 	.db 0x0a
+      004311 0D                    1197 	.db 0x0d
+      004312 00                    1198 	.db 0x00
+                                   1199 	.area CSEG    (CODE)
+                                   1200 	.area XINIT   (CODE)
+                                   1201 	.area CABS    (ABS,CODE)

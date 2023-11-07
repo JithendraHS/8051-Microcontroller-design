@@ -10,17 +10,13 @@
 ;--------------------------------------------------------
 	.globl ___sdcc_heap_size
 	.globl _main
+	.globl __sdcc_external_startup
 	.globl _user_input_reset_handle
 	.globl _user_input_hex_dump_handle
 	.globl _user_input_read_handle
 	.globl _user_input_write_handle
-	.globl _get_hex_value
-	.globl __sdcc_external_startup
 	.globl _echo
 	.globl _menu
-	.globl _eeprom_reset
-	.globl _Byte_Read
-	.globl _Byte_Write
 	.globl _delay
 	.globl _printf_tiny
 	.globl _TF1
@@ -494,8 +490,6 @@ __start__stack:
 	.area XSEG    (XDATA)
 ___sdcc_heap::
 	.ds 5000
-_get_hex_value_char_received_196608_50:
-	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -550,7 +544,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_sdcc_external_startup'
 ;------------------------------------------------------------
-;	main.c:36: _sdcc_external_startup()
+;	main.c:37: _sdcc_external_startup()
 ;	-----------------------------------------
 ;	 function _sdcc_external_startup
 ;	-----------------------------------------
@@ -563,506 +557,30 @@ __sdcc_external_startup:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	main.c:38: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
+;	main.c:39: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
 	orl	_AUXR,#0x0c
-;	main.c:40: return 0;               // Return 0 to indicate successful startup
+;	main.c:41: return 0;               // Return 0 to indicate successful startup
 	mov	dptr,#0x0000
-;	main.c:41: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'get_hex_value'
-;------------------------------------------------------------
-;value                     Allocated to registers r7 
-;i                         Allocated to registers r5 r6 
-;char_received             Allocated with name '_get_hex_value_char_received_196608_50'
-;------------------------------------------------------------
-;	main.c:43: __xdata uint8_t get_hex_value(){
-;	-----------------------------------------
-;	 function get_hex_value
-;	-----------------------------------------
-_get_hex_value:
-;	main.c:44: int8_t value = 0;
-	mov	r7,#0x00
-;	main.c:45: printf_tiny("0x");
-	push	ar7
-	mov	a,#___str_0
-	push	acc
-	mov	a,#(___str_0 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-	pop	ar7
-;	main.c:46: for(int i = 0; i < 2; i++){
-	mov	r5,#0x00
-	mov	r6,#0x00
-00118$:
-	clr	c
-	mov	a,r5
-	subb	a,#0x02
-	mov	a,r6
-	xrl	a,#0x80
-	subb	a,#0x80
-	jc	00158$
-	ljmp	00116$
-00158$:
-;	main.c:47: __xdata uint8_t char_received = echo(); // Read a character from UART
-	push	ar7
-	push	ar6
-	push	ar5
-	lcall	_echo
-	mov	r4,dpl
-	pop	ar5
-	pop	ar6
-	pop	ar7
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	mov	a,r4
-	movx	@dptr,a
-;	main.c:48: if((char_received >= '0') && (char_received <= '9')){
-	mov	ar3,r4
-	cjne	r3,#0x30,00159$
-00159$:
-	jc	00113$
-	mov	ar3,r4
-	mov	a,r3
-	add	a,#0xff - 0x39
-	jc	00113$
-;	main.c:49: char_received = char_received - '0'; // Convert ASCII character to its
-	mov	a,r4
-	add	a,#0xd0
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	movx	@dptr,a
-	sjmp	00114$
-00113$:
-;	main.c:51: }else if((char_received >= 'A') && (char_received <= 'F')){
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	movx	a,@dptr
-	mov	r4,a
-	cjne	r4,#0x41,00162$
-00162$:
-	jc	00109$
-	mov	a,r4
-	add	a,#0xff - 0x46
-	jc	00109$
-;	main.c:52: char_received = char_received - 'A' + 10; // Convert ASCII character to its
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	mov	a,#0xc9
-	add	a,r4
-	movx	@dptr,a
-	sjmp	00114$
-00109$:
-;	main.c:54: }else if((char_received >= 'a') && (char_received <= 'f')){
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	movx	a,@dptr
-	mov	r4,a
-	cjne	r4,#0x61,00165$
-00165$:
-	jc	00105$
-	mov	a,r4
-	add	a,#0xff - 0x66
-	jc	00105$
-;	main.c:55: char_received = char_received - 'a' + 10; // Convert ASCII character to its
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	mov	a,#0xa9
-	add	a,r4
-	movx	@dptr,a
-	sjmp	00114$
-00105$:
-;	main.c:57: }else if((char_received == '\n') || (char_received == '\r')){
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	movx	a,@dptr
-	mov	r4,a
-	cjne	r4,#0x0a,00168$
-	sjmp	00101$
-00168$:
-	cjne	r4,#0x0d,00114$
-00101$:
-;	main.c:58: printf_tiny("\n\r");
-	push	ar7
-	mov	a,#___str_1
-	push	acc
-	mov	a,#(___str_1 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-	pop	ar7
-;	main.c:59: break;
-	sjmp	00116$
-00114$:
-;	main.c:61: value |= char_received << ((1 - i) * 4);
-	mov	ar4,r5
-	mov	a,#0x01
-	clr	c
-	subb	a,r4
-	add	a,acc
-	add	a,acc
-	mov	r4,a
-	mov	dptr,#_get_hex_value_char_received_196608_50
-	movx	a,@dptr
-	mov	r3,a
-	mov	b,r4
-	inc	b
-	mov	a,r3
-	sjmp	00173$
-00171$:
-	add	a,acc
-00173$:
-	djnz	b,00171$
-	mov	r4,a
-	orl	ar7,a
-;	main.c:46: for(int i = 0; i < 2; i++){
-	inc	r5
-	cjne	r5,#0x00,00174$
-	inc	r6
-00174$:
-	ljmp	00118$
-00116$:
-;	main.c:63: printf_tiny("\n\r");
-	push	ar7
-	mov	a,#___str_1
-	push	acc
-	mov	a,#(___str_1 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-	pop	ar7
-;	main.c:64: return value;
-	mov	dpl,r7
-;	main.c:65: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'user_input_write_handle'
-;------------------------------------------------------------
-;address                   Allocated with name '_user_input_write_handle_address_65536_55'
-;data                      Allocated with name '_user_input_write_handle_data_65536_55'
-;block                     Allocated with name '_user_input_write_handle_block_65536_55'
-;------------------------------------------------------------
-;	main.c:66: void user_input_write_handle(){
-;	-----------------------------------------
-;	 function user_input_write_handle
-;	-----------------------------------------
-_user_input_write_handle:
-;	main.c:71: printf_tiny("Please enter address in hex format to store the data byte\n\r");
-	mov	a,#___str_2
-	push	acc
-	mov	a,#(___str_2 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:72: address = get_hex_value();
-	lcall	_get_hex_value
-	mov	r7,dpl
-;	main.c:77: printf_tiny("Please enter data in hex format to store\n\r");
-	push	ar7
-	mov	a,#___str_3
-	push	acc
-	mov	a,#(___str_3 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:78: data = get_hex_value();
-	lcall	_get_hex_value
-	mov	r6,dpl
-	pop	ar7
-;	main.c:85: Byte_Write(data, block, address);
-	mov	dptr,#_Byte_Write_PARM_2
-	mov	a,#0x07
-	movx	@dptr,a
-	mov	dptr,#_Byte_Write_PARM_3
-	mov	a,r7
-	movx	@dptr,a
-	mov	dpl,r6
-	lcall	_Byte_Write
-;	main.c:86: printf_tiny("=========================================================================\n\r");
-	mov	a,#___str_4
-	push	acc
-	mov	a,#(___str_4 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:87: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'user_input_read_handle'
-;------------------------------------------------------------
-;address                   Allocated with name '_user_input_read_handle_address_65536_57'
-;data                      Allocated with name '_user_input_read_handle_data_65536_57'
-;block                     Allocated with name '_user_input_read_handle_block_65536_57'
-;------------------------------------------------------------
-;	main.c:89: void user_input_read_handle(){
-;	-----------------------------------------
-;	 function user_input_read_handle
-;	-----------------------------------------
-_user_input_read_handle:
-;	main.c:94: printf_tiny("Please enter address in hex format to get the data byte\n\r");
-	mov	a,#___str_5
-	push	acc
-	mov	a,#(___str_5 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:95: address = get_hex_value();
-	lcall	_get_hex_value
-	mov	r7,dpl
-;	main.c:102: data = Byte_Read(block, address);
-	mov	dptr,#_Byte_Read_PARM_2
-	mov	a,r7
-	movx	@dptr,a
-	mov	dpl,#0x07
-	push	ar7
-	lcall	_Byte_Read
-	mov	r6,dpl
-	pop	ar7
-;	main.c:103: printf_tiny("Read byte--> 0x%x: 0x%x\n\r", address, data);
-	mov	r5,#0x00
-	mov	r4,#0x00
-	push	ar6
-	push	ar5
-	push	ar7
-	push	ar4
-	mov	a,#___str_6
-	push	acc
-	mov	a,#(___str_6 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	mov	a,sp
-	add	a,#0xfa
-	mov	sp,a
-;	main.c:104: printf_tiny("=========================================================================\n\r");
-	mov	a,#___str_4
-	push	acc
-	mov	a,#(___str_4 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:105: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'user_input_hex_dump_handle'
-;------------------------------------------------------------
-;address_range             Allocated to registers r6 
-;i                         Allocated to registers r4 r5 
-;data                      Allocated to registers r3 
-;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_59'
-;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_59'
-;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_59'
-;------------------------------------------------------------
-;	main.c:107: void user_input_hex_dump_handle(){
-;	-----------------------------------------
-;	 function user_input_hex_dump_handle
-;	-----------------------------------------
-_user_input_hex_dump_handle:
-;	main.c:111: while(1){
-00104$:
-;	main.c:112: printf_tiny("Please enter start address in hex format\n\r");
-	mov	a,#___str_7
-	push	acc
-	mov	a,#(___str_7 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:113: start_address = get_hex_value();
-	lcall	_get_hex_value
-	mov	r7,dpl
-;	main.c:118: printf_tiny("Please enter end address in hex format\n\r");
-	push	ar7
-	mov	a,#___str_8
-	push	acc
-	mov	a,#(___str_8 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:119: end_address = get_hex_value();
-	lcall	_get_hex_value
-	mov	r6,dpl
-	pop	ar7
-;	main.c:124: if(end_address > start_address){
-	clr	c
-	mov	a,r7
-	subb	a,r6
-	jc	00105$
-;	main.c:127: printf_tiny("Invalid address range, end address should be greater than start address\n\r");
-	mov	a,#___str_9
-	push	acc
-	mov	a,#(___str_9 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-	sjmp	00104$
-00105$:
-;	main.c:129: uint8_t address_range = end_address - start_address + 1;
-	mov	a,r6
-	clr	c
-	subb	a,r7
-	mov	r6,a
-	inc	r6
-;	main.c:130: for(int i = 0; i < address_range; i++){
-	mov	r4,#0x00
-	mov	r5,#0x00
-00110$:
-	mov	ar2,r6
-	mov	r3,#0x00
-	clr	c
-	mov	a,r4
-	subb	a,r2
-	mov	a,r5
-	xrl	a,#0x80
-	mov	b,r3
-	xrl	b,#0x80
-	subb	a,b
-	jc	00136$
-	ljmp	00108$
-00136$:
-;	main.c:131: if(i % 16 == 0){
-	mov	__modsint_PARM_2,#0x10
-	mov	(__modsint_PARM_2 + 1),#0x00
-	mov	dpl,r4
-	mov	dph,r5
-	push	ar7
-	push	ar6
-	push	ar5
-	push	ar4
-	lcall	__modsint
-	mov	a,dpl
-	mov	b,dph
-	pop	ar4
-	pop	ar5
-	pop	ar6
-	pop	ar7
-	orl	a,b
-;	main.c:132: printf_tiny("\n\r0x%x :",start_address);
-	jnz	00107$
-	mov	ar2,r7
-	mov	r3,a
-	push	ar7
-	push	ar6
-	push	ar5
-	push	ar4
-	push	ar2
-	push	ar3
-	mov	a,#___str_10
-	push	acc
-	mov	a,#(___str_10 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar4
-	pop	ar5
-	pop	ar6
-	pop	ar7
-00107$:
-;	main.c:134: uint8_t data = Byte_Read(block, start_address);
-	mov	dptr,#_Byte_Read_PARM_2
-	mov	a,r7
-	movx	@dptr,a
-	mov	dpl,#0x07
-	push	ar7
-	push	ar6
-	push	ar5
-	push	ar4
-	lcall	_Byte_Read
-	mov	r3,dpl
-;	main.c:135: printf_tiny(" 0x%x", data);
-	mov	r2,#0x00
-	push	ar3
-	push	ar2
-	mov	a,#___str_11
-	push	acc
-	mov	a,#(___str_11 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar4
-	pop	ar5
-	pop	ar6
-	pop	ar7
-;	main.c:136: start_address++;
-	inc	r7
-;	main.c:130: for(int i = 0; i < address_range; i++){
-	inc	r4
-	cjne	r4,#0x00,00138$
-	inc	r5
-00138$:
-	ljmp	00110$
-00108$:
-;	main.c:138: printf_tiny("\n\r");
-	mov	a,#___str_1
-	push	acc
-	mov	a,#(___str_1 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:139: printf_tiny("=========================================================================\n\r");
-	mov	a,#___str_4
-	push	acc
-	mov	a,#(___str_4 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:140: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'user_input_reset_handle'
-;------------------------------------------------------------
-;	main.c:142: void user_input_reset_handle(){
-;	-----------------------------------------
-;	 function user_input_reset_handle
-;	-----------------------------------------
-_user_input_reset_handle:
-;	main.c:143: printf_tiny("Reset mode\n\r");
-	mov	a,#___str_12
-	push	acc
-	mov	a,#(___str_12 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:144: eeprom_reset();
-	lcall	_eeprom_reset
-;	main.c:145: printf_tiny("=========================================================================\n\r");
-	mov	a,#___str_4
-	push	acc
-	mov	a,#(___str_4 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:146: }
+;	main.c:42: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;user_input                Allocated to registers r7 
 ;------------------------------------------------------------
-;	main.c:147: void main()
+;	main.c:44: void main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:151: menu();
+;	main.c:46: menu();
 	lcall	_menu
-;	main.c:152: while(1)
+;	main.c:47: while(1)
 00114$:
-;	main.c:154: int8_t user_input = echo(); // Read user input from UART
+;	main.c:49: int8_t user_input = echo(); // Read user input from UART
 	lcall	_echo
 	mov	r7,dpl
-;	main.c:155: if(((user_input >= '0') && (user_input <= '9'))
+;	main.c:50: if(((user_input >= '0') && (user_input <= '9'))
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -1074,7 +592,7 @@ _main:
 	subb	a,b
 	jnc	00101$
 00106$:
-;	main.c:156: || ((user_input >= 'A') && (user_input <= 'Z'))) {
+;	main.c:51: || ((user_input >= 'A') && (user_input <= 'Z'))) {
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -1086,11 +604,11 @@ _main:
 	subb	a,b
 	jc	00102$
 00101$:
-;	main.c:158: printf_tiny("Please enter commands in small cases\n\r");
+;	main.c:53: printf_tiny("Please enter commands in small cases\n\r");
 	push	ar7
-	mov	a,#___str_13
+	mov	a,#___str_0
 	push	acc
-	mov	a,#(___str_13 >> 8)
+	mov	a,#(___str_0 >> 8)
 	push	acc
 	lcall	_printf_tiny
 	dec	sp
@@ -1098,7 +616,7 @@ _main:
 	pop	ar7
 	sjmp	00103$
 00102$:
-;	main.c:160: printf_tiny("\n\r");  // Print newline for better output formatting
+;	main.c:55: printf_tiny("\n\r");  // Print newline for better output formatting
 	push	ar7
 	mov	a,#___str_1
 	push	acc
@@ -1109,7 +627,7 @@ _main:
 	dec	sp
 	pop	ar7
 00103$:
-;	main.c:162: switch(user_input) {
+;	main.c:57: switch(user_input) {
 	cjne	r7,#0x65,00150$
 	sjmp	00110$
 00150$:
@@ -1120,32 +638,32 @@ _main:
 	sjmp	00108$
 00152$:
 	cjne	r7,#0x77,00112$
-;	main.c:164: user_input_write_handle();
+;	main.c:59: user_input_write_handle();
 	lcall	_user_input_write_handle
-;	main.c:165: break;
-;	main.c:166: case 'r':
+;	main.c:60: break;
+;	main.c:61: case 'r':
 	sjmp	00112$
 00108$:
-;	main.c:167: user_input_read_handle();
+;	main.c:62: user_input_read_handle();
 	lcall	_user_input_read_handle
-;	main.c:168: break;
-;	main.c:169: case 'h':
+;	main.c:63: break;
+;	main.c:64: case 'h':
 	sjmp	00112$
 00109$:
-;	main.c:170: user_input_hex_dump_handle();
+;	main.c:65: user_input_hex_dump_handle();
 	lcall	_user_input_hex_dump_handle
-;	main.c:171: break;
-;	main.c:172: case 'e':
+;	main.c:66: break;
+;	main.c:67: case 'e':
 	sjmp	00112$
 00110$:
-;	main.c:173: user_input_reset_handle();
+;	main.c:68: user_input_reset_handle();
 	lcall	_user_input_reset_handle
-;	main.c:177: }
+;	main.c:72: }
 00112$:
-;	main.c:178: delay(3);
+;	main.c:73: delay(3);
 	mov	dptr,#0x0003
 	lcall	_delay
-;	main.c:180: }
+;	main.c:75: }
 	ljmp	00114$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -1153,95 +671,13 @@ ___sdcc_heap_size:
 	.byte #0x88, #0x13	; 5000
 	.area CONST   (CODE)
 ___str_0:
-	.ascii "0x"
+	.ascii "Please enter commands in small cases"
+	.db 0x0a
+	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_1:
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_2:
-	.ascii "Please enter address in hex format to store the data byte"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_3:
-	.ascii "Please enter data in hex format to store"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_4:
-	.ascii "============================================================"
-	.ascii "============="
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_5:
-	.ascii "Please enter address in hex format to get the data byte"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_6:
-	.ascii "Read byte--> 0x%x: 0x%x"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_7:
-	.ascii "Please enter start address in hex format"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_8:
-	.ascii "Please enter end address in hex format"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_9:
-	.ascii "Invalid address range, end address should be greater than st"
-	.ascii "art address"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_10:
-	.db 0x0a
-	.db 0x0d
-	.ascii "0x%x :"
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_11:
-	.ascii " 0x%x"
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_12:
-	.ascii "Reset mode"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_13:
-	.ascii "Please enter commands in small cases"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

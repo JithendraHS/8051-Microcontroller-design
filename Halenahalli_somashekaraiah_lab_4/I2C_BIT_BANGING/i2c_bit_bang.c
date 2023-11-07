@@ -1,6 +1,10 @@
 #include "i2c_bit_bang.h"
 #include <mcs51reg.h>
 #include <at89c51ed2.h>
+#ifdef DEBUG
+#include "debug.h"
+#include <stdio.h>
+#endif // DEBUG
 
 #define SET_CIDL (1 << 7)
 #define SET_CLOCK (1 << 1)
@@ -17,24 +21,6 @@
 #define START_BYTE (0b10100000)
 #define WRITE_BYTE (0)
 #define READ_BYTE (1)
-
-/**
- * @brief Initializes High-Speed Output module.
- */
-void HSO_Init()
-{
-    CMOD &= ~SET_CIDL;   // clear CIDL bit to allow PCA to run in idle mode
-    CMOD |= SET_CLOCK;   // SET clock frequency to Fperi/2
-    CCAP0L = 0xFF; // Set low byte of CCAP1
-    CCAP0H = 0xFF; // Set high byte of CCAP1
-
-    // Enable HSO mode for module 1 (bit MAT1)
-    CCAPM0 |= SET_TOG;
-    CCAPM0 |= SET_MATCH;
-    CCAPM0 |= SET_ECOM; // Enable HS for module 1 (bit ECOM1)
-
-    CR =1;  // Enable PCA counter
-}
 
 void delay(unsigned int t)
 {
@@ -60,9 +46,13 @@ void Byte_Write(__xdata uint8_t data, __xdata uint8_t block, __xdata uint8_t add
         delay(0);
     }
     SDA = PULSE_HIGH;
-    SDA = PULSE_LOW;
     SCL = PULSE_HIGH;
     delay(2);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
     SCL = PULSE_LOW;
     delay(0);
     for(int j = 0; j < BYTE_LENGTH; j++){
@@ -74,9 +64,13 @@ void Byte_Write(__xdata uint8_t data, __xdata uint8_t block, __xdata uint8_t add
         delay(0);
     }
     SDA = PULSE_HIGH;
-    SDA = PULSE_LOW;
     SCL = PULSE_HIGH;
     delay(2);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
     SCL = PULSE_LOW;
     delay(0);
     for(int k = 0; k < BYTE_LENGTH; k++){
@@ -88,12 +82,19 @@ void Byte_Write(__xdata uint8_t data, __xdata uint8_t block, __xdata uint8_t add
         delay(0);
     }
     SDA = PULSE_HIGH;
-    SDA = PULSE_LOW;
     SCL = PULSE_HIGH;
     delay(2);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
     SCL = PULSE_LOW;
-    delay(2);
+    delay(1);
+    SDA = PULSE_LOW;
+    delay(1);
     SCL = PULSE_HIGH;
+    delay(0);
     SDA = PULSE_HIGH;
 }
 __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
@@ -113,9 +114,13 @@ __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
         delay(0);
     }
     SDA = PULSE_HIGH;
-    //SDA = PULSE_LOW;
     SCL = PULSE_HIGH;
     delay(3);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
     SCL = PULSE_LOW;
     delay(0);
     for(int j = 0; j < BYTE_LENGTH; j++){
@@ -127,9 +132,13 @@ __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
         delay(0);
     }
     SDA = PULSE_HIGH;
-    //SDA = PULSE_LOW;
     SCL = PULSE_HIGH;
     delay(2);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
     SCL = PULSE_LOW;
     SDA = PULSE_HIGH;
     delay(2);
@@ -149,7 +158,11 @@ __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
     }
     SDA = PULSE_HIGH;
     delay(2);
-    //SDA = PULSE_LOW;
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+       DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
     SCL = PULSE_HIGH;
     delay(2);
     SCL = PULSE_LOW;
@@ -177,6 +190,113 @@ __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
     SCL = PULSE_LOW;
     delay(2);
     return byte;
+}
+
+__xdata uint8_t * Byte_Read_Sequential(__xdata uint8_t block, __xdata uint8_t start_address,
+                                     __xdata uint8_t address_range){
+    __xdata uint8_t buffer[256] = {0};
+    SCL = PULSE_HIGH;
+    SDA = PULSE_HIGH;
+    delay(2);
+    SDA = PULSE_LOW;
+    delay(2);
+    SCL = PULSE_LOW;
+    uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
+    for(int i = 0; i < BYTE_LENGTH; i++){
+        SDA = byte & (0b10000000);
+        SCL = PULSE_HIGH;
+        delay(2);
+        SCL = PULSE_LOW;
+        byte = byte << 1;
+        delay(0);
+    }
+    SDA = PULSE_HIGH;
+    SCL = PULSE_HIGH;
+    delay(3);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
+    SCL = PULSE_LOW;
+    delay(0);
+    for(int j = 0; j < BYTE_LENGTH; j++){
+        SDA = start_address & (0b10000000);
+        SCL = PULSE_HIGH;
+        delay(2);
+        SCL = PULSE_LOW;
+        start_address = start_address << 1;
+        delay(0);
+    }
+    SDA = PULSE_HIGH;
+    SCL = PULSE_HIGH;
+    delay(2);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+        DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
+    SCL = PULSE_LOW;
+    SDA = PULSE_HIGH;
+    delay(2);
+    SCL = PULSE_HIGH;
+    delay(0);
+    SDA = PULSE_LOW;
+    delay(2);
+    SCL = PULSE_LOW;
+    byte = START_BYTE | (block << 1) | READ_BYTE;
+    for(int i = 0; i < BYTE_LENGTH; i++){
+        SDA = byte & (0b10000000);
+        SCL = PULSE_HIGH;
+        delay(2);
+        SCL = PULSE_LOW;
+        byte = byte << 1;
+        delay(0);
+    }
+    SDA = PULSE_HIGH;
+    delay(2);
+#ifdef DEBUG
+    if(SDA == PULSE_LOW){
+       DEBUGPORT(DEBUG_PORT_ADDRESS, 0x55);
+    }
+#endif // DEBUG
+    SCL = PULSE_HIGH;
+    delay(2);
+    SCL = PULSE_LOW;
+    delay(2);
+    for(int l = 0; l < (address_range + 1); l++){
+        for(int k = 0; k < BYTE_LENGTH; k++){
+            SDA= PULSE_HIGH;
+            buffer[l] = buffer[l] << 1;
+            SCL = PULSE_HIGH;
+            delay(1);
+            buffer[l] |= SDA;
+            SCL = PULSE_LOW;
+            delay(1);
+        }
+        if(l < address_range){
+            SDA = PULSE_LOW;
+            delay(0);
+            SCL = PULSE_HIGH;
+            delay(2);
+            SCL = PULSE_LOW;
+            delay(1);
+        }
+    }
+    SDA = PULSE_HIGH;
+    delay(2);
+    SCL = PULSE_HIGH;
+    delay(2);
+    SCL = PULSE_LOW;
+    SDA = PULSE_LOW;
+    delay(2);
+    SCL = PULSE_HIGH;
+    delay(2);
+    SDA = PULSE_HIGH;
+    delay(2);
+    SCL = PULSE_LOW;
+    delay(2);
+    return buffer;
 }
 
 void eeprom_reset(){

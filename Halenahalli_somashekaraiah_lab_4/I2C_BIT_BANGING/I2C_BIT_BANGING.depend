@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1699328649 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\main.c
+1699343285 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\main.c
 	<at89c51ed2.h>
 	<mcs51/8051.h>
 	<mcs51reg.h>
@@ -10,6 +10,7 @@
 	"i2c_bit_bang.h"
 	"menu.h"
 	"uart.h"
+	"eeprom.h"
 
 1697760929 c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\_heap.h
 
@@ -20,17 +21,24 @@
 	<stdint.h>
 	<at89c51ed2.h>
 
-1699207549 c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\i2c_bit_bang.h
+1699338654 c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\i2c_bit_bang.h
 	"stdint.h"
 
-1699329140 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\i2c_bit_bang.c
+1699342950 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\i2c_bit_bang.c
 	"i2c_bit_bang.h"
 	<mcs51reg.h>
 	<at89c51ed2.h>
+	"debug.h"
+	<stdio.h>
 
-1699194997 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\menu.c
+1699331835 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\menu.c
 	<stdio.h>
 	<menu.h>
 
 1698435256 c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\menu.h
+
+1699334407 c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\debug.h
+
+1699343273 c:\users\jithe\onedrive\desktop\esd\code_blocks\i2c_bit_banging\eeprom.h
+	"stdint.h"
 

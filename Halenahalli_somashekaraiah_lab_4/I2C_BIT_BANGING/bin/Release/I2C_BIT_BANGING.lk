@@ -13,6 +13,7 @@
 -l libint
 -l liblong
 -l libfloat
+obj\Release\eeprom.rel
 obj\Release\i2c_bit_bang.rel
 obj\Release\main.rel
 obj\Release\menu.rel

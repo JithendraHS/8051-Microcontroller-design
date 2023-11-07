@@ -7,10 +7,11 @@
  * embedded software. Jithendra H S and the University of Colorado are not     *
  * liable for any misuse of this material.                                     *
  ******************************************************************************/
+#define DEBUG_PORT_ADDRESS 0x7FFE
 #ifdef DEBUG
-#define DEBUGPORT(x, y) (x = y)
+ #define DEBUGPORT(address, value) (*((volatile unsigned char*)(address)) = (value))
+                                // generates a MOVX address, value
 #else
-#define DEBUGPORT(x, y) // empty statement, nothing passed on from the preprocessor
+ #define DEBUGPORT(x) // empty statement, nothing passed on from the preprocessor
                       // to the compiler
 #endif // DEBUG
-
