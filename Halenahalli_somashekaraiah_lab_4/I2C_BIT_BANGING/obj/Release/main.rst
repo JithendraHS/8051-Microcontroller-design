@@ -535,7 +535,7 @@
                                     535 	.area HOME    (CODE)
                                     536 	.area HOME    (CODE)
       003003                        537 __sdcc_program_startup:
-      003003 02 3D DF         [24]  538 	ljmp	_main
+      003003 02 3B D3         [24]  538 	ljmp	_main
                                     539 ;	return from main will return to caller
                                     540 ;--------------------------------------------------------
                                     541 ; code
@@ -544,11 +544,11 @@
                                     544 ;------------------------------------------------------------
                                     545 ;Allocation info for local variables in function '_sdcc_external_startup'
                                     546 ;------------------------------------------------------------
-                                    547 ;	main.c:37: _sdcc_external_startup()
+                                    547 ;	main.c:39: _sdcc_external_startup()
                                     548 ;	-----------------------------------------
                                     549 ;	 function _sdcc_external_startup
                                     550 ;	-----------------------------------------
-      003DD8                        551 __sdcc_external_startup:
+      003BCC                        551 __sdcc_external_startup:
                            000007   552 	ar7 = 0x07
                            000006   553 	ar6 = 0x06
                            000005   554 	ar5 = 0x05
@@ -557,135 +557,134 @@
                            000002   557 	ar2 = 0x02
                            000001   558 	ar1 = 0x01
                            000000   559 	ar0 = 0x00
-                                    560 ;	main.c:39: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
-      003DD8 43 8E 0C         [24]  561 	orl	_AUXR,#0x0c
-                                    562 ;	main.c:41: return 0;               // Return 0 to indicate successful startup
-      003DDB 90 00 00         [24]  563 	mov	dptr,#0x0000
-                                    564 ;	main.c:42: }
-      003DDE 22               [24]  565 	ret
+                                    560 ;	main.c:41: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
+      003BCC 43 8E 0C         [24]  561 	orl	_AUXR,#0x0c
+                                    562 ;	main.c:43: return 0;               // Return 0 to indicate successful startup
+      003BCF 90 00 00         [24]  563 	mov	dptr,#0x0000
+                                    564 ;	main.c:44: }
+      003BD2 22               [24]  565 	ret
                                     566 ;------------------------------------------------------------
                                     567 ;Allocation info for local variables in function 'main'
                                     568 ;------------------------------------------------------------
                                     569 ;user_input                Allocated to registers r7 
                                     570 ;------------------------------------------------------------
-                                    571 ;	main.c:44: void main()
+                                    571 ;	main.c:49: void main()
                                     572 ;	-----------------------------------------
                                     573 ;	 function main
                                     574 ;	-----------------------------------------
-      003DDF                        575 _main:
-                                    576 ;	main.c:46: menu();
-      003DDF 12 3E 62         [24]  577 	lcall	_menu
-                                    578 ;	main.c:47: while(1)
-      003DE2                        579 00114$:
-                                    580 ;	main.c:49: int8_t user_input = echo(); // Read user input from UART
-      003DE2 12 3F 31         [24]  581 	lcall	_echo
-      003DE5 AF 82            [24]  582 	mov	r7,dpl
-                                    583 ;	main.c:50: if(((user_input >= '0') && (user_input <= '9'))
-      003DE7 C3               [12]  584 	clr	c
-      003DE8 EF               [12]  585 	mov	a,r7
-      003DE9 64 80            [12]  586 	xrl	a,#0x80
-      003DEB 94 B0            [12]  587 	subb	a,#0xb0
-      003DED 40 0B            [24]  588 	jc	00106$
-      003DEF 74 B9            [12]  589 	mov	a,#(0x39 ^ 0x80)
-      003DF1 8F F0            [24]  590 	mov	b,r7
-      003DF3 63 F0 80         [24]  591 	xrl	b,#0x80
-      003DF6 95 F0            [12]  592 	subb	a,b
-      003DF8 50 13            [24]  593 	jnc	00101$
-      003DFA                        594 00106$:
-                                    595 ;	main.c:51: || ((user_input >= 'A') && (user_input <= 'Z'))) {
-      003DFA C3               [12]  596 	clr	c
-      003DFB EF               [12]  597 	mov	a,r7
-      003DFC 64 80            [12]  598 	xrl	a,#0x80
-      003DFE 94 C1            [12]  599 	subb	a,#0xc1
-      003E00 40 20            [24]  600 	jc	00102$
-      003E02 74 DA            [12]  601 	mov	a,#(0x5a ^ 0x80)
-      003E04 8F F0            [24]  602 	mov	b,r7
-      003E06 63 F0 80         [24]  603 	xrl	b,#0x80
-      003E09 95 F0            [12]  604 	subb	a,b
-      003E0B 40 15            [24]  605 	jc	00102$
-      003E0D                        606 00101$:
-                                    607 ;	main.c:53: printf_tiny("Please enter commands in small cases\n\r");
-      003E0D C0 07            [24]  608 	push	ar7
-      003E0F 74 15            [12]  609 	mov	a,#___str_0
-      003E11 C0 E0            [24]  610 	push	acc
-      003E13 74 43            [12]  611 	mov	a,#(___str_0 >> 8)
-      003E15 C0 E0            [24]  612 	push	acc
-      003E17 12 3F 4A         [24]  613 	lcall	_printf_tiny
-      003E1A 15 81            [12]  614 	dec	sp
-      003E1C 15 81            [12]  615 	dec	sp
-      003E1E D0 07            [24]  616 	pop	ar7
-      003E20 80 13            [24]  617 	sjmp	00103$
-      003E22                        618 00102$:
-                                    619 ;	main.c:55: printf_tiny("\n\r");  // Print newline for better output formatting
-      003E22 C0 07            [24]  620 	push	ar7
-      003E24 74 3C            [12]  621 	mov	a,#___str_1
-      003E26 C0 E0            [24]  622 	push	acc
-      003E28 74 43            [12]  623 	mov	a,#(___str_1 >> 8)
-      003E2A C0 E0            [24]  624 	push	acc
-      003E2C 12 3F 4A         [24]  625 	lcall	_printf_tiny
-      003E2F 15 81            [12]  626 	dec	sp
-      003E31 15 81            [12]  627 	dec	sp
-      003E33 D0 07            [24]  628 	pop	ar7
-      003E35                        629 00103$:
-                                    630 ;	main.c:57: switch(user_input) {
-      003E35 BF 65 02         [24]  631 	cjne	r7,#0x65,00150$
-      003E38 80 1C            [24]  632 	sjmp	00110$
-      003E3A                        633 00150$:
-      003E3A BF 68 02         [24]  634 	cjne	r7,#0x68,00151$
-      003E3D 80 12            [24]  635 	sjmp	00109$
-      003E3F                        636 00151$:
-      003E3F BF 72 02         [24]  637 	cjne	r7,#0x72,00152$
-      003E42 80 08            [24]  638 	sjmp	00108$
-      003E44                        639 00152$:
-      003E44 BF 77 12         [24]  640 	cjne	r7,#0x77,00112$
-                                    641 ;	main.c:59: user_input_write_handle();
-      003E47 12 31 45         [24]  642 	lcall	_user_input_write_handle
-                                    643 ;	main.c:60: break;
-                                    644 ;	main.c:61: case 'r':
-      003E4A 80 0D            [24]  645 	sjmp	00112$
-      003E4C                        646 00108$:
-                                    647 ;	main.c:62: user_input_read_handle();
-      003E4C 12 31 BE         [24]  648 	lcall	_user_input_read_handle
-                                    649 ;	main.c:63: break;
-                                    650 ;	main.c:64: case 'h':
-      003E4F 80 08            [24]  651 	sjmp	00112$
-      003E51                        652 00109$:
-                                    653 ;	main.c:65: user_input_hex_dump_handle();
-      003E51 12 32 3D         [24]  654 	lcall	_user_input_hex_dump_handle
-                                    655 ;	main.c:66: break;
-                                    656 ;	main.c:67: case 'e':
-      003E54 80 03            [24]  657 	sjmp	00112$
-      003E56                        658 00110$:
-                                    659 ;	main.c:68: user_input_reset_handle();
-      003E56 12 33 AA         [24]  660 	lcall	_user_input_reset_handle
-                                    661 ;	main.c:72: }
-      003E59                        662 00112$:
-                                    663 ;	main.c:73: delay(3);
-      003E59 90 00 03         [24]  664 	mov	dptr,#0x0003
-      003E5C 12 33 CC         [24]  665 	lcall	_delay
-                                    666 ;	main.c:75: }
-      003E5F 02 3D E2         [24]  667 	ljmp	00114$
-                                    668 	.area CSEG    (CODE)
-                                    669 	.area CONST   (CODE)
-      004313                        670 ___sdcc_heap_size:
-      004313 88 13                  671 	.byte #0x88, #0x13	; 5000
-                                    672 	.area CONST   (CODE)
-      004315                        673 ___str_0:
-      004315 50 6C 65 61 73 65 20   674 	.ascii "Please enter commands in small cases"
+      003BD3                        575 _main:
+                                    576 ;	main.c:51: menu(); // Display the menu to the user
+      003BD3 12 3C 56         [24]  577 	lcall	_menu
+                                    578 ;	main.c:52: while (1) // Infinite loop for user interactions
+      003BD6                        579 00114$:
+                                    580 ;	main.c:54: int8_t user_input = echo(); // Read user input from UART
+      003BD6 12 3D 25         [24]  581 	lcall	_echo
+      003BD9 AF 82            [24]  582 	mov	r7,dpl
+                                    583 ;	main.c:55: if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
+      003BDB C3               [12]  584 	clr	c
+      003BDC EF               [12]  585 	mov	a,r7
+      003BDD 64 80            [12]  586 	xrl	a,#0x80
+      003BDF 94 B0            [12]  587 	subb	a,#0xb0
+      003BE1 40 0B            [24]  588 	jc	00106$
+      003BE3 74 B9            [12]  589 	mov	a,#(0x39 ^ 0x80)
+      003BE5 8F F0            [24]  590 	mov	b,r7
+      003BE7 63 F0 80         [24]  591 	xrl	b,#0x80
+      003BEA 95 F0            [12]  592 	subb	a,b
+      003BEC 50 13            [24]  593 	jnc	00101$
+      003BEE                        594 00106$:
+      003BEE C3               [12]  595 	clr	c
+      003BEF EF               [12]  596 	mov	a,r7
+      003BF0 64 80            [12]  597 	xrl	a,#0x80
+      003BF2 94 C1            [12]  598 	subb	a,#0xc1
+      003BF4 40 20            [24]  599 	jc	00102$
+      003BF6 74 DA            [12]  600 	mov	a,#(0x5a ^ 0x80)
+      003BF8 8F F0            [24]  601 	mov	b,r7
+      003BFA 63 F0 80         [24]  602 	xrl	b,#0x80
+      003BFD 95 F0            [12]  603 	subb	a,b
+      003BFF 40 15            [24]  604 	jc	00102$
+      003C01                        605 00101$:
+                                    606 ;	main.c:58: printf_tiny("Please enter commands in small cases\n\r");
+      003C01 C0 07            [24]  607 	push	ar7
+      003C03 74 3B            [12]  608 	mov	a,#___str_0
+      003C05 C0 E0            [24]  609 	push	acc
+      003C07 74 41            [12]  610 	mov	a,#(___str_0 >> 8)
+      003C09 C0 E0            [24]  611 	push	acc
+      003C0B 12 3D 3E         [24]  612 	lcall	_printf_tiny
+      003C0E 15 81            [12]  613 	dec	sp
+      003C10 15 81            [12]  614 	dec	sp
+      003C12 D0 07            [24]  615 	pop	ar7
+      003C14 80 13            [24]  616 	sjmp	00103$
+      003C16                        617 00102$:
+                                    618 ;	main.c:62: printf_tiny("\n\r"); // Print newline for better output formatting
+      003C16 C0 07            [24]  619 	push	ar7
+      003C18 74 62            [12]  620 	mov	a,#___str_1
+      003C1A C0 E0            [24]  621 	push	acc
+      003C1C 74 41            [12]  622 	mov	a,#(___str_1 >> 8)
+      003C1E C0 E0            [24]  623 	push	acc
+      003C20 12 3D 3E         [24]  624 	lcall	_printf_tiny
+      003C23 15 81            [12]  625 	dec	sp
+      003C25 15 81            [12]  626 	dec	sp
+      003C27 D0 07            [24]  627 	pop	ar7
+      003C29                        628 00103$:
+                                    629 ;	main.c:64: switch (user_input) // Switch statement based on user input
+      003C29 BF 65 02         [24]  630 	cjne	r7,#0x65,00150$
+      003C2C 80 1C            [24]  631 	sjmp	00110$
+      003C2E                        632 00150$:
+      003C2E BF 68 02         [24]  633 	cjne	r7,#0x68,00151$
+      003C31 80 12            [24]  634 	sjmp	00109$
+      003C33                        635 00151$:
+      003C33 BF 72 02         [24]  636 	cjne	r7,#0x72,00152$
+      003C36 80 08            [24]  637 	sjmp	00108$
+      003C38                        638 00152$:
+      003C38 BF 77 12         [24]  639 	cjne	r7,#0x77,00112$
+                                    640 ;	main.c:67: user_input_write_handle(); // Handle user input for writing data
+      003C3B 12 31 45         [24]  641 	lcall	_user_input_write_handle
+                                    642 ;	main.c:68: break;
+                                    643 ;	main.c:69: case 'r':
+      003C3E 80 0D            [24]  644 	sjmp	00112$
+      003C40                        645 00108$:
+                                    646 ;	main.c:70: user_input_read_handle(); // Handle user input for reading data
+      003C40 12 31 BE         [24]  647 	lcall	_user_input_read_handle
+                                    648 ;	main.c:71: break;
+                                    649 ;	main.c:72: case 'h':
+      003C43 80 08            [24]  650 	sjmp	00112$
+      003C45                        651 00109$:
+                                    652 ;	main.c:73: user_input_hex_dump_handle(); // Handle user input for hex dumping data
+      003C45 12 32 3D         [24]  653 	lcall	_user_input_hex_dump_handle
+                                    654 ;	main.c:74: break;
+                                    655 ;	main.c:75: case 'e':
+      003C48 80 03            [24]  656 	sjmp	00112$
+      003C4A                        657 00110$:
+                                    658 ;	main.c:76: user_input_reset_handle(); // Handle user input for reset
+      003C4A 12 33 AA         [24]  659 	lcall	_user_input_reset_handle
+                                    660 ;	main.c:80: }
+      003C4D                        661 00112$:
+                                    662 ;	main.c:81: delay(3); // Delay for stability before processing the next input
+      003C4D 90 00 03         [24]  663 	mov	dptr,#0x0003
+      003C50 12 33 CC         [24]  664 	lcall	_delay
+                                    665 ;	main.c:83: }
+      003C53 02 3B D6         [24]  666 	ljmp	00114$
+                                    667 	.area CSEG    (CODE)
+                                    668 	.area CONST   (CODE)
+      004139                        669 ___sdcc_heap_size:
+      004139 88 13                  670 	.byte #0x88, #0x13	; 5000
+                                    671 	.area CONST   (CODE)
+      00413B                        672 ___str_0:
+      00413B 50 6C 65 61 73 65 20   673 	.ascii "Please enter commands in small cases"
              65 6E 74 65 72 20 63
              6F 6D 6D 61 6E 64 73
              20 69 6E 20 73 6D 61
              6C 6C 20 63 61 73 65
              73
-      004339 0A                     675 	.db 0x0a
-      00433A 0D                     676 	.db 0x0d
-      00433B 00                     677 	.db 0x00
-                                    678 	.area CSEG    (CODE)
-                                    679 	.area CONST   (CODE)
-      00433C                        680 ___str_1:
-      00433C 0A                     681 	.db 0x0a
-      00433D 0D                     682 	.db 0x0d
-      00433E 00                     683 	.db 0x00
-                                    684 	.area CSEG    (CODE)
-                                    685 	.area XINIT   (CODE)
-                                    686 	.area CABS    (ABS,CODE)
+      00415F 0A                     674 	.db 0x0a
+      004160 0D                     675 	.db 0x0d
+      004161 00                     676 	.db 0x00
+                                    677 	.area CSEG    (CODE)
+                                    678 	.area CONST   (CODE)
+      004162                        679 ___str_1:
+      004162 0A                     680 	.db 0x0a
+      004163 0D                     681 	.db 0x0d
+      004164 00                     682 	.db 0x00
+                                    683 	.area CSEG    (CODE)
+                                    684 	.area XINIT   (CODE)
+                                    685 	.area CABS    (ABS,CODE)

@@ -497,7 +497,7 @@ _get_hex_value_char_received_196608_51:
 ;i                         Allocated to registers r5 r6 
 ;char_received             Allocated with name '_get_hex_value_char_received_196608_51'
 ;------------------------------------------------------------
-;	eeprom.c:7: __xdata uint8_t get_hex_value(){
+;	eeprom.c:12: __xdata uint8_t get_hex_value(){
 ;	-----------------------------------------
 ;	 function get_hex_value
 ;	-----------------------------------------
@@ -510,9 +510,9 @@ _get_hex_value:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	eeprom.c:8: int8_t value = 0;
+;	eeprom.c:13: int8_t value = 0;
 	mov	r7,#0x00
-;	eeprom.c:9: printf_tiny("0x");
+;	eeprom.c:14: printf_tiny("0x");
 	push	ar7
 	mov	a,#___str_0
 	push	acc
@@ -522,7 +522,7 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	eeprom.c:10: for(int i = 0; i < 2; i++){
+;	eeprom.c:15: for(int i = 0; i < 2; i++){
 	mov	r5,#0x00
 	mov	r6,#0x00
 00118$:
@@ -535,7 +535,7 @@ _get_hex_value:
 	jc	00158$
 	ljmp	00116$
 00158$:
-;	eeprom.c:11: __xdata uint8_t char_received = echo(); // Read a character from UART
+;	eeprom.c:16: __xdata uint8_t char_received = echo(); // Read a character from UART
 	push	ar7
 	push	ar6
 	push	ar5
@@ -547,7 +547,7 @@ _get_hex_value:
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	mov	a,r4
 	movx	@dptr,a
-;	eeprom.c:12: if((char_received >= '0') && (char_received <= '9')){
+;	eeprom.c:17: if((char_received >= '0') && (char_received <= '9')){
 	mov	ar3,r4
 	cjne	r3,#0x30,00159$
 00159$:
@@ -556,14 +556,14 @@ _get_hex_value:
 	mov	a,r3
 	add	a,#0xff - 0x39
 	jc	00113$
-;	eeprom.c:13: char_received = char_received - '0'; // Convert ASCII character to its
+;	eeprom.c:18: char_received = char_received - '0'; // Convert ASCII character to its
 	mov	a,r4
 	add	a,#0xd0
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	movx	@dptr,a
 	sjmp	00114$
 00113$:
-;	eeprom.c:15: }else if((char_received >= 'A') && (char_received <= 'F')){
+;	eeprom.c:20: }else if((char_received >= 'A') && (char_received <= 'F')){
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	movx	a,@dptr
 	mov	r4,a
@@ -573,14 +573,14 @@ _get_hex_value:
 	mov	a,r4
 	add	a,#0xff - 0x46
 	jc	00109$
-;	eeprom.c:16: char_received = char_received - 'A' + 10; // Convert ASCII character to its
+;	eeprom.c:21: char_received = char_received - 'A' + 10; // Convert ASCII character to its
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	mov	a,#0xc9
 	add	a,r4
 	movx	@dptr,a
 	sjmp	00114$
 00109$:
-;	eeprom.c:18: }else if((char_received >= 'a') && (char_received <= 'f')){
+;	eeprom.c:23: }else if((char_received >= 'a') && (char_received <= 'f')){
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	movx	a,@dptr
 	mov	r4,a
@@ -590,14 +590,14 @@ _get_hex_value:
 	mov	a,r4
 	add	a,#0xff - 0x66
 	jc	00105$
-;	eeprom.c:19: char_received = char_received - 'a' + 10; // Convert ASCII character to its
+;	eeprom.c:24: char_received = char_received - 'a' + 10; // Convert ASCII character to its
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	mov	a,#0xa9
 	add	a,r4
 	movx	@dptr,a
 	sjmp	00114$
 00105$:
-;	eeprom.c:21: }else if((char_received == '\n') || (char_received == '\r')){
+;	eeprom.c:26: }else if((char_received == '\n') || (char_received == '\r')){
 	mov	dptr,#_get_hex_value_char_received_196608_51
 	movx	a,@dptr
 	mov	r4,a
@@ -606,7 +606,7 @@ _get_hex_value:
 00168$:
 	cjne	r4,#0x0d,00114$
 00101$:
-;	eeprom.c:22: printf_tiny("\n\r");
+;	eeprom.c:27: printf_tiny("\n\r");
 	push	ar7
 	mov	a,#___str_1
 	push	acc
@@ -616,10 +616,10 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	eeprom.c:23: break;
+;	eeprom.c:28: break;
 	sjmp	00116$
 00114$:
-;	eeprom.c:25: value |= char_received << ((1 - i) * 4);
+;	eeprom.c:30: value |= char_received << ((1 - i) * 4);
 	mov	ar4,r5
 	mov	a,#0x01
 	clr	c
@@ -640,14 +640,14 @@ _get_hex_value:
 	djnz	b,00171$
 	mov	r4,a
 	orl	ar7,a
-;	eeprom.c:10: for(int i = 0; i < 2; i++){
+;	eeprom.c:15: for(int i = 0; i < 2; i++){
 	inc	r5
 	cjne	r5,#0x00,00174$
 	inc	r6
 00174$:
 	ljmp	00118$
 00116$:
-;	eeprom.c:27: printf_tiny("\n\r");
+;	eeprom.c:32: printf_tiny("\n\r");
 	push	ar7
 	mov	a,#___str_1
 	push	acc
@@ -657,9 +657,9 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	eeprom.c:28: return value;
+;	eeprom.c:33: return value;
 	mov	dpl,r7
-;	eeprom.c:29: }
+;	eeprom.c:34: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'user_input_write_handle'
@@ -668,14 +668,14 @@ _get_hex_value:
 ;data                      Allocated with name '_user_input_write_handle_data_65536_56'
 ;block                     Allocated with name '_user_input_write_handle_block_65536_56'
 ;------------------------------------------------------------
-;	eeprom.c:30: void user_input_write_handle(){
+;	eeprom.c:42: void user_input_write_handle(){
 ;	-----------------------------------------
 ;	 function user_input_write_handle
 ;	-----------------------------------------
 _user_input_write_handle:
-;	eeprom.c:34: while(1){
+;	eeprom.c:48: while(1){
 00104$:
-;	eeprom.c:35: printf_tiny("Please enter block # in hex format to store data\n\r");
+;	eeprom.c:49: printf_tiny("Please enter block # in hex format to store data\n\r");
 	mov	a,#___str_2
 	push	acc
 	mov	a,#(___str_2 >> 8)
@@ -683,14 +683,14 @@ _user_input_write_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:36: block = get_hex_value();
+;	eeprom.c:50: block = get_hex_value();
 	lcall	_get_hex_value
-;	eeprom.c:37: if(block > 7){
+;	eeprom.c:53: if(block > 7){
 	mov	a,dpl
 	mov	r7,a
 	add	a,#0xff - 0x07
 	jnc	00102$
-;	eeprom.c:38: printf_tiny("Please enter block # in range of 0-7\n\r");
+;	eeprom.c:54: printf_tiny("Please enter block # in range of 0-7\n\r");
 	mov	a,#___str_3
 	push	acc
 	mov	a,#(___str_3 >> 8)
@@ -698,10 +698,10 @@ _user_input_write_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:39: continue;
+;	eeprom.c:55: continue;
 	sjmp	00104$
 00102$:
-;	eeprom.c:41: printf_tiny("Please enter address in hex format to store the data byte\n\r");
+;	eeprom.c:58: printf_tiny("Please enter address in hex format to store the data byte\n\r");
 	push	ar7
 	mov	a,#___str_4
 	push	acc
@@ -710,10 +710,10 @@ _user_input_write_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:42: address = get_hex_value();
+;	eeprom.c:59: address = get_hex_value();
 	lcall	_get_hex_value
 	mov	r6,dpl
-;	eeprom.c:43: printf_tiny("Please enter data in hex format to store\n\r");
+;	eeprom.c:60: printf_tiny("Please enter data in hex format to store\n\r");
 	push	ar6
 	mov	a,#___str_5
 	push	acc
@@ -722,12 +722,12 @@ _user_input_write_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:44: data = get_hex_value();
+;	eeprom.c:61: data = get_hex_value();
 	lcall	_get_hex_value
 	mov	r5,dpl
 	pop	ar6
 	pop	ar7
-;	eeprom.c:47: Byte_Write(data, block, address);
+;	eeprom.c:66: Byte_Write(data, block, address);
 	mov	dptr,#_Byte_Write_PARM_2
 	mov	a,r7
 	movx	@dptr,a
@@ -736,93 +736,6 @@ _user_input_write_handle:
 	movx	@dptr,a
 	mov	dpl,r5
 	lcall	_Byte_Write
-;	eeprom.c:48: printf_tiny("=========================================================================\n\r");
-	mov	a,#___str_6
-	push	acc
-	mov	a,#(___str_6 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	eeprom.c:49: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'user_input_read_handle'
-;------------------------------------------------------------
-;address                   Allocated with name '_user_input_read_handle_address_65536_59'
-;data                      Allocated with name '_user_input_read_handle_data_65536_59'
-;block                     Allocated with name '_user_input_read_handle_block_65536_59'
-;------------------------------------------------------------
-;	eeprom.c:51: void user_input_read_handle(){
-;	-----------------------------------------
-;	 function user_input_read_handle
-;	-----------------------------------------
-_user_input_read_handle:
-;	eeprom.c:55: while(1){
-00104$:
-;	eeprom.c:56: printf_tiny("Please enter block # in hex format to store data\n\r");
-	mov	a,#___str_2
-	push	acc
-	mov	a,#(___str_2 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	eeprom.c:57: block = get_hex_value();
-	lcall	_get_hex_value
-;	eeprom.c:58: if(block > 7){
-	mov	a,dpl
-	mov	r7,a
-	add	a,#0xff - 0x07
-	jnc	00102$
-;	eeprom.c:59: printf_tiny("Please enter block # in range of 0-7\n\r");
-	mov	a,#___str_3
-	push	acc
-	mov	a,#(___str_3 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	eeprom.c:60: continue;
-	sjmp	00104$
-00102$:
-;	eeprom.c:62: printf_tiny("Please enter address in hex format to get the data byte\n\r");
-	push	ar7
-	mov	a,#___str_7
-	push	acc
-	mov	a,#(___str_7 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	eeprom.c:63: address = get_hex_value();
-	lcall	_get_hex_value
-	mov	r6,dpl
-	pop	ar7
-;	eeprom.c:66: data = Byte_Read(block, address);
-	mov	dptr,#_Byte_Read_PARM_2
-	mov	a,r6
-	movx	@dptr,a
-	mov	dpl,r7
-	push	ar6
-	lcall	_Byte_Read
-	mov	r7,dpl
-	pop	ar6
-;	eeprom.c:67: printf_tiny("Read byte--> 0x%x: 0x%x\n\r", address, data);
-	mov	r5,#0x00
-	mov	r4,#0x00
-	push	ar7
-	push	ar5
-	push	ar6
-	push	ar4
-	mov	a,#___str_8
-	push	acc
-	mov	a,#(___str_8 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	mov	a,sp
-	add	a,#0xfa
-	mov	sp,a
 ;	eeprom.c:68: printf_tiny("=========================================================================\n\r");
 	mov	a,#___str_6
 	push	acc
@@ -834,6 +747,93 @@ _user_input_read_handle:
 ;	eeprom.c:69: }
 	ret
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'user_input_read_handle'
+;------------------------------------------------------------
+;address                   Allocated with name '_user_input_read_handle_address_65536_59'
+;data                      Allocated with name '_user_input_read_handle_data_65536_59'
+;block                     Allocated with name '_user_input_read_handle_block_65536_59'
+;------------------------------------------------------------
+;	eeprom.c:74: void user_input_read_handle(){
+;	-----------------------------------------
+;	 function user_input_read_handle
+;	-----------------------------------------
+_user_input_read_handle:
+;	eeprom.c:80: while(1){
+00104$:
+;	eeprom.c:81: printf_tiny("Please enter block # in hex format to read data\n\r");
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	eeprom.c:82: block = get_hex_value();
+	lcall	_get_hex_value
+;	eeprom.c:85: if(block > 7){
+	mov	a,dpl
+	mov	r7,a
+	add	a,#0xff - 0x07
+	jnc	00102$
+;	eeprom.c:86: printf_tiny("Please enter block # in range of 0-7\n\r");
+	mov	a,#___str_3
+	push	acc
+	mov	a,#(___str_3 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	eeprom.c:87: continue;
+	sjmp	00104$
+00102$:
+;	eeprom.c:90: printf_tiny("Please enter address in hex format to get the data byte\n\r");
+	push	ar7
+	mov	a,#___str_8
+	push	acc
+	mov	a,#(___str_8 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	eeprom.c:91: address = get_hex_value();
+	lcall	_get_hex_value
+	mov	r6,dpl
+	pop	ar7
+;	eeprom.c:96: data = Byte_Read(block, address);
+	mov	dptr,#_Byte_Read_PARM_2
+	mov	a,r6
+	movx	@dptr,a
+	mov	dpl,r7
+	push	ar6
+	lcall	_Byte_Read
+	mov	r7,dpl
+	pop	ar6
+;	eeprom.c:99: printf_tiny("Read byte--> 0x%x: 0x%x\n\r", address, data);
+	mov	r5,#0x00
+	mov	r4,#0x00
+	push	ar7
+	push	ar5
+	push	ar6
+	push	ar4
+	mov	a,#___str_9
+	push	acc
+	mov	a,#(___str_9 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfa
+	mov	sp,a
+;	eeprom.c:100: printf_tiny("=========================================================================\n\r");
+	mov	a,#___str_6
+	push	acc
+	mov	a,#(___str_6 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	eeprom.c:101: }
+	ret
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'user_input_hex_dump_handle'
 ;------------------------------------------------------------
 ;buffer                    Allocated to registers r4 r7 
@@ -843,29 +843,29 @@ _user_input_read_handle:
 ;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_62'
 ;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_62'
 ;------------------------------------------------------------
-;	eeprom.c:71: void user_input_hex_dump_handle(){
+;	eeprom.c:107: void user_input_hex_dump_handle(){
 ;	-----------------------------------------
 ;	 function user_input_hex_dump_handle
 ;	-----------------------------------------
 _user_input_hex_dump_handle:
-;	eeprom.c:76: while(1){
+;	eeprom.c:114: while(1){
 00106$:
-;	eeprom.c:77: printf_tiny("Please enter block # in hex format to store data\n\r");
-	mov	a,#___str_2
+;	eeprom.c:115: printf_tiny("Please enter block # in hex format to read data\n\r");
+	mov	a,#___str_7
 	push	acc
-	mov	a,#(___str_2 >> 8)
+	mov	a,#(___str_7 >> 8)
 	push	acc
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:78: block = get_hex_value();
+;	eeprom.c:116: block = get_hex_value();
 	lcall	_get_hex_value
-;	eeprom.c:79: if(block > 7){
+;	eeprom.c:119: if(block > 7){
 	mov	a,dpl
 	mov	r7,a
 	add	a,#0xff - 0x07
 	jnc	00102$
-;	eeprom.c:80: printf_tiny("Please enter block # in range of 0-7\n\r");
+;	eeprom.c:120: printf_tiny("Please enter block # in range of 0-7\n\r");
 	mov	a,#___str_3
 	push	acc
 	mov	a,#(___str_3 >> 8)
@@ -873,23 +873,11 @@ _user_input_hex_dump_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:81: continue;
+;	eeprom.c:121: continue;
 	sjmp	00106$
 00102$:
-;	eeprom.c:83: printf_tiny("Please enter start address in hex format\n\r");
+;	eeprom.c:124: printf_tiny("Please enter start address in hex format\n\r");
 	push	ar7
-	mov	a,#___str_9
-	push	acc
-	mov	a,#(___str_9 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	eeprom.c:84: start_address = get_hex_value();
-	lcall	_get_hex_value
-	mov	r6,dpl
-;	eeprom.c:85: printf_tiny("Please enter end address in hex format\n\r");
-	push	ar6
 	mov	a,#___str_10
 	push	acc
 	mov	a,#(___str_10 >> 8)
@@ -897,17 +885,11 @@ _user_input_hex_dump_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:86: end_address = get_hex_value();
+;	eeprom.c:125: start_address = get_hex_value();
 	lcall	_get_hex_value
-	mov	r5,dpl
-	pop	ar6
-	pop	ar7
-;	eeprom.c:87: if(end_address > start_address){
-	clr	c
-	mov	a,r6
-	subb	a,r5
-	jc	00107$
-;	eeprom.c:90: printf_tiny("Invalid address range, end address should be greater than start address\n\r");
+	mov	r6,dpl
+;	eeprom.c:126: printf_tiny("Please enter end address in hex format\n\r");
+	push	ar6
 	mov	a,#___str_11
 	push	acc
 	mov	a,#(___str_11 >> 8)
@@ -915,14 +897,32 @@ _user_input_hex_dump_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
+;	eeprom.c:127: end_address = get_hex_value();
+	lcall	_get_hex_value
+	mov	r5,dpl
+	pop	ar6
+	pop	ar7
+;	eeprom.c:130: if(end_address > start_address){
+	clr	c
+	mov	a,r6
+	subb	a,r5
+	jc	00107$
+;	eeprom.c:134: printf_tiny("Invalid address range, end address should be greater than start address\n\r");
+	mov	a,#___str_12
+	push	acc
+	mov	a,#(___str_12 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
 	sjmp	00106$
 00107$:
-;	eeprom.c:92: uint8_t address_range = end_address - start_address;
+;	eeprom.c:137: uint8_t address_range = end_address - start_address;
 	mov	a,r5
 	clr	c
 	subb	a,r6
 	mov	r5,a
-;	eeprom.c:93: buffer = Byte_Read_Sequential(block, start_address, address_range);
+;	eeprom.c:138: buffer = Byte_Read_Sequential(block, start_address, address_range);
 	mov	dptr,#_Byte_Read_Sequential_PARM_2
 	mov	a,r6
 	movx	@dptr,a
@@ -937,7 +937,7 @@ _user_input_hex_dump_handle:
 	mov	r7,dph
 	pop	ar5
 	pop	ar6
-;	eeprom.c:94: for(int i = 0; i < (address_range + 1); i++){
+;	eeprom.c:141: for(int i = 0; i < (address_range + 1); i++){
 	mov	r2,#0x00
 	mov	r3,#0x00
 00112$:
@@ -958,7 +958,7 @@ _user_input_hex_dump_handle:
 	jc	00144$
 	ljmp	00110$
 00144$:
-;	eeprom.c:95: if(i % 16 == 0){
+;	eeprom.c:142: if(i % 16 == 0){
 	mov	__modsint_PARM_2,#0x10
 	mov	(__modsint_PARM_2 + 1),#0x00
 	mov	dpl,r2
@@ -979,43 +979,10 @@ _user_input_hex_dump_handle:
 	pop	ar6
 	pop	ar7
 	orl	a,b
-;	eeprom.c:96: printf_tiny("\n\r0x%x :",start_address);
+;	eeprom.c:143: printf_tiny("\n\r0x%x :",start_address);
 	jnz	00109$
 	mov	ar0,r6
 	mov	r1,a
-	push	ar7
-	push	ar6
-	push	ar5
-	push	ar4
-	push	ar3
-	push	ar2
-	push	ar0
-	push	ar1
-	mov	a,#___str_12
-	push	acc
-	mov	a,#(___str_12 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	mov	a,sp
-	add	a,#0xfc
-	mov	sp,a
-	pop	ar2
-	pop	ar3
-	pop	ar4
-	pop	ar5
-	pop	ar6
-	pop	ar7
-00109$:
-;	eeprom.c:98: printf_tiny(" 0x%x", buffer[i]);
-	mov	a,r2
-	add	a,r4
-	mov	dpl,a
-	mov	a,r3
-	addc	a,r7
-	mov	dph,a
-	movx	a,@dptr
-	mov	r0,a
-	mov	r1,#0x00
 	push	ar7
 	push	ar6
 	push	ar5
@@ -1038,16 +1005,49 @@ _user_input_hex_dump_handle:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	eeprom.c:99: start_address++;
+00109$:
+;	eeprom.c:145: printf_tiny(" 0x%x", buffer[i]);
+	mov	a,r2
+	add	a,r4
+	mov	dpl,a
+	mov	a,r3
+	addc	a,r7
+	mov	dph,a
+	movx	a,@dptr
+	mov	r0,a
+	mov	r1,#0x00
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	push	ar3
+	push	ar2
+	push	ar0
+	push	ar1
+	mov	a,#___str_14
+	push	acc
+	mov	a,#(___str_14 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar2
+	pop	ar3
+	pop	ar4
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	eeprom.c:146: start_address++;
 	inc	r6
-;	eeprom.c:94: for(int i = 0; i < (address_range + 1); i++){
+;	eeprom.c:141: for(int i = 0; i < (address_range + 1); i++){
 	inc	r2
 	cjne	r2,#0x00,00146$
 	inc	r3
 00146$:
 	ljmp	00112$
 00110$:
-;	eeprom.c:101: printf_tiny("\n\r");
+;	eeprom.c:149: printf_tiny("\n\r");
 	mov	a,#___str_1
 	push	acc
 	mov	a,#(___str_1 >> 8)
@@ -1055,7 +1055,7 @@ _user_input_hex_dump_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:102: printf_tiny("=========================================================================\n\r");
+;	eeprom.c:150: printf_tiny("=========================================================================\n\r");
 	mov	a,#___str_6
 	push	acc
 	mov	a,#(___str_6 >> 8)
@@ -1063,27 +1063,27 @@ _user_input_hex_dump_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:103: }
+;	eeprom.c:151: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'user_input_reset_handle'
 ;------------------------------------------------------------
-;	eeprom.c:105: void user_input_reset_handle(){
+;	eeprom.c:157: void user_input_reset_handle(){
 ;	-----------------------------------------
 ;	 function user_input_reset_handle
 ;	-----------------------------------------
 _user_input_reset_handle:
-;	eeprom.c:106: printf_tiny("Reset mode\n\r");
-	mov	a,#___str_14
+;	eeprom.c:158: printf_tiny("Reset mode\n\r");
+	mov	a,#___str_15
 	push	acc
-	mov	a,#(___str_14 >> 8)
+	mov	a,#(___str_15 >> 8)
 	push	acc
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:107: eeprom_reset();
+;	eeprom.c:161: eeprom_reset();
 	lcall	_eeprom_reset
-;	eeprom.c:108: printf_tiny("=========================================================================\n\r");
+;	eeprom.c:163: printf_tiny("=========================================================================\n\r");
 	mov	a,#___str_6
 	push	acc
 	mov	a,#(___str_6 >> 8)
@@ -1091,7 +1091,7 @@ _user_input_reset_handle:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	eeprom.c:109: }
+;	eeprom.c:164: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -1144,34 +1144,41 @@ ___str_6:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_7:
-	.ascii "Please enter address in hex format to get the data byte"
+	.ascii "Please enter block # in hex format to read data"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_8:
-	.ascii "Read byte--> 0x%x: 0x%x"
+	.ascii "Please enter address in hex format to get the data byte"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_9:
-	.ascii "Please enter start address in hex format"
+	.ascii "Read byte--> 0x%x: 0x%x"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_10:
-	.ascii "Please enter end address in hex format"
+	.ascii "Please enter start address in hex format"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_11:
+	.ascii "Please enter end address in hex format"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_12:
 	.ascii "Invalid address range, end address should be greater than st"
 	.ascii "art address"
 	.db 0x0a
@@ -1179,19 +1186,19 @@ ___str_11:
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_12:
+___str_13:
 	.db 0x0a
 	.db 0x0d
 	.ascii "0x%x :"
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_13:
+___str_14:
 	.ascii " 0x%x"
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-___str_14:
+___str_15:
 	.ascii "Reset mode"
 	.db 0x0a
 	.db 0x0d

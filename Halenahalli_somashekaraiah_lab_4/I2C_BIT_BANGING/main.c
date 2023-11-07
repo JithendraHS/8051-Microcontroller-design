@@ -30,6 +30,8 @@
 #include "uart.h"
 #include "eeprom.h"
 
+#define SET_X2 (0x35)        // Constant for configuring X2 mode in CKCON0 register.
+
 /**
  * @brief External startup code for SDCC.
  * @return 0 on successful startup.
@@ -37,39 +39,45 @@
 _sdcc_external_startup()
 {
     AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
-    //CKCON0 |= SET_X2;      // Configure X2 mode (Switching from 12 clock periods to 6 clock periods per instruction)
+    // CKCON0 |= SET_X2;      // Configure X2 mode (Switching from 12 clock periods to 6 clock periods per instruction)
     return 0;               // Return 0 to indicate successful startup
 }
 
+/**
+ * @brief Main function handling user interactions.
+ */
 void main()
 {
-    menu();
-    while(1)
+    menu(); // Display the menu to the user
+    while (1) // Infinite loop for user interactions
     {
         int8_t user_input = echo(); // Read user input from UART
-        if(((user_input >= '0') && (user_input <= '9'))
-           || ((user_input >= 'A') && (user_input <= 'Z'))) {
-             // Display a message if user enters uppercase commands
+        if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
+        {
+            // Display a message if user enters uppercase commands
             printf_tiny("Please enter commands in small cases\n\r");
-        }else{
-            printf_tiny("\n\r");  // Print newline for better output formatting
         }
-         switch(user_input) {
+        else
+        {
+            printf_tiny("\n\r"); // Print newline for better output formatting
+        }
+        switch (user_input) // Switch statement based on user input
+        {
             case 'w':
-                user_input_write_handle();
+                user_input_write_handle(); // Handle user input for writing data
                 break;
             case 'r':
-                user_input_read_handle();
+                user_input_read_handle(); // Handle user input for reading data
                 break;
             case 'h':
-                user_input_hex_dump_handle();
+                user_input_hex_dump_handle(); // Handle user input for hex dumping data
                 break;
             case 'e':
-                user_input_reset_handle();
+                user_input_reset_handle(); // Handle user input for reset
                 break;
             default:
-                break;  // Do nothing for other user inputs
+                break; // Do nothing for other user inputs
         }
-       delay(3);
+        delay(3); // Delay for stability before processing the next input
     }
 }

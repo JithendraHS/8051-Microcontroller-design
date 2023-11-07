@@ -9,7 +9,7 @@
  ******************************************************************************/
  /**
  * @file main.h
- * @brief Main file that interacts with users through a menu and utilizes PCA functions.
+ * @brief Main file that interacts with users through a menu.
  * @author Jithendra H S
  * @date 10-27-2023
  */

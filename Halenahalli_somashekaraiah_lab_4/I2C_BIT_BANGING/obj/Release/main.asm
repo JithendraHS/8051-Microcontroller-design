@@ -544,7 +544,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_sdcc_external_startup'
 ;------------------------------------------------------------
-;	main.c:37: _sdcc_external_startup()
+;	main.c:39: _sdcc_external_startup()
 ;	-----------------------------------------
 ;	 function _sdcc_external_startup
 ;	-----------------------------------------
@@ -557,30 +557,30 @@ __sdcc_external_startup:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	main.c:39: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
+;	main.c:41: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
 	orl	_AUXR,#0x0c
-;	main.c:41: return 0;               // Return 0 to indicate successful startup
+;	main.c:43: return 0;               // Return 0 to indicate successful startup
 	mov	dptr,#0x0000
-;	main.c:42: }
+;	main.c:44: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;user_input                Allocated to registers r7 
 ;------------------------------------------------------------
-;	main.c:44: void main()
+;	main.c:49: void main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:46: menu();
+;	main.c:51: menu(); // Display the menu to the user
 	lcall	_menu
-;	main.c:47: while(1)
+;	main.c:52: while (1) // Infinite loop for user interactions
 00114$:
-;	main.c:49: int8_t user_input = echo(); // Read user input from UART
+;	main.c:54: int8_t user_input = echo(); // Read user input from UART
 	lcall	_echo
 	mov	r7,dpl
-;	main.c:50: if(((user_input >= '0') && (user_input <= '9'))
+;	main.c:55: if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -592,7 +592,6 @@ _main:
 	subb	a,b
 	jnc	00101$
 00106$:
-;	main.c:51: || ((user_input >= 'A') && (user_input <= 'Z'))) {
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -604,7 +603,7 @@ _main:
 	subb	a,b
 	jc	00102$
 00101$:
-;	main.c:53: printf_tiny("Please enter commands in small cases\n\r");
+;	main.c:58: printf_tiny("Please enter commands in small cases\n\r");
 	push	ar7
 	mov	a,#___str_0
 	push	acc
@@ -616,7 +615,7 @@ _main:
 	pop	ar7
 	sjmp	00103$
 00102$:
-;	main.c:55: printf_tiny("\n\r");  // Print newline for better output formatting
+;	main.c:62: printf_tiny("\n\r"); // Print newline for better output formatting
 	push	ar7
 	mov	a,#___str_1
 	push	acc
@@ -627,7 +626,7 @@ _main:
 	dec	sp
 	pop	ar7
 00103$:
-;	main.c:57: switch(user_input) {
+;	main.c:64: switch (user_input) // Switch statement based on user input
 	cjne	r7,#0x65,00150$
 	sjmp	00110$
 00150$:
@@ -638,32 +637,32 @@ _main:
 	sjmp	00108$
 00152$:
 	cjne	r7,#0x77,00112$
-;	main.c:59: user_input_write_handle();
+;	main.c:67: user_input_write_handle(); // Handle user input for writing data
 	lcall	_user_input_write_handle
-;	main.c:60: break;
-;	main.c:61: case 'r':
+;	main.c:68: break;
+;	main.c:69: case 'r':
 	sjmp	00112$
 00108$:
-;	main.c:62: user_input_read_handle();
+;	main.c:70: user_input_read_handle(); // Handle user input for reading data
 	lcall	_user_input_read_handle
-;	main.c:63: break;
-;	main.c:64: case 'h':
+;	main.c:71: break;
+;	main.c:72: case 'h':
 	sjmp	00112$
 00109$:
-;	main.c:65: user_input_hex_dump_handle();
+;	main.c:73: user_input_hex_dump_handle(); // Handle user input for hex dumping data
 	lcall	_user_input_hex_dump_handle
-;	main.c:66: break;
-;	main.c:67: case 'e':
+;	main.c:74: break;
+;	main.c:75: case 'e':
 	sjmp	00112$
 00110$:
-;	main.c:68: user_input_reset_handle();
+;	main.c:76: user_input_reset_handle(); // Handle user input for reset
 	lcall	_user_input_reset_handle
-;	main.c:72: }
+;	main.c:80: }
 00112$:
-;	main.c:73: delay(3);
+;	main.c:81: delay(3); // Delay for stability before processing the next input
 	mov	dptr,#0x0003
 	lcall	_delay
-;	main.c:75: }
+;	main.c:83: }
 	ljmp	00114$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
