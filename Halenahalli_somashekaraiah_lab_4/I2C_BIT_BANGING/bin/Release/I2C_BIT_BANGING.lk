@@ -1,0 +1,21 @@
+-muwx
+-i bin\Release\I2C_BIT_BANGING.ihx
+-M
+-X 0x1f40
+-C 0x4f40
+-b HOME = 0x3000
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Program Files\sdcc\lib
+-k C:\Program Files\SDCC\bin\..\lib\small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+obj\Release\i2c_bit_bang.rel
+obj\Release\main.rel
+obj\Release\menu.rel
+obj\Release\uart.rel
+
+-e
