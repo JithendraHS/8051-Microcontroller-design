@@ -126,8 +126,8 @@ void user_input_hex_dump_handle(){
         }
         printf_tiny("Invalid address range, end address should be greater than start address\n\r");
     }
-    uint8_t address_range = end_address - start_address + 1;
-    for(int i = 0; i < address_range; i++){
+    uint8_t address_range = end_address - start_address;
+    for(int i = 0; i < address_range + 1; i++){
          if(i % 16 == 0){
             printf_tiny("\n\r0x%x :",start_address);
          }
