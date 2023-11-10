@@ -2,27 +2,12 @@
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 4.2.0 #13081 (MINGW64)
 ;--------------------------------------------------------
-	.module main
+	.module delay
 	.optsdcc -mmcs51 --model-small
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _main
-	.globl _isr_timer2
-	.globl __sdcc_external_startup
-	.globl _menu
-	.globl _timer2_interrupt_Init
-	.globl _arrow_set
-	.globl _menu_lcd
-	.globl _clock_run
-	.globl _reset_clock
-	.globl _test_functionality
-	.globl _lcdinit
-	.globl _lcdputch
-	.globl _lcdgotoxy
-	.globl _echo
-	.globl _printf_tiny
 	.globl _TF1
 	.globl _TR1
 	.globl _TF0
@@ -232,6 +217,10 @@
 	.globl _RCAP2H
 	.globl _RCAP2L
 	.globl _T2CON
+	.globl _tick
+	.globl _delay
+	.globl _timer2_init
+	.globl _timer2_interrupt_Init
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -457,33 +446,15 @@ _TF1	=	0x008f
 	.area REG_BANK_0	(REL,OVR,DATA)
 	.ds 8
 ;--------------------------------------------------------
-; overlayable bit register bank
-;--------------------------------------------------------
-	.area BIT_BANK	(REL,OVR,DATA)
-bits:
-	.ds 1
-	b0 = bits[0]
-	b1 = bits[1]
-	b2 = bits[2]
-	b3 = bits[3]
-	b4 = bits[4]
-	b5 = bits[5]
-	b6 = bits[6]
-	b7 = bits[7]
-;--------------------------------------------------------
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
+_tick::
+	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram
 ;--------------------------------------------------------
-;--------------------------------------------------------
-; Stack segment in internal ram
-;--------------------------------------------------------
-	.area	SSEG
-__start__stack:
-	.ds	1
-
+	.area	OSEG    (OVR,DATA)
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
 ;--------------------------------------------------------
@@ -497,8 +468,6 @@ __start__stack:
 ; bit data
 ;--------------------------------------------------------
 	.area BSEG    (BIT)
-_isr_timer2_sloc0_1_0:
-	.ds 1
 ;--------------------------------------------------------
 ; paged external ram data
 ;--------------------------------------------------------
@@ -526,57 +495,35 @@ _isr_timer2_sloc0_1_0:
 	.area GSFINAL (CODE)
 	.area CSEG    (CODE)
 ;--------------------------------------------------------
-; interrupt vector
-;--------------------------------------------------------
-	.area HOME    (CODE)
-__interrupt_vect:
-	ljmp	__sdcc_gsinit_startup
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	reti
-	.ds	7
-	ljmp	_isr_timer2
-;--------------------------------------------------------
 ; global & static initialisations
 ;--------------------------------------------------------
 	.area HOME    (CODE)
 	.area GSINIT  (CODE)
 	.area GSFINAL (CODE)
 	.area GSINIT  (CODE)
-	.globl __sdcc_gsinit_startup
-	.globl __sdcc_program_startup
-	.globl __start__stack
-	.globl __mcs51_genXINIT
-	.globl __mcs51_genXRAMCLEAR
-	.globl __mcs51_genRAMCLEAR
-	.area GSFINAL (CODE)
-	ljmp	__sdcc_program_startup
+;	delay.c:24: extern volatile unsigned int tick = 0;  // External declaration of the tick variable
+	clr	a
+	mov	_tick,a
+	mov	(_tick + 1),a
 ;--------------------------------------------------------
 ; Home
 ;--------------------------------------------------------
 	.area HOME    (CODE)
 	.area HOME    (CODE)
-__sdcc_program_startup:
-	ljmp	_main
-;	return from main will return to caller
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
 	.area CSEG    (CODE)
 ;------------------------------------------------------------
-;Allocation info for local variables in function '_sdcc_external_startup'
+;Allocation info for local variables in function 'delay'
 ;------------------------------------------------------------
-;	main.c:32: _sdcc_external_startup()
+;t                         Allocated to registers 
+;------------------------------------------------------------
+;	delay.c:30: void delay(uint32_t t)
 ;	-----------------------------------------
-;	 function _sdcc_external_startup
+;	 function delay
 ;	-----------------------------------------
-__sdcc_external_startup:
+_delay:
 	ar7 = 0x07
 	ar6 = 0x06
 	ar5 = 0x05
@@ -585,271 +532,77 @@ __sdcc_external_startup:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	main.c:34: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
-	orl	_AUXR,#0x0c
-;	main.c:35: return 0;               // Return 0 to indicate successful startup
-	mov	dptr,#0x0000
-;	main.c:36: }
+	mov	r4,dpl
+	mov	r5,dph
+	mov	r6,b
+	mov	r7,a
+;	delay.c:32: while(t--){
+00101$:
+	mov	ar0,r4
+	mov	ar1,r5
+	mov	ar2,r6
+	mov	ar3,r7
+	dec	r4
+	cjne	r4,#0xff,00115$
+	dec	r5
+	cjne	r5,#0xff,00115$
+	dec	r6
+	cjne	r6,#0xff,00115$
+	dec	r7
+00115$:
+	mov	a,r0
+	orl	a,r1
+	orl	a,r2
+	orl	a,r3
+	jz	00104$
+;	delay.c:33: NOP;  // Assembly NOP instruction for delaying program execution.
+	nop	
+	sjmp	00101$
+00104$:
+;	delay.c:35: }
 	ret
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'isr_timer2'
+;Allocation info for local variables in function 'timer2_init'
 ;------------------------------------------------------------
-;	main.c:42: void isr_timer2(void) __interrupt(5)
+;	delay.c:40: void timer2_init(){
 ;	-----------------------------------------
-;	 function isr_timer2
+;	 function timer2_init
 ;	-----------------------------------------
-_isr_timer2:
-	push	bits
-	push	acc
-	push	b
-	push	dpl
-	push	dph
-	push	(0+7)
-	push	(0+6)
-	push	(0+5)
-	push	(0+4)
-	push	(0+3)
-	push	(0+2)
-	push	(0+1)
-	push	(0+0)
-	push	psw
-	mov	psw,#0x00
-;	main.c:47: }
-	setb	_isr_timer2_sloc0_1_0
-	jbc	ea,00103$
-	clr	_isr_timer2_sloc0_1_0
-00103$:
-;	main.c:46: tick++;
-	mov	r6,_tick
-	mov	r7,(_tick + 1)
-	mov	a,#0x01
-	add	a,r6
-	mov	_tick,a
-	clr	a
-	addc	a,r7
-	mov	(_tick + 1),a
-	mov	c,_isr_timer2_sloc0_1_0
-	mov	ea,c
-;	main.c:48: clock_run();
-	lcall	_clock_run
-;	main.c:49: TF2 = 0;
+_timer2_init:
+;	delay.c:41: T2MOD = 0b00000001;  // Set Timer 2 to 8-bit auto-reload mode
+	mov	_T2MOD,#0x01
+;	delay.c:42: RCAP2L = 0xFC;  // Set the low byte of the reload value for 50ms interrupt
+	mov	_RCAP2L,#0xfc
+;	delay.c:43: RCAP2H = 0x4B;  // Set the high byte of the reload value for 50ms interrupt
+	mov	_RCAP2H,#0x4b
+;	delay.c:45: TL2 = RCAP2L;  // Load the low byte of the reload value into Timer 2
+	mov	_TL2,_RCAP2L
+;	delay.c:46: TH2 = RCAP2H;  // Load the high byte of the reload value into Timer 2
+	mov	_TH2,_RCAP2H
+;	delay.c:47: TR2 = 1;  // Start Timer 2
 ;	assignBit
-	clr	_TF2
-;	main.c:50: }
-	pop	psw
-	pop	(0+0)
-	pop	(0+1)
-	pop	(0+2)
-	pop	(0+3)
-	pop	(0+4)
-	pop	(0+5)
-	pop	(0+6)
-	pop	(0+7)
-	pop	dph
-	pop	dpl
-	pop	b
-	pop	acc
-	pop	bits
-	reti
+	setb	_TR2
+;	delay.c:48: }
+	ret
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'main'
+;Allocation info for local variables in function 'timer2_interrupt_Init'
 ;------------------------------------------------------------
-;indicator                 Allocated to registers 
-;user_input                Allocated to registers r7 
-;------------------------------------------------------------
-;	main.c:52: void main(void)
+;	delay.c:53: void timer2_interrupt_Init(){
 ;	-----------------------------------------
-;	 function main
+;	 function timer2_interrupt_Init
 ;	-----------------------------------------
-_main:
-;	main.c:55: lcdinit();
-	lcall	_lcdinit
-;	main.c:56: test_functionality();
-	lcall	_test_functionality
-;	main.c:57: timer2_interrupt_Init();
-	lcall	_timer2_interrupt_Init
-;	main.c:58: menu();
-	lcall	_menu
-;	main.c:59: menu_lcd();
-	lcall	_menu_lcd
-;	main.c:61: while (1)
-00116$:
-;	main.c:63: int8_t user_input = echo(); // Read user input from UART
-	lcall	_echo
-	mov	r7,dpl
-;	main.c:64: if (((user_input >= '0') && (user_input <= '9')) ||
-	clr	c
-	mov	a,r7
-	xrl	a,#0x80
-	subb	a,#0xb0
-	jc	00106$
-	mov	a,#(0x39 ^ 0x80)
-	mov	b,r7
-	xrl	b,#0x80
-	subb	a,b
-	jnc	00101$
-00106$:
-;	main.c:65: ((user_input >= 'A') && (user_input <= 'Z')))
-	clr	c
-	mov	a,r7
-	xrl	a,#0x80
-	subb	a,#0xc1
-	jc	00102$
-	mov	a,#(0x5a ^ 0x80)
-	mov	b,r7
-	xrl	b,#0x80
-	subb	a,b
-	jc	00102$
-00101$:
-;	main.c:68: printf_tiny("Please enter commands in lowercase\n\r");
-	push	ar7
-	mov	a,#___str_0
-	push	acc
-	mov	a,#(___str_0 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-	pop	ar7
-	sjmp	00103$
-00102$:
-;	main.c:72: printf_tiny("\n\r"); // Print newline for better output formatting
-	push	ar7
-	mov	a,#___str_1
-	push	acc
-	mov	a,#(___str_1 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-	pop	ar7
-00103$:
-;	main.c:75: switch (user_input)
-	cjne	r7,#0x61,00152$
-	sjmp	00107$
-00152$:
-	cjne	r7,#0x62,00153$
-	sjmp	00108$
-00153$:
-;	main.c:77: case 'a':
-	cjne	r7,#0x63,00116$
-	sjmp	00109$
-00107$:
-;	main.c:79: printf_tiny("Restarting clock\n\r");
-	mov	a,#___str_2
-	push	acc
-	mov	a,#(___str_2 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:80: clockrun_flag = 1;
-	mov	_clockrun_flag,#0x01
-	mov	(_clockrun_flag + 1),#0x00
-;	main.c:81: arrow_set(indicator, ' ', ' ');
-	mov	_arrow_set_PARM_2,#0x20
-	mov	_arrow_set_PARM_3,#0x20
-	mov	dpl,#0x3c
-	lcall	_arrow_set
-;	main.c:82: break;
-	ljmp	00116$
-;	main.c:84: case 'b':
-00108$:
-;	main.c:86: printf_tiny("Stopping clock\n\r");
-	mov	a,#___str_3
-	push	acc
-	mov	a,#(___str_3 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:87: clockrun_flag = 0;
-	clr	a
-	mov	_clockrun_flag,a
-	mov	(_clockrun_flag + 1),a
-;	main.c:88: arrow_set(' ', indicator, ' ');
-	mov	_arrow_set_PARM_2,#0x3c
-	mov	_arrow_set_PARM_3,#0x20
-	mov	dpl,#0x20
-	lcall	_arrow_set
-;	main.c:89: break;
-	ljmp	00116$
-;	main.c:91: case 'c':
-00109$:
-;	main.c:93: printf_tiny("Resetting clock\n\r");
-	mov	a,#___str_4
-	push	acc
-	mov	a,#(___str_4 >> 8)
-	push	acc
-	lcall	_printf_tiny
-	dec	sp
-	dec	sp
-;	main.c:94: reset_clock();
-	lcall	_reset_clock
-;	main.c:95: arrow_set(' ', ' ', indicator);
-	mov	_arrow_set_PARM_2,#0x20
-	mov	_arrow_set_PARM_3,#0x3c
-	mov	dpl,#0x20
-	lcall	_arrow_set
-;	main.c:98: if (clockrun_flag)
-	mov	a,_clockrun_flag
-	orl	a,(_clockrun_flag + 1)
-	jz	00111$
-;	main.c:100: lcdgotoxy(2, 8);
-	mov	_lcdgotoxy_PARM_2,#0x08
-	mov	dpl,#0x02
-	lcall	_lcdgotoxy
-;	main.c:101: lcdputch(indicator);
-	mov	dpl,#0x3c
-	lcall	_lcdputch
-	ljmp	00116$
-00111$:
-;	main.c:105: lcdgotoxy(3, 8);
-	mov	_lcdgotoxy_PARM_2,#0x08
-	mov	dpl,#0x03
-	lcall	_lcdgotoxy
-;	main.c:106: lcdputch(indicator);
-	mov	dpl,#0x3c
-	lcall	_lcdputch
-;	main.c:108: break;
-;	main.c:113: }
-;	main.c:115: }
-	ljmp	00116$
+_timer2_interrupt_Init:
+;	delay.c:54: timer2_init();  // Initialize Timer 2
+	lcall	_timer2_init
+;	delay.c:55: ET2 = 1;  // Enable Timer 2 interrupt
+;	assignBit
+	setb	_ET2
+;	delay.c:56: EA = 1;  // Enable global interrupts
+;	assignBit
+	setb	_EA
+;	delay.c:57: }
+	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
-	.area CONST   (CODE)
-___str_0:
-	.ascii "Please enter commands in lowercase"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_1:
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_2:
-	.ascii "Restarting clock"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_3:
-	.ascii "Stopping clock"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
-	.area CONST   (CODE)
-___str_4:
-	.ascii "Resetting clock"
-	.db 0x0a
-	.db 0x0d
-	.db 0x00
-	.area CSEG    (CODE)
 	.area XINIT   (CODE)
 	.area CABS    (ABS,CODE)

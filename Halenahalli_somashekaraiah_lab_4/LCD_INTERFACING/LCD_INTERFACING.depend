@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1699642694 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\main.c
+1699655813 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\main.c
 	<at89c51ed2.h>
 	<mcs51/8051.h>
 	<mcs51reg.h>
@@ -7,7 +7,9 @@
 	<stdlib.h>
 	"stdint.h"
 	"uart.h"
-	"debug.h"
+	"lcd.h"
+	"delay.h"
+	"menu.h"
 
 1698378382 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\uart.h
 	<stdint.h>
@@ -19,4 +21,30 @@
 
 1698426368 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\uart.c
 	<uart.h>
+
+1699657278 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\lcd.h
+	"stdint.h"
+
+1699656629 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\delay.h
+	"stdint.h"
+
+1699656599 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\delay.c
+	"delay.h"
+	<at89c51ed2.h>
+	<mcs51/8051.h>
+	<mcs51reg.h>
+	"lcd.h"
+	"stdio.h"
+
+1699657197 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\lcd.c
+	"lcd.h"
+	<at89c51ed2.h>
+	"delay.h"
+	"stdio.h"
+
+1699656254 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\menu.c
+	<stdio.h>
+	<menu.h>
+
+1699656272 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\lcd_interfacing\menu.h
 

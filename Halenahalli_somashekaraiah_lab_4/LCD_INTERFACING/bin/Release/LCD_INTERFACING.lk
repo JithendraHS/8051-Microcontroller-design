@@ -15,7 +15,10 @@
 -l libint
 -l liblong
 -l libfloat
+obj\Release\delay.rel
+obj\Release\lcd.rel
 obj\Release\main.rel
+obj\Release\menu.rel
 obj\Release\uart.rel
 
 -e
