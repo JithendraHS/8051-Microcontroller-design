@@ -25,8 +25,11 @@ volatile char sec_high;
 volatile char sec_low ;
 volatile char mili_sec;
 
+uint8_t custom_char_code = 1;
+
 volatile unsigned int clockrun_flag = 0;
 void clock_run();
+void create_custom_character(uint8_t char_num);
 /**
  * @brief External startup code for SDCC.
  * @return 0 on successful startup.
@@ -146,6 +149,11 @@ void test_functionality(){
     lcdgotoxy(1, 1);
     lcdputstr("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyzJITHU");
     delay(100000);
+
+    create_custom_character(custom_char_code);
+    lcdgotoaddr(0x0F);
+    lcdputch(custom_char_code);
+    delay(100000);
     // testing clear display
     lcdclear();
     printf_tiny("test_functionality end\n\r");
@@ -177,8 +185,8 @@ void create_custom_character(uint8_t char_num){
 
 void timer2_init(){
     T2MOD = 0b00000001;
-    RCAP2L = 0x00;
-    RCAP2H = 0x00;
+    RCAP2L = 0xFC;
+    RCAP2H = 0x4B; // interrupting for every 50msec
 
     TL2 = RCAP2L;
     TH2 = RCAP2H;
@@ -262,13 +270,9 @@ void clock_run(){
 }
 void main(void)
 {
-    uint8_t custom_char_code = 1;
+    char indicator = '<';
     lcdinit();
     test_functionality();
-
-    create_custom_character(custom_char_code);
-    lcdgotoaddr(0x0F);
-    lcdputch(custom_char_code);
     timer2_interrupt_Init();
 
     printf_tiny("*************************************************************************\n\r");
@@ -278,6 +282,14 @@ void main(void)
     printf_tiny("[c]. Clock reset\n\r");
     printf_tiny("*************************************************************************\n\r");
     reset_clock();
+    lcdgotoxy(1,1);
+    lcdputstr("Clock status:");
+    lcdgotoxy(2,1);
+    lcdputstr("Running");
+    lcdgotoxy(3,1);
+    lcdputstr("Stopped");
+    lcdgotoxy(4,1);
+    lcdputstr("Reset");
     while(1){
         int8_t user_input = echo(); // Read user input from UART
         if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
@@ -292,13 +304,42 @@ void main(void)
         switch(user_input)
         {
             case 'a' :
+                 printf_tiny("Restarting clock\n\r");
                  clockrun_flag = 1;
+                 lcdgotoxy(2,8);
+                lcdputch(indicator);
+                lcdgotoxy(3,8);
+                lcdputch(' ');
+                lcdgotoxy(4,6);
+                lcdputch(' ');
+                 break;
                  break;
             case 'b' :
+                printf_tiny("Stopping clock\n\r");
                 clockrun_flag = 0;
+                lcdgotoxy(2,8);
+                lcdputch(' ');
+                lcdgotoxy(3,8);
+                lcdputch(indicator);
+                lcdgotoxy(4,6);
+                lcdputch(' ');
                  break;
             case 'c' :
+                printf_tiny("Resetting clock\n\r");
                 reset_clock();
+                lcdgotoxy(2,8);
+                lcdputch(' ');
+                lcdgotoxy(3,8);
+                lcdputch(' ');
+                lcdgotoxy(4,6);
+                lcdputch(indicator);
+                if(clockrun_flag){
+                    lcdgotoxy(2,8);
+                    lcdputch(indicator);
+                }else{
+                    lcdgotoxy(3,8);
+                    lcdputch(indicator);
+                }
                 break;
             default:
                 break;
