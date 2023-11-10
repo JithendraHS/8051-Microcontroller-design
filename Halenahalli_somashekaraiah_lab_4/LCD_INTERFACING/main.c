@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include "stdint.h"
 #include "uart.h"
-#include "debug.h"
 
 #define NOP __asm nop __endasm  // Assembly NOP instruction to introduce delays.
 #define R_W (P1_7)
@@ -18,7 +17,16 @@
 __xdata uint8_t db = 0;
 __xdata uint8_t * ptr = &db;
 volatile unsigned int tick = 0;
+volatile unsigned int  elapsed_tick = 0;
 
+volatile char min_high;
+volatile char min_low;
+volatile char sec_high;
+volatile char sec_low ;
+volatile char mili_sec;
+
+volatile unsigned int clockrun_flag = 0;
+void clock_run();
 /**
  * @brief External startup code for SDCC.
  * @return 0 on successful startup.
@@ -103,7 +111,6 @@ void lcdputstr(uint8_t *ss){
 }
 void lcdinit()
 {
-    printf_tiny("lcd init start\n\r");
     delay(14000); //waiting for 15ms (1.085us * 14000 ~= 15ms)
     lcd_command(0,0,0x30); // system set
     delay(4000); //waiting for 4.1ms (1.085us * 4000 ~= 4.1ms)
@@ -120,7 +127,6 @@ void lcdinit()
     lcd_command(0,0,0x06); // Entry mode set
     lcdbusywait();
     lcd_command(0,0,0x01); // clear screen and send the cursor home
-    printf_tiny("lcd init end\n\r");
 }
 
 void lcdclear(){
@@ -189,51 +195,16 @@ void isr_timer2(void) __interrupt (5)
     __critical{
        tick++;
     }
+    clock_run();
     TF2 = 0;
 }
 
-void timer0_init(){
-    TMOD &= 0xF0;  // Clear the lower 4 bits of TMOD
-    TMOD |= 0x01;  // Set timer0 in 16-bit mode
-
-    // Set the initial value for the timer (1 ms period)
-    TL0 = 0xFC;
-    TH0 = 0x4B;
-
-    TR0 = 1;  // Start the timer
-}
-void timer0_interrupt_Init(){
-    timer0_init();
-    ET0 = 1;
-    EA = 1;
-}
-
-void isr_timer0(void) __interrupt (1)
-{
-    __critical{
-       tick++;
-    }
-    TL0 = 0xFC;
-    TH0 = 0x4B;
-    TF0 = 0;
-}
-
-void main(void)
-{
-    unsigned int  previous_time_noted = tick;
-    uint8_t custom_char_code = 1;
-    uint8_t min_high = '0';
-    uint8_t min_low = '0';
-    uint8_t sec_high = '0';
-    uint8_t sec_low = '0';
-    uint8_t mili_sec = '0';
-    lcdinit();
-    test_functionality();
-    create_custom_character(custom_char_code);
-    lcdgotoaddr(0x0F);
-    lcdputch(custom_char_code);
-    timer2_interrupt_Init();
-    //timer0_interrupt_Init();
+void reset_clock(){
+    min_high = '0';
+    min_low = '0';
+    sec_high = '0';
+    sec_low = '0';
+    mili_sec = '0';
 
     lcdgotoaddr(0x59);
     lcdputch(min_high);
@@ -243,10 +214,10 @@ void main(void)
     lcdputch(sec_low);
     lcdputch('.');
     lcdputch(mili_sec);
-    while(1){
-       if(((tick % 2) == 0) && (tick > previous_time_noted)){
-            printf("Tick->>>>>>>>>%d\n\r",tick);
-            previous_time_noted = tick;
+}
+void clock_run(){
+    if(clockrun_flag && ((tick % 2) == 0) && (tick > elapsed_tick)){
+            elapsed_tick = tick;
            mili_sec++;
            if(mili_sec > '9'){
                mili_sec = '0';
@@ -285,9 +256,52 @@ void main(void)
                lcdgotoaddr(0x59);
                lcdputch(min_high);
            }
-           printf("%c%c:%c%c.%c\n\r",min_high,min_low,sec_high,sec_low,mili_sec);
            lcdgotoaddr(0x5F);
            lcdputch(mili_sec);
-       }
+    }
+}
+void main(void)
+{
+    uint8_t custom_char_code = 1;
+    lcdinit();
+    test_functionality();
+
+    create_custom_character(custom_char_code);
+    lcdgotoaddr(0x0F);
+    lcdputch(custom_char_code);
+    timer2_interrupt_Init();
+
+    printf_tiny("*************************************************************************\n\r");
+    printf_tiny("CLOCK MENU:\n\r");
+    printf_tiny("[a]. Clock restart\n\r");
+    printf_tiny("[b]. Clock stop\n\r");
+    printf_tiny("[c]. Clock reset\n\r");
+    printf_tiny("*************************************************************************\n\r");
+    reset_clock();
+    while(1){
+        int8_t user_input = echo(); // Read user input from UART
+        if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
+        {
+            // Display a message if user enters uppercase commands
+            printf_tiny("Please enter commands in small cases\n\r");
+        }
+        else
+        {
+            printf_tiny("\n\r"); // Print newline for better output formatting
+        }
+        switch(user_input)
+        {
+            case 'a' :
+                 clockrun_flag = 1;
+                 break;
+            case 'b' :
+                clockrun_flag = 0;
+                 break;
+            case 'c' :
+                reset_clock();
+                break;
+            default:
+                break;
+        }
     }
 }

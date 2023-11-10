@@ -427,68 +427,69 @@ Symbol Table
     _WDTPRG                                                     =  0000A7 G
     _WDTRST                                                     =  0000A6 G
     _WR                                                         =  0000B6 G
- 19 ___str_0                                                       000000 R
- 19 ___str_1                                                       000011 R
- 19 ___str_2                                                       000020 R
- 19 ___str_3                                                       00003B R
- 19 ___str_4                                                       00007E R
- 19 ___str_5                                                       000097 R
- 19 ___str_6                                                       0000AA R
+ 1A ___str_0                                                       000000 R
+ 1A ___str_1                                                       00001B R
+ 1A ___str_2                                                       00005E R
+ 1A ___str_3                                                       000077 R
+ 1A ___str_4                                                       0000C3 R
+ 1A ___str_5                                                       0000D1 R
+ 1A ___str_6                                                       0000E6 R
+ 1A ___str_7                                                       0000F8 R
+ 1A ___str_8                                                       00010B R
+ 1A ___str_9                                                       000132 R
     __gptrget                                                      ****** GX
-  F __interrupt_vect                                               000000 R
+ 10 __interrupt_vect                                               000000 R
     __mcs51_genRAMCLEAR                                            ****** GX
     __mcs51_genXINIT                                               ****** GX
     __mcs51_genXRAMCLEAR                                           ****** GX
     __modsint                                                      ****** GX
     __modsint_PARM_2                                               ****** GX
- 18 __sdcc_external_startup                                        000000 GR
+ 19 __sdcc_external_startup                                        000000 GR
     __sdcc_gsinit_startup                                          ****** GX
-  F __sdcc_program_startup                                         00002E GR
-  7 __start__stack                                                 000000 GR
- 1A __xinit__db                                                    000000 R
- 18 _create_custom_character                                       000286 GR
-  5 _create_custom_character_c_65536_68                            000005 R
-  E _db                                                            000000 GR
- 18 _delay                                                         000007 GR
- 18 _isr_timer0                                                    000343 GR
-  A _isr_timer0_sloc0_1_0                                          000002 R
- 18 _isr_timer2                                                    0002FE GR
-  A _isr_timer2_sloc0_1_0                                          000001 R
- 18 _lcd_command                                                   00002D GR
-  6 _lcd_command_PARM_2                                            000000 GR
-  6 _lcd_command_PARM_3                                            000001 GR
- 18 _lcdbusywait                                                   000043 GR
- 18 _lcdclear                                                      000211 GR
- 18 _lcdgotoaddr                                                   000052 GR
- 18 _lcdgotoxy                                                     000066 GR
-  5 _lcdgotoxy_PARM_2                                              000004 GR
-  A _lcdgotoxy_sloc0_1_0                                           000000 R
- 18 _lcdinit                                                       000168 GR
- 18 _lcdputch                                                      0000B2 GR
- 18 _lcdputstr                                                     0000C3 GR
- 18 _main                                                          000377 GR
-  5 _main_mili_sec_65536_82                                        000013 R
-  5 _main_min_high_65536_82                                        00000F R
-  5 _main_min_low_65536_82                                         000010 R
-  5 _main_previous_time_noted_65536_82                             00000D R
-  5 _main_sec_high_65536_82                                        000011 R
-  5 _main_sec_low_65536_82                                         000012 R
-  5 _main_sloc0_1_0                                                000014 R
-    _printf                                                        ****** GX
+ 10 __sdcc_program_startup                                         00002E GR
+  8 __start__stack                                                 000000 GR
+ 1B __xinit__db                                                    000000 R
+ 19 _clock_run                                                     000377 GR
+  6 _clockrun_flag                                                 00000B GR
+ 19 _create_custom_character                                       000267 GR
+  6 _create_custom_character_c_65536_68                            00000E R
+  F _db                                                            000000 GR
+ 19 _delay                                                         000007 GR
+    _echo                                                          ****** GX
+  6 _elapsed_tick                                                  000004 GR
+ 19 _isr_timer2                                                    0002DF GR
+  B _isr_timer2_sloc0_1_0                                          000001 R
+ 19 _lcd_command                                                   00002D GR
+  7 _lcd_command_PARM_2                                            000000 GR
+  7 _lcd_command_PARM_3                                            000001 GR
+ 19 _lcdbusywait                                                   000043 GR
+ 19 _lcdclear                                                      0001F2 GR
+ 19 _lcdgotoaddr                                                   000052 GR
+ 19 _lcdgotoxy                                                     000066 GR
+  6 _lcdgotoxy_PARM_2                                              00000D GR
+  B _lcdgotoxy_sloc0_1_0                                           000000 R
+ 19 _lcdinit                                                       000168 GR
+ 19 _lcdputch                                                      0000B2 GR
+ 19 _lcdputstr                                                     0000C3 GR
+ 19 _main                                                          000454 GR
+  6 _mili_sec                                                      00000A GR
+  6 _min_high                                                      000006 GR
+  6 _min_low                                                       000007 GR
     _printf_tiny                                                   ****** GX
-  5 _ptr                                                           000000 GR
- 18 _set_cgram_address                                             000275 GR
+  6 _ptr                                                           000000 GR
+ 19 _reset_clock                                                   000338 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 9.
 Hexadecimal [24-Bits]
 
 Symbol Table
 
- 18 _test_functionality                                            000221 GR
-  5 _tick                                                          000002 GR
- 18 _timer0_init                                                   00032C GR
- 18 _timer0_interrupt_Init                                         00033B GR
- 18 _timer2_init                                                   0002E4 GR
- 18 _timer2_interrupt_Init                                         0002F6 GR
+  6 _sec_high                                                      000008 GR
+  6 _sec_low                                                       000009 GR
+ 19 _set_cgram_address                                             000256 GR
+ 19 _test_functionality                                            000202 GR
+  6 _tick                                                          000002 GR
+ 19 _timer2_init                                                   0002C5 GR
+ 19 _timer2_interrupt_Init                                         0002D7 GR
     a                                                           =  0000E0 L
     a.0                                                         =  0000E0 L
     a.1                                                         =  0000E1 L
@@ -525,9 +526,23 @@ Symbol Table
     b.5                                                         =  0000F5 L
     b.6                                                         =  0000F6 L
     b.7                                                         =  0000F7 L
+  5 b0                                                          =  008000 R
+  5 b1                                                          =  008100 R
+  5 b2                                                          =  008200 R
+  5 b3                                                          =  008300 R
+  5 b4                                                          =  008400 R
+  5 b5                                                          =  008500 R
+  5 b6                                                          =  008600 R
+  5 b7                                                          =  008700 R
+  5 bits                                                           000000 R
     cprl2                                                       =  0000C8 L
     ct2                                                         =  0000C9 L
     cy                                                          =  0000D7 L
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 10.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
     dph                                                         =  000083 L
     dpl                                                         =  000082 L
     ea                                                          =  0000AF L
@@ -538,11 +553,6 @@ Symbol Table
     ex0                                                         =  0000A8 L
     ex1                                                         =  0000AA L
     exen2                                                       =  0000CB L
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 10.
-Hexadecimal [24-Bits]
-
-Symbol Table
-
     exf2                                                        =  0000CE L
     f0                                                          =  0000D5 L
     ie                                                          =  0000A8 L
@@ -588,6 +598,11 @@ Symbol Table
     p1.7                                                        =  000097 L
     p2                                                          =  0000A0 L
     p2.0                                                        =  0000A0 L
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 11.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
     p2.1                                                        =  0000A1 L
     p2.2                                                        =  0000A2 L
     p2.3                                                        =  0000A3 L
@@ -598,11 +613,6 @@ Symbol Table
     p3                                                          =  0000B0 L
     p3.0                                                        =  0000B0 L
     p3.1                                                        =  0000B1 L
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 11.
-Hexadecimal [24-Bits]
-
-Symbol Table
-
     p3.2                                                        =  0000B2 L
     p3.3                                                        =  0000B3 L
     p3.4                                                        =  0000B4 L
@@ -648,6 +658,11 @@ Symbol Table
     sm1                                                         =  00009E L
     sm2                                                         =  00009D L
     sp                                                          =  000081 L
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 12.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
     t2con                                                       =  0000C8 L
     t2con.0                                                     =  0000C8 L
     t2con.1                                                     =  0000C9 L
@@ -658,11 +673,6 @@ Symbol Table
     t2con.6                                                     =  0000CE L
     t2con.7                                                     =  0000CF L
     tb8                                                         =  00009B L
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 12.
-Hexadecimal [24-Bits]
-
-Symbol Table
-
     tclk                                                        =  0000CC L
     tcon                                                        =  000088 L
     tcon.0                                                      =  000088 L
@@ -689,6 +699,7 @@ Symbol Table
     tr2                                                         =  0000CA L
     txd                                                         =  0000B1 L
 
+
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Intel 8051), page 13.
 Hexadecimal [24-Bits]
 
@@ -699,27 +710,28 @@ Area Table
    2 RSEG0                                      size      0   flags    8
    3 RSEG1                                      size      0   flags    8
    4 REG_BANK_0                                 size      8   flags    4
-   5 DSEG                                       size     16   flags    0
-   6 OSEG                                       size      2   flags    4
-   7 SSEG                                       size      1   flags    0
-   8 ISEG                                       size      0   flags    0
-   9 IABS                                       size      0   flags    8
-   A BSEG                                       size      3   flags   80
-   B PSEG                                       size      0   flags   50
-   C XSEG                                       size      0   flags   40
-   D XABS                                       size      0   flags   48
-   E XISEG                                      size      1   flags   40
-   F HOME                                       size     31   flags   20
-  10 GSINIT0                                    size      0   flags   20
-  11 GSINIT1                                    size      0   flags   20
-  12 GSINIT2                                    size      0   flags   20
-  13 GSINIT3                                    size      0   flags   20
-  14 GSINIT4                                    size      0   flags   20
-  15 GSINIT5                                    size      0   flags   20
-  16 GSINIT                                     size      B   flags   20
-  17 GSFINAL                                    size      3   flags   20
-  18 CSEG                                       size    4F6   flags   20
-  19 CONST                                      size     B9   flags   20
-  1A XINIT                                      size      1   flags   20
-  1B CABS                                       size      0   flags   28
+   5 BIT_BANK                                   size      1   flags    4
+   6 DSEG                                       size     16   flags    0
+   7 OSEG                                       size      2   flags    4
+   8 SSEG                                       size      1   flags    0
+   9 ISEG                                       size      0   flags    0
+   A IABS                                       size      0   flags    8
+   B BSEG                                       size      2   flags   80
+   C PSEG                                       size      0   flags   50
+   D XSEG                                       size      0   flags   40
+   E XABS                                       size      0   flags   48
+   F XISEG                                      size      1   flags   40
+  10 HOME                                       size     31   flags   20
+  11 GSINIT0                                    size      0   flags   20
+  12 GSINIT1                                    size      0   flags   20
+  13 GSINIT2                                    size      0   flags   20
+  14 GSINIT3                                    size      0   flags   20
+  15 GSINIT4                                    size      0   flags   20
+  16 GSINIT5                                    size      0   flags   20
+  17 GSINIT                                     size     13   flags   20
+  18 GSFINAL                                    size      3   flags   20
+  19 CSEG                                       size    544   flags   20
+  1A CONST                                      size    135   flags   20
+  1B XINIT                                      size      1   flags   20
+  1C CABS                                       size      0   flags   28
 
