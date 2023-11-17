@@ -1,0 +1,23 @@
+-muwx
+-i bin\Release\SPI.ihx
+-M
+-X 0xfbff
+-C 0x7000
+-b HOME = 0x5000
+-b XSEG = 0xf000
+-b PSEG = 0xf000
+-b ISEG = 0x0000
+-b BSEG = 0x0000
+-k C:\Program Files\sdcc\lib
+-k C:\Program Files\SDCC\bin\..\lib\small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+obj\Release\main.rel
+obj\Release\menu.rel
+obj\Release\spi.rel
+obj\Release\uart.rel
+
+-e

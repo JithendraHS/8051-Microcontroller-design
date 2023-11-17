@@ -1,0 +1,33 @@
+# depslib dependency file v1.0
+1700195884 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\uart.c
+	<uart.h>
+
+1698378382 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\uart.h
+	<stdint.h>
+	<at89c51ed2.h>
+
+1700252426 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\main.c
+	<at89c51ed2.h>
+	<mcs51/8051.h>
+	<mcs51reg.h>
+	<stdio.h>
+	<stdlib.h>
+	"stdint.h"
+	"uart.h"
+	"spi.h"
+
+1700257642 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\spi.h
+	"stdint.h"
+
+1700256701 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\menu.c
+	<stdio.h>
+	<menu.h>
+
+1699656272 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\menu.h
+
+1700257790 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\spi.c
+	"spi.h"
+	<at89c51ed2.h>
+	"stdio.h"
+	"uart.h"
+
