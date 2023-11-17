@@ -484,8 +484,8 @@
                                     484 ; Stack segment in internal ram
                                     485 ;--------------------------------------------------------
                                     486 	.area	SSEG
-      00003C                        487 __start__stack:
-      00003C                        488 	.ds	1
+      00006A                        487 __start__stack:
+      00006A                        488 	.ds	1
                                     489 
                                     490 ;--------------------------------------------------------
                                     491 ; indirectly addressable internal ram data
@@ -544,7 +544,7 @@
       00201C                        544 	.ds	7
       002023 32               [24]  545 	reti
       002024                        546 	.ds	7
-      00202B 02 28 6A         [24]  547 	ljmp	_isr_timer2
+      00202B 02 28 98         [24]  547 	ljmp	_isr_timer2
                                     548 ;--------------------------------------------------------
                                     549 ; global & static initialisations
                                     550 ;--------------------------------------------------------
@@ -566,7 +566,7 @@
                                     566 	.area HOME    (CODE)
                                     567 	.area HOME    (CODE)
       00202E                        568 __sdcc_program_startup:
-      00202E 02 28 C3         [24]  569 	ljmp	_main
+      00202E 02 28 F1         [24]  569 	ljmp	_main
                                     570 ;	return from main will return to caller
                                     571 ;--------------------------------------------------------
                                     572 ; code
@@ -579,7 +579,7 @@
                                     579 ;	-----------------------------------------
                                     580 ;	 function _sdcc_external_startup
                                     581 ;	-----------------------------------------
-      002863                        582 __sdcc_external_startup:
+      002891                        582 __sdcc_external_startup:
                            000007   583 	ar7 = 0x07
                            000006   584 	ar6 = 0x06
                            000005   585 	ar5 = 0x05
@@ -589,11 +589,11 @@
                            000001   589 	ar1 = 0x01
                            000000   590 	ar0 = 0x00
                                     591 ;	main.c:34: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
-      002863 43 8E 0C         [24]  592 	orl	_AUXR,#0x0c
+      002891 43 8E 0C         [24]  592 	orl	_AUXR,#0x0c
                                     593 ;	main.c:35: return 0;               // Return 0 to indicate successful startup
-      002866 90 00 00         [24]  594 	mov	dptr,#0x0000
+      002894 90 00 00         [24]  594 	mov	dptr,#0x0000
                                     595 ;	main.c:36: }
-      002869 22               [24]  596 	ret
+      002897 22               [24]  596 	ret
                                     597 ;------------------------------------------------------------
                                     598 ;Allocation info for local variables in function 'isr_timer2'
                                     599 ;------------------------------------------------------------
@@ -601,59 +601,59 @@
                                     601 ;	-----------------------------------------
                                     602 ;	 function isr_timer2
                                     603 ;	-----------------------------------------
-      00286A                        604 _isr_timer2:
-      00286A C0 21            [24]  605 	push	bits
-      00286C C0 E0            [24]  606 	push	acc
-      00286E C0 F0            [24]  607 	push	b
-      002870 C0 82            [24]  608 	push	dpl
-      002872 C0 83            [24]  609 	push	dph
-      002874 C0 07            [24]  610 	push	(0+7)
-      002876 C0 06            [24]  611 	push	(0+6)
-      002878 C0 05            [24]  612 	push	(0+5)
-      00287A C0 04            [24]  613 	push	(0+4)
-      00287C C0 03            [24]  614 	push	(0+3)
-      00287E C0 02            [24]  615 	push	(0+2)
-      002880 C0 01            [24]  616 	push	(0+1)
-      002882 C0 00            [24]  617 	push	(0+0)
-      002884 C0 D0            [24]  618 	push	psw
-      002886 75 D0 00         [24]  619 	mov	psw,#0x00
+      002898                        604 _isr_timer2:
+      002898 C0 21            [24]  605 	push	bits
+      00289A C0 E0            [24]  606 	push	acc
+      00289C C0 F0            [24]  607 	push	b
+      00289E C0 82            [24]  608 	push	dpl
+      0028A0 C0 83            [24]  609 	push	dph
+      0028A2 C0 07            [24]  610 	push	(0+7)
+      0028A4 C0 06            [24]  611 	push	(0+6)
+      0028A6 C0 05            [24]  612 	push	(0+5)
+      0028A8 C0 04            [24]  613 	push	(0+4)
+      0028AA C0 03            [24]  614 	push	(0+3)
+      0028AC C0 02            [24]  615 	push	(0+2)
+      0028AE C0 01            [24]  616 	push	(0+1)
+      0028B0 C0 00            [24]  617 	push	(0+0)
+      0028B2 C0 D0            [24]  618 	push	psw
+      0028B4 75 D0 00         [24]  619 	mov	psw,#0x00
                                     620 ;	main.c:47: }
-      002889 D2 01            [12]  621 	setb	_isr_timer2_sloc0_1_0
-      00288B 10 AF 02         [24]  622 	jbc	ea,00103$
-      00288E C2 01            [12]  623 	clr	_isr_timer2_sloc0_1_0
-      002890                        624 00103$:
+      0028B7 D2 01            [12]  621 	setb	_isr_timer2_sloc0_1_0
+      0028B9 10 AF 02         [24]  622 	jbc	ea,00103$
+      0028BC C2 01            [12]  623 	clr	_isr_timer2_sloc0_1_0
+      0028BE                        624 00103$:
                                     625 ;	main.c:46: tick++;
-      002890 AE 08            [24]  626 	mov	r6,_tick
-      002892 AF 09            [24]  627 	mov	r7,(_tick + 1)
-      002894 74 01            [12]  628 	mov	a,#0x01
-      002896 2E               [12]  629 	add	a,r6
-      002897 F5 08            [12]  630 	mov	_tick,a
-      002899 E4               [12]  631 	clr	a
-      00289A 3F               [12]  632 	addc	a,r7
-      00289B F5 09            [12]  633 	mov	(_tick + 1),a
-      00289D A2 01            [12]  634 	mov	c,_isr_timer2_sloc0_1_0
-      00289F 92 AF            [24]  635 	mov	ea,c
+      0028BE AE 08            [24]  626 	mov	r6,_tick
+      0028C0 AF 09            [24]  627 	mov	r7,(_tick + 1)
+      0028C2 74 01            [12]  628 	mov	a,#0x01
+      0028C4 2E               [12]  629 	add	a,r6
+      0028C5 F5 08            [12]  630 	mov	_tick,a
+      0028C7 E4               [12]  631 	clr	a
+      0028C8 3F               [12]  632 	addc	a,r7
+      0028C9 F5 09            [12]  633 	mov	(_tick + 1),a
+      0028CB A2 01            [12]  634 	mov	c,_isr_timer2_sloc0_1_0
+      0028CD 92 AF            [24]  635 	mov	ea,c
                                     636 ;	main.c:48: clock_run();
-      0028A1 12 23 6A         [24]  637 	lcall	_clock_run
+      0028CF 12 23 6A         [24]  637 	lcall	_clock_run
                                     638 ;	main.c:49: TF2 = 0;
                                     639 ;	assignBit
-      0028A4 C2 CF            [12]  640 	clr	_TF2
+      0028D2 C2 CF            [12]  640 	clr	_TF2
                                     641 ;	main.c:50: }
-      0028A6 D0 D0            [24]  642 	pop	psw
-      0028A8 D0 00            [24]  643 	pop	(0+0)
-      0028AA D0 01            [24]  644 	pop	(0+1)
-      0028AC D0 02            [24]  645 	pop	(0+2)
-      0028AE D0 03            [24]  646 	pop	(0+3)
-      0028B0 D0 04            [24]  647 	pop	(0+4)
-      0028B2 D0 05            [24]  648 	pop	(0+5)
-      0028B4 D0 06            [24]  649 	pop	(0+6)
-      0028B6 D0 07            [24]  650 	pop	(0+7)
-      0028B8 D0 83            [24]  651 	pop	dph
-      0028BA D0 82            [24]  652 	pop	dpl
-      0028BC D0 F0            [24]  653 	pop	b
-      0028BE D0 E0            [24]  654 	pop	acc
-      0028C0 D0 21            [24]  655 	pop	bits
-      0028C2 32               [24]  656 	reti
+      0028D4 D0 D0            [24]  642 	pop	psw
+      0028D6 D0 00            [24]  643 	pop	(0+0)
+      0028D8 D0 01            [24]  644 	pop	(0+1)
+      0028DA D0 02            [24]  645 	pop	(0+2)
+      0028DC D0 03            [24]  646 	pop	(0+3)
+      0028DE D0 04            [24]  647 	pop	(0+4)
+      0028E0 D0 05            [24]  648 	pop	(0+5)
+      0028E2 D0 06            [24]  649 	pop	(0+6)
+      0028E4 D0 07            [24]  650 	pop	(0+7)
+      0028E6 D0 83            [24]  651 	pop	dph
+      0028E8 D0 82            [24]  652 	pop	dpl
+      0028EA D0 F0            [24]  653 	pop	b
+      0028EC D0 E0            [24]  654 	pop	acc
+      0028EE D0 21            [24]  655 	pop	bits
+      0028F0 32               [24]  656 	reti
                                     657 ;------------------------------------------------------------
                                     658 ;Allocation info for local variables in function 'main'
                                     659 ;------------------------------------------------------------
@@ -664,274 +664,274 @@
                                     664 ;	-----------------------------------------
                                     665 ;	 function main
                                     666 ;	-----------------------------------------
-      0028C3                        667 _main:
+      0028F1                        667 _main:
                                     668 ;	main.c:55: lcdinit();
-      0028C3 12 22 23         [24]  669 	lcall	_lcdinit
+      0028F1 12 22 23         [24]  669 	lcall	_lcdinit
                                     670 ;	main.c:56: test_functionality();
-      0028C6 12 22 BD         [24]  671 	lcall	_test_functionality
+      0028F4 12 22 BD         [24]  671 	lcall	_test_functionality
                                     672 ;	main.c:57: timer2_interrupt_Init();
-      0028C9 12 20 E0         [24]  673 	lcall	_timer2_interrupt_Init
+      0028F7 12 20 E0         [24]  673 	lcall	_timer2_interrupt_Init
                                     674 ;	main.c:58: menu();
-      0028CC 12 2A 0D         [24]  675 	lcall	_menu
+      0028FA 12 2A 3B         [24]  675 	lcall	_menu
                                     676 ;	main.c:59: menu_lcd();
-      0028CF 12 24 4A         [24]  677 	lcall	_menu_lcd
+      0028FD 12 24 4A         [24]  677 	lcall	_menu_lcd
                                     678 ;	main.c:61: while (1)
-      0028D2                        679 00118$:
+      002900                        679 00118$:
                                     680 ;	main.c:63: int8_t user_input = echo(); // Read user input from UART
-      0028D2 12 2A EB         [24]  681 	lcall	_echo
-      0028D5 AF 82            [24]  682 	mov	r7,dpl
+      002900 12 2B 19         [24]  681 	lcall	_echo
+      002903 AF 82            [24]  682 	mov	r7,dpl
                                     683 ;	main.c:64: if (((user_input >= '0') && (user_input <= '9')) ||
-      0028D7 C3               [12]  684 	clr	c
-      0028D8 EF               [12]  685 	mov	a,r7
-      0028D9 64 80            [12]  686 	xrl	a,#0x80
-      0028DB 94 B0            [12]  687 	subb	a,#0xb0
-      0028DD 40 0B            [24]  688 	jc	00106$
-      0028DF 74 B9            [12]  689 	mov	a,#(0x39 ^ 0x80)
-      0028E1 8F F0            [24]  690 	mov	b,r7
-      0028E3 63 F0 80         [24]  691 	xrl	b,#0x80
-      0028E6 95 F0            [12]  692 	subb	a,b
-      0028E8 50 13            [24]  693 	jnc	00101$
-      0028EA                        694 00106$:
+      002905 C3               [12]  684 	clr	c
+      002906 EF               [12]  685 	mov	a,r7
+      002907 64 80            [12]  686 	xrl	a,#0x80
+      002909 94 B0            [12]  687 	subb	a,#0xb0
+      00290B 40 0B            [24]  688 	jc	00106$
+      00290D 74 B9            [12]  689 	mov	a,#(0x39 ^ 0x80)
+      00290F 8F F0            [24]  690 	mov	b,r7
+      002911 63 F0 80         [24]  691 	xrl	b,#0x80
+      002914 95 F0            [12]  692 	subb	a,b
+      002916 50 13            [24]  693 	jnc	00101$
+      002918                        694 00106$:
                                     695 ;	main.c:65: ((user_input >= 'A') && (user_input <= 'Z')))
-      0028EA C3               [12]  696 	clr	c
-      0028EB EF               [12]  697 	mov	a,r7
-      0028EC 64 80            [12]  698 	xrl	a,#0x80
-      0028EE 94 C1            [12]  699 	subb	a,#0xc1
-      0028F0 40 20            [24]  700 	jc	00102$
-      0028F2 74 DA            [12]  701 	mov	a,#(0x5a ^ 0x80)
-      0028F4 8F F0            [24]  702 	mov	b,r7
-      0028F6 63 F0 80         [24]  703 	xrl	b,#0x80
-      0028F9 95 F0            [12]  704 	subb	a,b
-      0028FB 40 15            [24]  705 	jc	00102$
-      0028FD                        706 00101$:
+      002918 C3               [12]  696 	clr	c
+      002919 EF               [12]  697 	mov	a,r7
+      00291A 64 80            [12]  698 	xrl	a,#0x80
+      00291C 94 C1            [12]  699 	subb	a,#0xc1
+      00291E 40 20            [24]  700 	jc	00102$
+      002920 74 DA            [12]  701 	mov	a,#(0x5a ^ 0x80)
+      002922 8F F0            [24]  702 	mov	b,r7
+      002924 63 F0 80         [24]  703 	xrl	b,#0x80
+      002927 95 F0            [12]  704 	subb	a,b
+      002929 40 15            [24]  705 	jc	00102$
+      00292B                        706 00101$:
                                     707 ;	main.c:68: printf_tiny("Please enter commands in lowercase\n\r");
-      0028FD C0 07            [24]  708 	push	ar7
-      0028FF 74 25            [12]  709 	mov	a,#___str_0
-      002901 C0 E0            [24]  710 	push	acc
-      002903 74 2E            [12]  711 	mov	a,#(___str_0 >> 8)
-      002905 C0 E0            [24]  712 	push	acc
-      002907 12 2B 04         [24]  713 	lcall	_printf_tiny
-      00290A 15 81            [12]  714 	dec	sp
-      00290C 15 81            [12]  715 	dec	sp
-      00290E D0 07            [24]  716 	pop	ar7
-      002910 80 13            [24]  717 	sjmp	00103$
-      002912                        718 00102$:
+      00292B C0 07            [24]  708 	push	ar7
+      00292D 74 C3            [12]  709 	mov	a,#___str_0
+      00292F C0 E0            [24]  710 	push	acc
+      002931 74 35            [12]  711 	mov	a,#(___str_0 >> 8)
+      002933 C0 E0            [24]  712 	push	acc
+      002935 12 2B 32         [24]  713 	lcall	_printf_tiny
+      002938 15 81            [12]  714 	dec	sp
+      00293A 15 81            [12]  715 	dec	sp
+      00293C D0 07            [24]  716 	pop	ar7
+      00293E 80 13            [24]  717 	sjmp	00103$
+      002940                        718 00102$:
                                     719 ;	main.c:72: printf_tiny("\n\r"); // Print newline for better output formatting
-      002912 C0 07            [24]  720 	push	ar7
-      002914 74 4A            [12]  721 	mov	a,#___str_1
-      002916 C0 E0            [24]  722 	push	acc
-      002918 74 2E            [12]  723 	mov	a,#(___str_1 >> 8)
-      00291A C0 E0            [24]  724 	push	acc
-      00291C 12 2B 04         [24]  725 	lcall	_printf_tiny
-      00291F 15 81            [12]  726 	dec	sp
-      002921 15 81            [12]  727 	dec	sp
-      002923 D0 07            [24]  728 	pop	ar7
-      002925                        729 00103$:
+      002940 C0 07            [24]  720 	push	ar7
+      002942 74 E8            [12]  721 	mov	a,#___str_1
+      002944 C0 E0            [24]  722 	push	acc
+      002946 74 35            [12]  723 	mov	a,#(___str_1 >> 8)
+      002948 C0 E0            [24]  724 	push	acc
+      00294A 12 2B 32         [24]  725 	lcall	_printf_tiny
+      00294D 15 81            [12]  726 	dec	sp
+      00294F 15 81            [12]  727 	dec	sp
+      002951 D0 07            [24]  728 	pop	ar7
+      002953                        729 00103$:
                                     730 ;	main.c:75: switch (user_input)
-      002925 BF 61 02         [24]  731 	cjne	r7,#0x61,00162$
-      002928 80 18            [24]  732 	sjmp	00107$
-      00292A                        733 00162$:
-      00292A BF 62 02         [24]  734 	cjne	r7,#0x62,00163$
-      00292D 80 37            [24]  735 	sjmp	00108$
-      00292F                        736 00163$:
-      00292F BF 63 02         [24]  737 	cjne	r7,#0x63,00164$
-      002932 80 55            [24]  738 	sjmp	00109$
-      002934                        739 00164$:
-      002934 BF 64 03         [24]  740 	cjne	r7,#0x64,00165$
-      002937 02 29 D1         [24]  741 	ljmp	00113$
-      00293A                        742 00165$:
-      00293A BF 65 03         [24]  743 	cjne	r7,#0x65,00166$
-      00293D 02 2A 07         [24]  744 	ljmp	00114$
-      002940                        745 00166$:
+      002953 BF 61 02         [24]  731 	cjne	r7,#0x61,00162$
+      002956 80 18            [24]  732 	sjmp	00107$
+      002958                        733 00162$:
+      002958 BF 62 02         [24]  734 	cjne	r7,#0x62,00163$
+      00295B 80 37            [24]  735 	sjmp	00108$
+      00295D                        736 00163$:
+      00295D BF 63 02         [24]  737 	cjne	r7,#0x63,00164$
+      002960 80 55            [24]  738 	sjmp	00109$
+      002962                        739 00164$:
+      002962 BF 64 03         [24]  740 	cjne	r7,#0x64,00165$
+      002965 02 29 FF         [24]  741 	ljmp	00113$
+      002968                        742 00165$:
+      002968 BF 65 03         [24]  743 	cjne	r7,#0x65,00166$
+      00296B 02 2A 35         [24]  744 	ljmp	00114$
+      00296E                        745 00166$:
                                     746 ;	main.c:77: case 'a':
-      002940 80 90            [24]  747 	sjmp	00118$
-      002942                        748 00107$:
+      00296E 80 90            [24]  747 	sjmp	00118$
+      002970                        748 00107$:
                                     749 ;	main.c:79: printf_tiny("Restarting clock\n\r");
-      002942 74 4D            [12]  750 	mov	a,#___str_2
-      002944 C0 E0            [24]  751 	push	acc
-      002946 74 2E            [12]  752 	mov	a,#(___str_2 >> 8)
-      002948 C0 E0            [24]  753 	push	acc
-      00294A 12 2B 04         [24]  754 	lcall	_printf_tiny
-      00294D 15 81            [12]  755 	dec	sp
-      00294F 15 81            [12]  756 	dec	sp
+      002970 74 EB            [12]  750 	mov	a,#___str_2
+      002972 C0 E0            [24]  751 	push	acc
+      002974 74 35            [12]  752 	mov	a,#(___str_2 >> 8)
+      002976 C0 E0            [24]  753 	push	acc
+      002978 12 2B 32         [24]  754 	lcall	_printf_tiny
+      00297B 15 81            [12]  755 	dec	sp
+      00297D 15 81            [12]  756 	dec	sp
                                     757 ;	main.c:80: clockrun_flag = 1;
-      002951 75 29 01         [24]  758 	mov	_clockrun_flag,#0x01
-      002954 75 2A 00         [24]  759 	mov	(_clockrun_flag + 1),#0x00
+      00297F 75 29 01         [24]  758 	mov	_clockrun_flag,#0x01
+      002982 75 2A 00         [24]  759 	mov	(_clockrun_flag + 1),#0x00
                                     760 ;	main.c:81: arrow_set(indicator, ' ', ' ');
-      002957 75 32 20         [24]  761 	mov	_arrow_set_PARM_2,#0x20
-      00295A 75 33 20         [24]  762 	mov	_arrow_set_PARM_3,#0x20
-      00295D 75 82 3C         [24]  763 	mov	dpl,#0x3c
-      002960 12 24 95         [24]  764 	lcall	_arrow_set
+      002985 75 32 20         [24]  761 	mov	_arrow_set_PARM_2,#0x20
+      002988 75 33 20         [24]  762 	mov	_arrow_set_PARM_3,#0x20
+      00298B 75 82 3C         [24]  763 	mov	dpl,#0x3c
+      00298E 12 24 95         [24]  764 	lcall	_arrow_set
                                     765 ;	main.c:82: break;
-      002963 02 28 D2         [24]  766 	ljmp	00118$
+      002991 02 29 00         [24]  766 	ljmp	00118$
                                     767 ;	main.c:84: case 'b':
-      002966                        768 00108$:
+      002994                        768 00108$:
                                     769 ;	main.c:86: printf_tiny("Stopping clock\n\r");
-      002966 74 60            [12]  770 	mov	a,#___str_3
-      002968 C0 E0            [24]  771 	push	acc
-      00296A 74 2E            [12]  772 	mov	a,#(___str_3 >> 8)
-      00296C C0 E0            [24]  773 	push	acc
-      00296E 12 2B 04         [24]  774 	lcall	_printf_tiny
-      002971 15 81            [12]  775 	dec	sp
-      002973 15 81            [12]  776 	dec	sp
+      002994 74 FE            [12]  770 	mov	a,#___str_3
+      002996 C0 E0            [24]  771 	push	acc
+      002998 74 35            [12]  772 	mov	a,#(___str_3 >> 8)
+      00299A C0 E0            [24]  773 	push	acc
+      00299C 12 2B 32         [24]  774 	lcall	_printf_tiny
+      00299F 15 81            [12]  775 	dec	sp
+      0029A1 15 81            [12]  776 	dec	sp
                                     777 ;	main.c:87: clockrun_flag = 0;
-      002975 E4               [12]  778 	clr	a
-      002976 F5 29            [12]  779 	mov	_clockrun_flag,a
-      002978 F5 2A            [12]  780 	mov	(_clockrun_flag + 1),a
+      0029A3 E4               [12]  778 	clr	a
+      0029A4 F5 29            [12]  779 	mov	_clockrun_flag,a
+      0029A6 F5 2A            [12]  780 	mov	(_clockrun_flag + 1),a
                                     781 ;	main.c:88: arrow_set(' ', indicator, ' ');
-      00297A 75 32 3C         [24]  782 	mov	_arrow_set_PARM_2,#0x3c
-      00297D 75 33 20         [24]  783 	mov	_arrow_set_PARM_3,#0x20
-      002980 75 82 20         [24]  784 	mov	dpl,#0x20
-      002983 12 24 95         [24]  785 	lcall	_arrow_set
+      0029A8 75 32 3C         [24]  782 	mov	_arrow_set_PARM_2,#0x3c
+      0029AB 75 33 20         [24]  783 	mov	_arrow_set_PARM_3,#0x20
+      0029AE 75 82 20         [24]  784 	mov	dpl,#0x20
+      0029B1 12 24 95         [24]  785 	lcall	_arrow_set
                                     786 ;	main.c:89: break;
-      002986 02 28 D2         [24]  787 	ljmp	00118$
+      0029B4 02 29 00         [24]  787 	ljmp	00118$
                                     788 ;	main.c:91: case 'c':
-      002989                        789 00109$:
+      0029B7                        789 00109$:
                                     790 ;	main.c:93: printf_tiny("Resetting clock\n\r");
-      002989 74 71            [12]  791 	mov	a,#___str_4
-      00298B C0 E0            [24]  792 	push	acc
-      00298D 74 2E            [12]  793 	mov	a,#(___str_4 >> 8)
-      00298F C0 E0            [24]  794 	push	acc
-      002991 12 2B 04         [24]  795 	lcall	_printf_tiny
-      002994 15 81            [12]  796 	dec	sp
-      002996 15 81            [12]  797 	dec	sp
+      0029B7 74 0F            [12]  791 	mov	a,#___str_4
+      0029B9 C0 E0            [24]  792 	push	acc
+      0029BB 74 36            [12]  793 	mov	a,#(___str_4 >> 8)
+      0029BD C0 E0            [24]  794 	push	acc
+      0029BF 12 2B 32         [24]  795 	lcall	_printf_tiny
+      0029C2 15 81            [12]  796 	dec	sp
+      0029C4 15 81            [12]  797 	dec	sp
                                     798 ;	main.c:94: reset_clock();
-      002998 12 23 2B         [24]  799 	lcall	_reset_clock
+      0029C6 12 23 2B         [24]  799 	lcall	_reset_clock
                                     800 ;	main.c:95: arrow_set(' ', ' ', indicator);
-      00299B 75 32 20         [24]  801 	mov	_arrow_set_PARM_2,#0x20
-      00299E 75 33 3C         [24]  802 	mov	_arrow_set_PARM_3,#0x3c
-      0029A1 75 82 20         [24]  803 	mov	dpl,#0x20
-      0029A4 12 24 95         [24]  804 	lcall	_arrow_set
+      0029C9 75 32 20         [24]  801 	mov	_arrow_set_PARM_2,#0x20
+      0029CC 75 33 3C         [24]  802 	mov	_arrow_set_PARM_3,#0x3c
+      0029CF 75 82 20         [24]  803 	mov	dpl,#0x20
+      0029D2 12 24 95         [24]  804 	lcall	_arrow_set
                                     805 ;	main.c:98: if (clockrun_flag)
-      0029A7 E5 29            [12]  806 	mov	a,_clockrun_flag
-      0029A9 45 2A            [12]  807 	orl	a,(_clockrun_flag + 1)
-      0029AB 60 12            [24]  808 	jz	00111$
+      0029D5 E5 29            [12]  806 	mov	a,_clockrun_flag
+      0029D7 45 2A            [12]  807 	orl	a,(_clockrun_flag + 1)
+      0029D9 60 12            [24]  808 	jz	00111$
                                     809 ;	main.c:100: lcdgotoxy(2, 8);
-      0029AD 75 30 08         [24]  810 	mov	_lcdgotoxy_PARM_2,#0x08
-      0029B0 75 82 02         [24]  811 	mov	dpl,#0x02
-      0029B3 12 21 21         [24]  812 	lcall	_lcdgotoxy
+      0029DB 75 30 08         [24]  810 	mov	_lcdgotoxy_PARM_2,#0x08
+      0029DE 75 82 02         [24]  811 	mov	dpl,#0x02
+      0029E1 12 21 21         [24]  812 	lcall	_lcdgotoxy
                                     813 ;	main.c:101: lcdputch(indicator);
-      0029B6 75 82 3C         [24]  814 	mov	dpl,#0x3c
-      0029B9 12 21 6D         [24]  815 	lcall	_lcdputch
-      0029BC 02 28 D2         [24]  816 	ljmp	00118$
-      0029BF                        817 00111$:
+      0029E4 75 82 3C         [24]  814 	mov	dpl,#0x3c
+      0029E7 12 21 6D         [24]  815 	lcall	_lcdputch
+      0029EA 02 29 00         [24]  816 	ljmp	00118$
+      0029ED                        817 00111$:
                                     818 ;	main.c:105: lcdgotoxy(3, 8);
-      0029BF 75 30 08         [24]  819 	mov	_lcdgotoxy_PARM_2,#0x08
-      0029C2 75 82 03         [24]  820 	mov	dpl,#0x03
-      0029C5 12 21 21         [24]  821 	lcall	_lcdgotoxy
+      0029ED 75 30 08         [24]  819 	mov	_lcdgotoxy_PARM_2,#0x08
+      0029F0 75 82 03         [24]  820 	mov	dpl,#0x03
+      0029F3 12 21 21         [24]  821 	lcall	_lcdgotoxy
                                     822 ;	main.c:106: lcdputch(indicator);
-      0029C8 75 82 3C         [24]  823 	mov	dpl,#0x3c
-      0029CB 12 21 6D         [24]  824 	lcall	_lcdputch
+      0029F6 75 82 3C         [24]  823 	mov	dpl,#0x3c
+      0029F9 12 21 6D         [24]  824 	lcall	_lcdputch
                                     825 ;	main.c:108: break;
-      0029CE 02 28 D2         [24]  826 	ljmp	00118$
+      0029FC 02 29 00         [24]  826 	ljmp	00118$
                                     827 ;	main.c:109: case 'd':
-      0029D1                        828 00113$:
+      0029FF                        828 00113$:
                                     829 ;	main.c:110: printf_tiny("LCD RAM dump:\n\r");
-      0029D1 74 83            [12]  830 	mov	a,#___str_5
-      0029D3 C0 E0            [24]  831 	push	acc
-      0029D5 74 2E            [12]  832 	mov	a,#(___str_5 >> 8)
-      0029D7 C0 E0            [24]  833 	push	acc
-      0029D9 12 2B 04         [24]  834 	lcall	_printf_tiny
-      0029DC 15 81            [12]  835 	dec	sp
-      0029DE 15 81            [12]  836 	dec	sp
+      0029FF 74 21            [12]  830 	mov	a,#___str_5
+      002A01 C0 E0            [24]  831 	push	acc
+      002A03 74 36            [12]  832 	mov	a,#(___str_5 >> 8)
+      002A05 C0 E0            [24]  833 	push	acc
+      002A07 12 2B 32         [24]  834 	lcall	_printf_tiny
+      002A0A 15 81            [12]  835 	dec	sp
+      002A0C 15 81            [12]  836 	dec	sp
                                     837 ;	main.c:111: printf_tiny("DDRAM dump:\n\r");
-      0029E0 74 93            [12]  838 	mov	a,#___str_6
-      0029E2 C0 E0            [24]  839 	push	acc
-      0029E4 74 2E            [12]  840 	mov	a,#(___str_6 >> 8)
-      0029E6 C0 E0            [24]  841 	push	acc
-      0029E8 12 2B 04         [24]  842 	lcall	_printf_tiny
-      0029EB 15 81            [12]  843 	dec	sp
-      0029ED 15 81            [12]  844 	dec	sp
+      002A0E 74 31            [12]  838 	mov	a,#___str_6
+      002A10 C0 E0            [24]  839 	push	acc
+      002A12 74 36            [12]  840 	mov	a,#(___str_6 >> 8)
+      002A14 C0 E0            [24]  841 	push	acc
+      002A16 12 2B 32         [24]  842 	lcall	_printf_tiny
+      002A19 15 81            [12]  843 	dec	sp
+      002A1B 15 81            [12]  844 	dec	sp
                                     845 ;	main.c:112: ddram_hex_dump();
-      0029EF 12 24 F1         [24]  846 	lcall	_ddram_hex_dump
+      002A1D 12 24 F1         [24]  846 	lcall	_ddram_hex_dump
                                     847 ;	main.c:113: printf_tiny("CGRAM dump:\n\r");
-      0029F2 74 A1            [12]  848 	mov	a,#___str_7
-      0029F4 C0 E0            [24]  849 	push	acc
-      0029F6 74 2E            [12]  850 	mov	a,#(___str_7 >> 8)
-      0029F8 C0 E0            [24]  851 	push	acc
-      0029FA 12 2B 04         [24]  852 	lcall	_printf_tiny
-      0029FD 15 81            [12]  853 	dec	sp
-      0029FF 15 81            [12]  854 	dec	sp
+      002A20 74 3F            [12]  848 	mov	a,#___str_7
+      002A22 C0 E0            [24]  849 	push	acc
+      002A24 74 36            [12]  850 	mov	a,#(___str_7 >> 8)
+      002A26 C0 E0            [24]  851 	push	acc
+      002A28 12 2B 32         [24]  852 	lcall	_printf_tiny
+      002A2B 15 81            [12]  853 	dec	sp
+      002A2D 15 81            [12]  854 	dec	sp
                                     855 ;	main.c:114: cgram_hex_dump();
-      002A01 12 25 F0         [24]  856 	lcall	_cgram_hex_dump
+      002A2F 12 26 04         [24]  856 	lcall	_cgram_hex_dump
                                     857 ;	main.c:115: break;
-      002A04 02 28 D2         [24]  858 	ljmp	00118$
+      002A32 02 29 00         [24]  858 	ljmp	00118$
                                     859 ;	main.c:116: case 'e':
-      002A07                        860 00114$:
+      002A35                        860 00114$:
                                     861 ;	main.c:117: process_custom_character();
-      002A07 12 27 58         [24]  862 	lcall	_process_custom_character
+      002A35 12 27 86         [24]  862 	lcall	_process_custom_character
                                     863 ;	main.c:118: break;
                                     864 ;	main.c:122: }
                                     865 ;	main.c:124: }
-      002A0A 02 28 D2         [24]  866 	ljmp	00118$
+      002A38 02 29 00         [24]  866 	ljmp	00118$
                                     867 	.area CSEG    (CODE)
                                     868 	.area CONST   (CODE)
                                     869 	.area CONST   (CODE)
-      002E25                        870 ___str_0:
-      002E25 50 6C 65 61 73 65 20   871 	.ascii "Please enter commands in lowercase"
+      0035C3                        870 ___str_0:
+      0035C3 50 6C 65 61 73 65 20   871 	.ascii "Please enter commands in lowercase"
              65 6E 74 65 72 20 63
              6F 6D 6D 61 6E 64 73
              20 69 6E 20 6C 6F 77
              65 72 63 61 73 65
-      002E47 0A                     872 	.db 0x0a
-      002E48 0D                     873 	.db 0x0d
-      002E49 00                     874 	.db 0x00
+      0035E5 0A                     872 	.db 0x0a
+      0035E6 0D                     873 	.db 0x0d
+      0035E7 00                     874 	.db 0x00
                                     875 	.area CSEG    (CODE)
                                     876 	.area CONST   (CODE)
-      002E4A                        877 ___str_1:
-      002E4A 0A                     878 	.db 0x0a
-      002E4B 0D                     879 	.db 0x0d
-      002E4C 00                     880 	.db 0x00
+      0035E8                        877 ___str_1:
+      0035E8 0A                     878 	.db 0x0a
+      0035E9 0D                     879 	.db 0x0d
+      0035EA 00                     880 	.db 0x00
                                     881 	.area CSEG    (CODE)
                                     882 	.area CONST   (CODE)
-      002E4D                        883 ___str_2:
-      002E4D 52 65 73 74 61 72 74   884 	.ascii "Restarting clock"
+      0035EB                        883 ___str_2:
+      0035EB 52 65 73 74 61 72 74   884 	.ascii "Restarting clock"
              69 6E 67 20 63 6C 6F
              63 6B
-      002E5D 0A                     885 	.db 0x0a
-      002E5E 0D                     886 	.db 0x0d
-      002E5F 00                     887 	.db 0x00
+      0035FB 0A                     885 	.db 0x0a
+      0035FC 0D                     886 	.db 0x0d
+      0035FD 00                     887 	.db 0x00
                                     888 	.area CSEG    (CODE)
                                     889 	.area CONST   (CODE)
-      002E60                        890 ___str_3:
-      002E60 53 74 6F 70 70 69 6E   891 	.ascii "Stopping clock"
+      0035FE                        890 ___str_3:
+      0035FE 53 74 6F 70 70 69 6E   891 	.ascii "Stopping clock"
              67 20 63 6C 6F 63 6B
-      002E6E 0A                     892 	.db 0x0a
-      002E6F 0D                     893 	.db 0x0d
-      002E70 00                     894 	.db 0x00
+      00360C 0A                     892 	.db 0x0a
+      00360D 0D                     893 	.db 0x0d
+      00360E 00                     894 	.db 0x00
                                     895 	.area CSEG    (CODE)
                                     896 	.area CONST   (CODE)
-      002E71                        897 ___str_4:
-      002E71 52 65 73 65 74 74 69   898 	.ascii "Resetting clock"
+      00360F                        897 ___str_4:
+      00360F 52 65 73 65 74 74 69   898 	.ascii "Resetting clock"
              6E 67 20 63 6C 6F 63
              6B
-      002E80 0A                     899 	.db 0x0a
-      002E81 0D                     900 	.db 0x0d
-      002E82 00                     901 	.db 0x00
+      00361E 0A                     899 	.db 0x0a
+      00361F 0D                     900 	.db 0x0d
+      003620 00                     901 	.db 0x00
                                     902 	.area CSEG    (CODE)
                                     903 	.area CONST   (CODE)
-      002E83                        904 ___str_5:
-      002E83 4C 43 44 20 52 41 4D   905 	.ascii "LCD RAM dump:"
+      003621                        904 ___str_5:
+      003621 4C 43 44 20 52 41 4D   905 	.ascii "LCD RAM dump:"
              20 64 75 6D 70 3A
-      002E90 0A                     906 	.db 0x0a
-      002E91 0D                     907 	.db 0x0d
-      002E92 00                     908 	.db 0x00
+      00362E 0A                     906 	.db 0x0a
+      00362F 0D                     907 	.db 0x0d
+      003630 00                     908 	.db 0x00
                                     909 	.area CSEG    (CODE)
                                     910 	.area CONST   (CODE)
-      002E93                        911 ___str_6:
-      002E93 44 44 52 41 4D 20 64   912 	.ascii "DDRAM dump:"
+      003631                        911 ___str_6:
+      003631 44 44 52 41 4D 20 64   912 	.ascii "DDRAM dump:"
              75 6D 70 3A
-      002E9E 0A                     913 	.db 0x0a
-      002E9F 0D                     914 	.db 0x0d
-      002EA0 00                     915 	.db 0x00
+      00363C 0A                     913 	.db 0x0a
+      00363D 0D                     914 	.db 0x0d
+      00363E 00                     915 	.db 0x00
                                     916 	.area CSEG    (CODE)
                                     917 	.area CONST   (CODE)
-      002EA1                        918 ___str_7:
-      002EA1 43 47 52 41 4D 20 64   919 	.ascii "CGRAM dump:"
+      00363F                        918 ___str_7:
+      00363F 43 47 52 41 4D 20 64   919 	.ascii "CGRAM dump:"
              75 6D 70 3A
-      002EAC 0A                     920 	.db 0x0a
-      002EAD 0D                     921 	.db 0x0d
-      002EAE 00                     922 	.db 0x00
+      00364A 0A                     920 	.db 0x0a
+      00364B 0D                     921 	.db 0x0d
+      00364C 00                     922 	.db 0x00
                                     923 	.area CSEG    (CODE)
                                     924 	.area XINIT   (CODE)
                                     925 	.area CABS    (ABS,CODE)

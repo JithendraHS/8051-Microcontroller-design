@@ -363,26 +363,26 @@ void ddram_hex_dump() {
         switch (i) {
             case 0:
                 set_ddram_address(0x00);
-                printf_tiny("0x%x: ", 0x00);
+                printf("0x%02x: ", 0x00);
                 break;
             case 1:
                 set_ddram_address(0x40);
-                printf_tiny("0x%x: ", 0x40);
+                printf("0x%02x: ", 0x40);
                 break;
             case 2:
                 set_ddram_address(0x10);
-                printf_tiny("0x%x: ", 0x10);
+                printf("0x%02x: ", 0x10);
                 break;
             case 3:
                 set_ddram_address(0x50);
-                printf_tiny("0x%x: ", 0x50);
+                printf("0x%02x: ", 0x50);
                 break;
             default:
                 break;
         }
 
         for(int j = 0; j < 16; j++) {
-            printf_tiny(" %x", read_xxram_address());
+            printf(" %02x", read_xxram_address());
         }
 
         printf_tiny("\n\r");
@@ -395,20 +395,18 @@ void ddram_hex_dump() {
  * This function prints the hexadecimal content of the CGRAM, organized in rows and columns.
  */
 void cgram_hex_dump() {
-    set_cgram_address(0x00); // Set the CGRAM address to the start
 
-    for(uint8_t i = 0; i < 4; i++) {
-        printf_tiny("0x%x: ", i << 4);
-
-        for(int j = 0; j < 16; j++) {
-            printf_tiny(" %x", read_xxram_address());
+    for(uint8_t i = 0; i < 8; i++) {
+        printf("0x%02x: ", i << 3);
+        for(int j = 0; j < 8; j++) {
+            // Calculate the CGRAM address for each row of the custom character
+            uint8_t cgram_address = 0b01000000 | (i << 3) | j;
+            set_cgram_address(cgram_address); // Set the CGRAM address to the start
+            printf(" %02x", read_xxram_address());
         }
-
         printf_tiny("\n\r");
     }
 }
-
-
 
 /**
  * @brief Reads a hexadecimal value from user input.

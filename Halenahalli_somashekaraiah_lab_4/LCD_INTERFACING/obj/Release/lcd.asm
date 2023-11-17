@@ -13,6 +13,7 @@
 	.globl _get_hex_value
 	.globl _echo
 	.globl _printf_tiny
+	.globl _printf
 	.globl _delay
 	.globl _P5_7
 	.globl _P5_6
@@ -1404,7 +1405,7 @@ _ddram_hex_dump:
 	mov	dpl,#0x00
 	push	ar7
 	lcall	_set_ddram_address
-;	lcd.c:366: printf_tiny("0x%x: ", 0x00);
+;	lcd.c:366: printf("0x%02x: ", 0x00);
 	clr	a
 	push	acc
 	push	acc
@@ -1412,9 +1413,11 @@ _ddram_hex_dump:
 	push	acc
 	mov	a,#(___str_7 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar7
 ;	lcd.c:367: break;
@@ -1425,7 +1428,7 @@ _ddram_hex_dump:
 	mov	dpl,#0x40
 	push	ar7
 	lcall	_set_ddram_address
-;	lcd.c:370: printf_tiny("0x%x: ", 0x40);
+;	lcd.c:370: printf("0x%02x: ", 0x40);
 	mov	a,#0x40
 	push	acc
 	clr	a
@@ -1434,9 +1437,11 @@ _ddram_hex_dump:
 	push	acc
 	mov	a,#(___str_7 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar7
 ;	lcd.c:371: break;
@@ -1447,7 +1452,7 @@ _ddram_hex_dump:
 	mov	dpl,#0x10
 	push	ar7
 	lcall	_set_ddram_address
-;	lcd.c:374: printf_tiny("0x%x: ", 0x10);
+;	lcd.c:374: printf("0x%02x: ", 0x10);
 	mov	a,#0x10
 	push	acc
 	clr	a
@@ -1456,9 +1461,11 @@ _ddram_hex_dump:
 	push	acc
 	mov	a,#(___str_7 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar7
 ;	lcd.c:375: break;
@@ -1469,7 +1476,7 @@ _ddram_hex_dump:
 	mov	dpl,#0x50
 	push	ar7
 	lcall	_set_ddram_address
-;	lcd.c:378: printf_tiny("0x%x: ", 0x50);
+;	lcd.c:378: printf("0x%02x: ", 0x50);
 	mov	a,#0x50
 	push	acc
 	clr	a
@@ -1478,9 +1485,11 @@ _ddram_hex_dump:
 	push	acc
 	mov	a,#(___str_7 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar7
 ;	lcd.c:384: for(int j = 0; j < 16; j++) {
@@ -1495,7 +1504,7 @@ _ddram_hex_dump:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00107$
-;	lcd.c:385: printf_tiny(" %x", read_xxram_address());
+;	lcd.c:385: printf(" %02x", read_xxram_address());
 	push	ar7
 	push	ar6
 	push	ar5
@@ -1508,9 +1517,11 @@ _ddram_hex_dump:
 	push	acc
 	mov	a,#(___str_8 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar5
 	pop	ar6
@@ -1540,32 +1551,33 @@ _ddram_hex_dump:
 ;------------------------------------------------------------
 ;i                         Allocated to registers r7 
 ;j                         Allocated to registers r5 r6 
+;cgram_address             Allocated to registers 
 ;------------------------------------------------------------
 ;	lcd.c:397: void cgram_hex_dump() {
 ;	-----------------------------------------
 ;	 function cgram_hex_dump
 ;	-----------------------------------------
 _cgram_hex_dump:
-;	lcd.c:398: set_cgram_address(0x00); // Set the CGRAM address to the start
-	mov	dpl,#0x00
-	lcall	_set_cgram_address
-;	lcd.c:400: for(uint8_t i = 0; i < 4; i++) {
+;	lcd.c:399: for(uint8_t i = 0; i < 8; i++) {
 	mov	r7,#0x00
 00107$:
-	cjne	r7,#0x04,00129$
+	cjne	r7,#0x08,00129$
 00129$:
 	jc	00130$
 	ret
 00130$:
-;	lcd.c:401: printf_tiny("0x%x: ", i << 4);
+;	lcd.c:400: printf("0x%02x: ", i << 3);
 	mov	ar5,r7
 	clr	a
+	rr	a
+	anl	a,#0xf8
 	xch	a,r5
 	swap	a
+	rr	a
 	xch	a,r5
 	xrl	a,r5
 	xch	a,r5
-	anl	a,#0xf0
+	anl	a,#0xf8
 	xch	a,r5
 	xrl	a,r5
 	mov	r6,a
@@ -1576,26 +1588,42 @@ _cgram_hex_dump:
 	push	acc
 	mov	a,#(___str_7 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar7
-;	lcd.c:403: for(int j = 0; j < 16; j++) {
+;	lcd.c:401: for(int j = 0; j < 8; j++) {
 	mov	r5,#0x00
 	mov	r6,#0x00
 00104$:
 	clr	c
 	mov	a,r5
-	subb	a,#0x10
+	subb	a,#0x08
 	mov	a,r6
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00101$
-;	lcd.c:404: printf_tiny(" %x", read_xxram_address());
+;	lcd.c:403: uint8_t cgram_address = 0b01000000 | (i << 3) | j;
+	mov	ar4,r7
+	mov	a,r4
+	swap	a
+	rr	a
+	anl	a,#0xf8
+	mov	r4,a
+	orl	ar4,#0x40
+	mov	ar3,r5
+	mov	a,r3
+	orl	a,r4
+	mov	dpl,a
+;	lcd.c:404: set_cgram_address(cgram_address); // Set the CGRAM address to the start
 	push	ar7
 	push	ar6
 	push	ar5
+	lcall	_set_cgram_address
+;	lcd.c:405: printf(" %02x", read_xxram_address());
 	lcall	_read_xxram_address
 	mov	r4,dpl
 	mov	r3,#0x00
@@ -1605,14 +1633,16 @@ _cgram_hex_dump:
 	push	acc
 	mov	a,#(___str_8 >> 8)
 	push	acc
-	lcall	_printf_tiny
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
 	mov	a,sp
-	add	a,#0xfc
+	add	a,#0xfb
 	mov	sp,a
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:403: for(int j = 0; j < 16; j++) {
+;	lcd.c:401: for(int j = 0; j < 8; j++) {
 	inc	r5
 	cjne	r5,#0x00,00104$
 	inc	r6
@@ -1628,7 +1658,7 @@ _cgram_hex_dump:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	lcd.c:400: for(uint8_t i = 0; i < 4; i++) {
+;	lcd.c:399: for(uint8_t i = 0; i < 8; i++) {
 	inc	r7
 ;	lcd.c:409: }
 	ljmp	00107$
@@ -1639,14 +1669,14 @@ _cgram_hex_dump:
 ;i                         Allocated to registers r5 r6 
 ;char_received             Allocated to registers r3 
 ;------------------------------------------------------------
-;	lcd.c:417: uint8_t get_hex_value(){
+;	lcd.c:415: uint8_t get_hex_value(){
 ;	-----------------------------------------
 ;	 function get_hex_value
 ;	-----------------------------------------
 _get_hex_value:
-;	lcd.c:418: uint8_t value = 0;
+;	lcd.c:416: uint8_t value = 0;
 	mov	r7,#0x00
-;	lcd.c:419: for(int i = 0; i < 2; i++){
+;	lcd.c:417: for(int i = 0; i < 2; i++){
 	mov	r5,#0x00
 	mov	r6,#0x00
 00125$:
@@ -1659,7 +1689,7 @@ _get_hex_value:
 	jc	00183$
 	ljmp	00123$
 00183$:
-;	lcd.c:420: if(i == 0) printf_tiny("0x");
+;	lcd.c:418: if(i == 0) printf_tiny("0x");
 	mov	a,r5
 	orl	a,r6
 	jnz	00102$
@@ -1677,7 +1707,7 @@ _get_hex_value:
 	pop	ar6
 	pop	ar7
 00102$:
-;	lcd.c:421: uint8_t char_received = echo(); // Read a character from UART
+;	lcd.c:419: uint8_t char_received = echo(); // Read a character from UART
 	push	ar7
 	push	ar6
 	push	ar5
@@ -1686,55 +1716,55 @@ _get_hex_value:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:422: if((char_received >= '0') && (char_received <= '9')){
+;	lcd.c:420: if((char_received >= '0') && (char_received <= '9')){
 	cjne	r4,#0x30,00185$
 00185$:
 	jc	00116$
 	mov	a,r4
 	add	a,#0xff - 0x39
 	jc	00116$
-;	lcd.c:423: char_received = char_received - '0'; // Convert ASCII character to its
+;	lcd.c:421: char_received = char_received - '0'; // Convert ASCII character to its
 	mov	ar3,r4
 	mov	a,r3
 	add	a,#0xd0
 	mov	r3,a
 	sjmp	00117$
 00116$:
-;	lcd.c:425: }else if((char_received >= 'A') && (char_received <= 'F')){
+;	lcd.c:423: }else if((char_received >= 'A') && (char_received <= 'F')){
 	cjne	r4,#0x41,00188$
 00188$:
 	jc	00112$
 	mov	a,r4
 	add	a,#0xff - 0x46
 	jc	00112$
-;	lcd.c:426: char_received = char_received - 'A' + 10; // Convert ASCII character to its
+;	lcd.c:424: char_received = char_received - 'A' + 10; // Convert ASCII character to its
 	mov	ar2,r4
 	mov	a,#0xc9
 	add	a,r2
 	mov	r3,a
 	sjmp	00117$
 00112$:
-;	lcd.c:428: }else if((char_received >= 'a') && (char_received <= 'f')){
+;	lcd.c:426: }else if((char_received >= 'a') && (char_received <= 'f')){
 	cjne	r4,#0x61,00191$
 00191$:
 	jc	00108$
 	mov	a,r4
 	add	a,#0xff - 0x66
 	jc	00108$
-;	lcd.c:429: char_received = char_received - 'a' + 10; // Convert ASCII character to its
+;	lcd.c:427: char_received = char_received - 'a' + 10; // Convert ASCII character to its
 	mov	ar2,r4
 	mov	a,#0xa9
 	add	a,r2
 	mov	r3,a
 	sjmp	00117$
 00108$:
-;	lcd.c:431: }else if((char_received == '\n') || (char_received == '\r')){
+;	lcd.c:429: }else if((char_received == '\n') || (char_received == '\r')){
 	cjne	r4,#0x0a,00194$
 	sjmp	00103$
 00194$:
 	cjne	r4,#0x0d,00104$
 00103$:
-;	lcd.c:432: printf_tiny("\n\r");
+;	lcd.c:430: printf_tiny("\n\r");
 	push	ar7
 	mov	a,#___str_9
 	push	acc
@@ -1744,11 +1774,11 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	lcd.c:433: return value;
+;	lcd.c:431: return value;
 	mov	dpl,r7
 	ret
 00104$:
-;	lcd.c:435: printf_tiny("-->Invalid input\n\r");
+;	lcd.c:433: printf_tiny("-->Invalid input\n\r");
 	mov	a,#___str_11
 	push	acc
 	mov	a,#(___str_11 >> 8)
@@ -1756,24 +1786,24 @@ _get_hex_value:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	lcd.c:436: i = -1;
+;	lcd.c:434: i = -1;
 	mov	r5,#0xff
 	mov	r6,#0xff
-;	lcd.c:437: value = 0;
+;	lcd.c:435: value = 0;
 	mov	r7,#0x00
-;	lcd.c:438: continue;
+;	lcd.c:436: continue;
 	sjmp	00122$
 00117$:
-;	lcd.c:440: if(i == 0){
+;	lcd.c:438: if(i == 0){
 	mov	a,r5
 	orl	a,r6
 	jnz	00120$
-;	lcd.c:441: value |= char_received;
+;	lcd.c:439: value |= char_received;
 	mov	a,r3
 	orl	ar7,a
 	sjmp	00122$
 00120$:
-;	lcd.c:443: value = (value << 4) | char_received;
+;	lcd.c:441: value = (value << 4) | char_received;
 	mov	ar4,r7
 	mov	a,r4
 	swap	a
@@ -1782,14 +1812,14 @@ _get_hex_value:
 	orl	a,r3
 	mov	r7,a
 00122$:
-;	lcd.c:419: for(int i = 0; i < 2; i++){
+;	lcd.c:417: for(int i = 0; i < 2; i++){
 	inc	r5
 	cjne	r5,#0x00,00198$
 	inc	r6
 00198$:
 	ljmp	00125$
 00123$:
-;	lcd.c:446: printf_tiny("\n\r");
+;	lcd.c:444: printf_tiny("\n\r");
 	push	ar7
 	mov	a,#___str_9
 	push	acc
@@ -1799,9 +1829,9 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	lcd.c:447: return value;
+;	lcd.c:445: return value;
 	mov	dpl,r7
-;	lcd.c:448: }
+;	lcd.c:446: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'process_custom_character'
@@ -1812,14 +1842,14 @@ _get_hex_value:
 ;i                         Allocated to registers r5 
 ;cgram_address             Allocated to registers r4 
 ;------------------------------------------------------------
-;	lcd.c:457: void process_custom_character() {
+;	lcd.c:455: void process_custom_character() {
 ;	-----------------------------------------
 ;	 function process_custom_character
 ;	-----------------------------------------
 _process_custom_character:
-;	lcd.c:462: while (1) {
+;	lcd.c:460: while (1) {
 00105$:
-;	lcd.c:463: printf_tiny("Enter LCD display address for the character\n\r");
+;	lcd.c:461: printf_tiny("Enter LCD display address for the character\n\r");
 	mov	a,#___str_12
 	push	acc
 	mov	a,#(___str_12 >> 8)
@@ -1827,14 +1857,14 @@ _process_custom_character:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	lcd.c:464: address = get_hex_value();
+;	lcd.c:462: address = get_hex_value();
 	lcall	_get_hex_value
 	mov	r7,dpl
-;	lcd.c:465: if (address < 0x60) {
+;	lcd.c:463: if (address < 0x60) {
 	cjne	r7,#0x60,00144$
 00144$:
 	jc	00111$
-;	lcd.c:468: printf_tiny("Invalid input\n\r");
+;	lcd.c:466: printf_tiny("Invalid input\n\r");
 	mov	a,#___str_13
 	push	acc
 	mov	a,#(___str_13 >> 8)
@@ -1842,10 +1872,10 @@ _process_custom_character:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	lcd.c:473: while (1) {
+;	lcd.c:471: while (1) {
 	sjmp	00105$
 00111$:
-;	lcd.c:474: printf_tiny("Enter the character code in range 0x00 <--> 0x07\n\r");
+;	lcd.c:472: printf_tiny("Enter the character code in range 0x00 <--> 0x07\n\r");
 	push	ar7
 	mov	a,#___str_14
 	push	acc
@@ -1854,15 +1884,15 @@ _process_custom_character:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	lcd.c:475: ccode = get_hex_value();
+;	lcd.c:473: ccode = get_hex_value();
 	lcall	_get_hex_value
 	mov	r6,dpl
 	pop	ar7
-;	lcd.c:476: if (ccode < 0x08) {
+;	lcd.c:474: if (ccode < 0x08) {
 	cjne	r6,#0x08,00146$
 00146$:
 	jc	00112$
-;	lcd.c:479: printf_tiny("Invalid input\n\r");
+;	lcd.c:477: printf_tiny("Invalid input\n\r");
 	push	ar7
 	mov	a,#___str_13
 	push	acc
@@ -1874,7 +1904,7 @@ _process_custom_character:
 	pop	ar7
 	sjmp	00111$
 00112$:
-;	lcd.c:483: uint8_t char_array[8] = {0};
+;	lcd.c:481: uint8_t char_array[8] = {0};
 	mov	_process_custom_character_char_array_65537_92,#0x00
 	mov	(_process_custom_character_char_array_65537_92 + 0x0001),#0x00
 	mov	(_process_custom_character_char_array_65537_92 + 0x0002),#0x00
@@ -1883,7 +1913,7 @@ _process_custom_character:
 	mov	(_process_custom_character_char_array_65537_92 + 0x0005),#0x00
 	mov	(_process_custom_character_char_array_65537_92 + 0x0006),#0x00
 	mov	(_process_custom_character_char_array_65537_92 + 0x0007),#0x00
-;	lcd.c:486: printf_tiny("Enter pixel pattern hex format for each row of custom character\n\r");
+;	lcd.c:484: printf_tiny("Enter pixel pattern hex format for each row of custom character\n\r");
 	push	ar7
 	push	ar6
 	mov	a,#___str_15
@@ -1895,7 +1925,7 @@ _process_custom_character:
 	dec	sp
 	pop	ar6
 	pop	ar7
-;	lcd.c:489: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+;	lcd.c:487: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
 	mov	r5,#0x00
 00115$:
 	cjne	r5,#0x08,00148$
@@ -1903,7 +1933,7 @@ _process_custom_character:
 	jc	00149$
 	ret
 00149$:
-;	lcd.c:490: printf_tiny("0x%x->", i);
+;	lcd.c:488: printf_tiny("0x%x->", i);
 	mov	ar3,r5
 	mov	r4,#0x00
 	push	ar7
@@ -1921,7 +1951,7 @@ _process_custom_character:
 	mov	sp,a
 	pop	ar5
 	pop	ar6
-;	lcd.c:493: uint8_t cgram_address = 0b01000000 | (ccode << 3) | i;
+;	lcd.c:491: uint8_t cgram_address = 0b01000000 | (ccode << 3) | i;
 	mov	ar4,r6
 	mov	a,r4
 	swap	a
@@ -1932,7 +1962,7 @@ _process_custom_character:
 	orl	a,r4
 	orl	a,r5
 	mov	r4,a
-;	lcd.c:496: char_array[i] = get_hex_value() & 0b00011111;
+;	lcd.c:494: char_array[i] = get_hex_value() & 0b00011111;
 	mov	a,r5
 	add	a,#_process_custom_character_char_array_65537_92
 	mov	r1,a
@@ -1947,14 +1977,14 @@ _process_custom_character:
 	anl	a,#0x1f
 	mov	r3,a
 	mov	@r1,a
-;	lcd.c:499: lcdcreatechar(cgram_address, char_array[i]);
+;	lcd.c:497: lcdcreatechar(cgram_address, char_array[i]);
 	mov	_lcdcreatechar_PARM_2,r3
 	mov	dpl,r4
 	lcall	_lcdcreatechar
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:502: lcdgotoaddr(address);
+;	lcd.c:500: lcdgotoaddr(address);
 	mov	dpl,r7
 	push	ar7
 	push	ar6
@@ -1962,7 +1992,7 @@ _process_custom_character:
 	lcall	_lcdgotoaddr
 	pop	ar5
 	pop	ar6
-;	lcd.c:503: lcdputch(ccode);
+;	lcd.c:501: lcdputch(ccode);
 	mov	dpl,r6
 	push	ar6
 	push	ar5
@@ -1970,9 +2000,9 @@ _process_custom_character:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:489: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+;	lcd.c:487: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
 	inc	r5
-;	lcd.c:505: }
+;	lcd.c:503: }
 	ljmp	00115$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -2018,12 +2048,12 @@ ___str_6:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_7:
-	.ascii "0x%x: "
+	.ascii "0x%02x: "
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_8:
-	.ascii " %x"
+	.ascii " %02x"
 	.db 0x00
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
