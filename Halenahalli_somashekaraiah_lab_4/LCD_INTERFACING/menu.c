@@ -24,5 +24,7 @@ void menu(){
     printf_tiny("[a]. Clock restart\n\r");
     printf_tiny("[b]. Clock stop\n\r");
     printf_tiny("[c]. Clock reset\n\r");
+    printf_tiny("[d]. LCD RAM Dump\n\r");
+    printf_tiny("[e]. Create custom character\n\r");
     printf_tiny("*************************************************************************\n\r");
 }

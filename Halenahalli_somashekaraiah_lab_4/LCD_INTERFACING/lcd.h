@@ -87,7 +87,7 @@ void set_cgram_address(uint8_t cgram_address);
  * @brief Creates a custom character on the LCD.
  * @param char_num Character number for the custom character.
  */
-void create_custom_character(uint8_t char_num);
+void lcdcreatechar(uint8_t char_num, uint8_t c);
 
 /**
  * @brief Resets the clock values on the LCD.
@@ -111,5 +111,49 @@ void menu_lcd();
  * @param c Indicator for the "Reset" option.
  */
 void arrow_set(char a, char b, char c);
+
+/**
+ * @brief Sets the DDRAM (Display Data RAM) address for the LCD.
+ *
+ * This function sets the DDRAM address for positioning the cursor on the LCD display.
+ * It uses the specified DDRAM address and performs necessary LCD commands.
+ *
+ * @param ddram_address The DDRAM address to set.
+ */
+void set_ddram_address(uint8_t ddram_address);
+
+/**
+ * @brief Reads a byte from the LCD's data RAM (xxRAM).
+ *
+ * This function reads a byte from the current address pointed to by the LCD.
+ *
+ * @return The data read from the xxRAM address.
+ */
+uint8_t read_xxram_address();
+
+/**
+ * @brief Dumps the contents of DDRAM in hexadecimal format.
+ *
+ * This function dumps the contents of DDRAM in hexadecimal format,
+ * organized by rows on the LCD display.
+ */
+void ddram_hex_dump();
+
+/**
+ * @brief Dumps the contents of CGRAM in hexadecimal format.
+ *
+ * This function dumps the contents of CGRAM in hexadecimal format,
+ * organized by rows on the LCD display.
+ */
+void cgram_hex_dump();
+
+/**
+ * @brief Processes the creation of a custom character for the LCD.
+ *
+ * This function guides the user through entering the LCD display address
+ * and character code for a custom character. It then prompts the user to
+ * enter the pixel pattern in hex format for each row of the custom character.
+ */
+void process_custom_character();
 
 #endif  // LCD_H

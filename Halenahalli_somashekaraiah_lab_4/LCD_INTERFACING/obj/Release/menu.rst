@@ -94,7 +94,7 @@
                                      94 ;	-----------------------------------------
                                      95 ;	 function menu
                                      96 ;	-----------------------------------------
-      002698                         97 _menu:
+      002A0D                         97 _menu:
                            000007    98 	ar7 = 0x07
                            000006    99 	ar6 = 0x06
                            000005   100 	ar5 = 0x05
@@ -104,60 +104,76 @@
                            000001   104 	ar1 = 0x01
                            000000   105 	ar0 = 0x00
                                     106 ;	menu.c:22: printf_tiny("*************************************************************************\n\r");
-      002698 74 1E            [12]  107 	mov	a,#___str_0
-      00269A C0 E0            [24]  108 	push	acc
-      00269C 74 2A            [12]  109 	mov	a,#(___str_0 >> 8)
-      00269E C0 E0            [24]  110 	push	acc
-      0026A0 12 27 7D         [24]  111 	lcall	_printf_tiny
-      0026A3 15 81            [12]  112 	dec	sp
-      0026A5 15 81            [12]  113 	dec	sp
+      002A0D 74 AF            [12]  107 	mov	a,#___str_0
+      002A0F C0 E0            [24]  108 	push	acc
+      002A11 74 2E            [12]  109 	mov	a,#(___str_0 >> 8)
+      002A13 C0 E0            [24]  110 	push	acc
+      002A15 12 2B 04         [24]  111 	lcall	_printf_tiny
+      002A18 15 81            [12]  112 	dec	sp
+      002A1A 15 81            [12]  113 	dec	sp
                                     114 ;	menu.c:23: printf_tiny("CLOCK MENU:\n\r");
-      0026A7 74 6A            [12]  115 	mov	a,#___str_1
-      0026A9 C0 E0            [24]  116 	push	acc
-      0026AB 74 2A            [12]  117 	mov	a,#(___str_1 >> 8)
-      0026AD C0 E0            [24]  118 	push	acc
-      0026AF 12 27 7D         [24]  119 	lcall	_printf_tiny
-      0026B2 15 81            [12]  120 	dec	sp
-      0026B4 15 81            [12]  121 	dec	sp
+      002A1C 74 FB            [12]  115 	mov	a,#___str_1
+      002A1E C0 E0            [24]  116 	push	acc
+      002A20 74 2E            [12]  117 	mov	a,#(___str_1 >> 8)
+      002A22 C0 E0            [24]  118 	push	acc
+      002A24 12 2B 04         [24]  119 	lcall	_printf_tiny
+      002A27 15 81            [12]  120 	dec	sp
+      002A29 15 81            [12]  121 	dec	sp
                                     122 ;	menu.c:24: printf_tiny("[a]. Clock restart\n\r");
-      0026B6 74 78            [12]  123 	mov	a,#___str_2
-      0026B8 C0 E0            [24]  124 	push	acc
-      0026BA 74 2A            [12]  125 	mov	a,#(___str_2 >> 8)
-      0026BC C0 E0            [24]  126 	push	acc
-      0026BE 12 27 7D         [24]  127 	lcall	_printf_tiny
-      0026C1 15 81            [12]  128 	dec	sp
-      0026C3 15 81            [12]  129 	dec	sp
+      002A2B 74 09            [12]  123 	mov	a,#___str_2
+      002A2D C0 E0            [24]  124 	push	acc
+      002A2F 74 2F            [12]  125 	mov	a,#(___str_2 >> 8)
+      002A31 C0 E0            [24]  126 	push	acc
+      002A33 12 2B 04         [24]  127 	lcall	_printf_tiny
+      002A36 15 81            [12]  128 	dec	sp
+      002A38 15 81            [12]  129 	dec	sp
                                     130 ;	menu.c:25: printf_tiny("[b]. Clock stop\n\r");
-      0026C5 74 8D            [12]  131 	mov	a,#___str_3
-      0026C7 C0 E0            [24]  132 	push	acc
-      0026C9 74 2A            [12]  133 	mov	a,#(___str_3 >> 8)
-      0026CB C0 E0            [24]  134 	push	acc
-      0026CD 12 27 7D         [24]  135 	lcall	_printf_tiny
-      0026D0 15 81            [12]  136 	dec	sp
-      0026D2 15 81            [12]  137 	dec	sp
+      002A3A 74 1E            [12]  131 	mov	a,#___str_3
+      002A3C C0 E0            [24]  132 	push	acc
+      002A3E 74 2F            [12]  133 	mov	a,#(___str_3 >> 8)
+      002A40 C0 E0            [24]  134 	push	acc
+      002A42 12 2B 04         [24]  135 	lcall	_printf_tiny
+      002A45 15 81            [12]  136 	dec	sp
+      002A47 15 81            [12]  137 	dec	sp
                                     138 ;	menu.c:26: printf_tiny("[c]. Clock reset\n\r");
-      0026D4 74 9F            [12]  139 	mov	a,#___str_4
-      0026D6 C0 E0            [24]  140 	push	acc
-      0026D8 74 2A            [12]  141 	mov	a,#(___str_4 >> 8)
-      0026DA C0 E0            [24]  142 	push	acc
-      0026DC 12 27 7D         [24]  143 	lcall	_printf_tiny
-      0026DF 15 81            [12]  144 	dec	sp
-      0026E1 15 81            [12]  145 	dec	sp
-                                    146 ;	menu.c:27: printf_tiny("*************************************************************************\n\r");
-      0026E3 74 1E            [12]  147 	mov	a,#___str_0
-      0026E5 C0 E0            [24]  148 	push	acc
-      0026E7 74 2A            [12]  149 	mov	a,#(___str_0 >> 8)
-      0026E9 C0 E0            [24]  150 	push	acc
-      0026EB 12 27 7D         [24]  151 	lcall	_printf_tiny
-      0026EE 15 81            [12]  152 	dec	sp
-      0026F0 15 81            [12]  153 	dec	sp
-                                    154 ;	menu.c:28: }
-      0026F2 22               [24]  155 	ret
-                                    156 	.area CSEG    (CODE)
-                                    157 	.area CONST   (CODE)
-                                    158 	.area CONST   (CODE)
-      002A1E                        159 ___str_0:
-      002A1E 2A 2A 2A 2A 2A 2A 2A   160 	.ascii "************************************************************"
+      002A49 74 30            [12]  139 	mov	a,#___str_4
+      002A4B C0 E0            [24]  140 	push	acc
+      002A4D 74 2F            [12]  141 	mov	a,#(___str_4 >> 8)
+      002A4F C0 E0            [24]  142 	push	acc
+      002A51 12 2B 04         [24]  143 	lcall	_printf_tiny
+      002A54 15 81            [12]  144 	dec	sp
+      002A56 15 81            [12]  145 	dec	sp
+                                    146 ;	menu.c:27: printf_tiny("[d]. LCD RAM Dump\n\r");
+      002A58 74 43            [12]  147 	mov	a,#___str_5
+      002A5A C0 E0            [24]  148 	push	acc
+      002A5C 74 2F            [12]  149 	mov	a,#(___str_5 >> 8)
+      002A5E C0 E0            [24]  150 	push	acc
+      002A60 12 2B 04         [24]  151 	lcall	_printf_tiny
+      002A63 15 81            [12]  152 	dec	sp
+      002A65 15 81            [12]  153 	dec	sp
+                                    154 ;	menu.c:28: printf_tiny("[e]. Create custom character\n\r");
+      002A67 74 57            [12]  155 	mov	a,#___str_6
+      002A69 C0 E0            [24]  156 	push	acc
+      002A6B 74 2F            [12]  157 	mov	a,#(___str_6 >> 8)
+      002A6D C0 E0            [24]  158 	push	acc
+      002A6F 12 2B 04         [24]  159 	lcall	_printf_tiny
+      002A72 15 81            [12]  160 	dec	sp
+      002A74 15 81            [12]  161 	dec	sp
+                                    162 ;	menu.c:29: printf_tiny("*************************************************************************\n\r");
+      002A76 74 AF            [12]  163 	mov	a,#___str_0
+      002A78 C0 E0            [24]  164 	push	acc
+      002A7A 74 2E            [12]  165 	mov	a,#(___str_0 >> 8)
+      002A7C C0 E0            [24]  166 	push	acc
+      002A7E 12 2B 04         [24]  167 	lcall	_printf_tiny
+      002A81 15 81            [12]  168 	dec	sp
+      002A83 15 81            [12]  169 	dec	sp
+                                    170 ;	menu.c:30: }
+      002A85 22               [24]  171 	ret
+                                    172 	.area CSEG    (CODE)
+                                    173 	.area CONST   (CODE)
+                                    174 	.area CONST   (CODE)
+      002EAF                        175 ___str_0:
+      002EAF 2A 2A 2A 2A 2A 2A 2A   176 	.ascii "************************************************************"
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
@@ -166,46 +182,65 @@
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A
-      002A5A 2A 2A 2A 2A 2A 2A 2A   161 	.ascii "*************"
+      002EEB 2A 2A 2A 2A 2A 2A 2A   177 	.ascii "*************"
              2A 2A 2A 2A 2A 2A
-      002A67 0A                     162 	.db 0x0a
-      002A68 0D                     163 	.db 0x0d
-      002A69 00                     164 	.db 0x00
-                                    165 	.area CSEG    (CODE)
-                                    166 	.area CONST   (CODE)
-      002A6A                        167 ___str_1:
-      002A6A 43 4C 4F 43 4B 20 4D   168 	.ascii "CLOCK MENU:"
+      002EF8 0A                     178 	.db 0x0a
+      002EF9 0D                     179 	.db 0x0d
+      002EFA 00                     180 	.db 0x00
+                                    181 	.area CSEG    (CODE)
+                                    182 	.area CONST   (CODE)
+      002EFB                        183 ___str_1:
+      002EFB 43 4C 4F 43 4B 20 4D   184 	.ascii "CLOCK MENU:"
              45 4E 55 3A
-      002A75 0A                     169 	.db 0x0a
-      002A76 0D                     170 	.db 0x0d
-      002A77 00                     171 	.db 0x00
-                                    172 	.area CSEG    (CODE)
-                                    173 	.area CONST   (CODE)
-      002A78                        174 ___str_2:
-      002A78 5B 61 5D 2E 20 43 6C   175 	.ascii "[a]. Clock restart"
+      002F06 0A                     185 	.db 0x0a
+      002F07 0D                     186 	.db 0x0d
+      002F08 00                     187 	.db 0x00
+                                    188 	.area CSEG    (CODE)
+                                    189 	.area CONST   (CODE)
+      002F09                        190 ___str_2:
+      002F09 5B 61 5D 2E 20 43 6C   191 	.ascii "[a]. Clock restart"
              6F 63 6B 20 72 65 73
              74 61 72 74
-      002A8A 0A                     176 	.db 0x0a
-      002A8B 0D                     177 	.db 0x0d
-      002A8C 00                     178 	.db 0x00
-                                    179 	.area CSEG    (CODE)
-                                    180 	.area CONST   (CODE)
-      002A8D                        181 ___str_3:
-      002A8D 5B 62 5D 2E 20 43 6C   182 	.ascii "[b]. Clock stop"
+      002F1B 0A                     192 	.db 0x0a
+      002F1C 0D                     193 	.db 0x0d
+      002F1D 00                     194 	.db 0x00
+                                    195 	.area CSEG    (CODE)
+                                    196 	.area CONST   (CODE)
+      002F1E                        197 ___str_3:
+      002F1E 5B 62 5D 2E 20 43 6C   198 	.ascii "[b]. Clock stop"
              6F 63 6B 20 73 74 6F
              70
-      002A9C 0A                     183 	.db 0x0a
-      002A9D 0D                     184 	.db 0x0d
-      002A9E 00                     185 	.db 0x00
-                                    186 	.area CSEG    (CODE)
-                                    187 	.area CONST   (CODE)
-      002A9F                        188 ___str_4:
-      002A9F 5B 63 5D 2E 20 43 6C   189 	.ascii "[c]. Clock reset"
+      002F2D 0A                     199 	.db 0x0a
+      002F2E 0D                     200 	.db 0x0d
+      002F2F 00                     201 	.db 0x00
+                                    202 	.area CSEG    (CODE)
+                                    203 	.area CONST   (CODE)
+      002F30                        204 ___str_4:
+      002F30 5B 63 5D 2E 20 43 6C   205 	.ascii "[c]. Clock reset"
              6F 63 6B 20 72 65 73
              65 74
-      002AAF 0A                     190 	.db 0x0a
-      002AB0 0D                     191 	.db 0x0d
-      002AB1 00                     192 	.db 0x00
-                                    193 	.area CSEG    (CODE)
-                                    194 	.area XINIT   (CODE)
-                                    195 	.area CABS    (ABS,CODE)
+      002F40 0A                     206 	.db 0x0a
+      002F41 0D                     207 	.db 0x0d
+      002F42 00                     208 	.db 0x00
+                                    209 	.area CSEG    (CODE)
+                                    210 	.area CONST   (CODE)
+      002F43                        211 ___str_5:
+      002F43 5B 64 5D 2E 20 4C 43   212 	.ascii "[d]. LCD RAM Dump"
+             44 20 52 41 4D 20 44
+             75 6D 70
+      002F54 0A                     213 	.db 0x0a
+      002F55 0D                     214 	.db 0x0d
+      002F56 00                     215 	.db 0x00
+                                    216 	.area CSEG    (CODE)
+                                    217 	.area CONST   (CODE)
+      002F57                        218 ___str_6:
+      002F57 5B 65 5D 2E 20 43 72   219 	.ascii "[e]. Create custom character"
+             65 61 74 65 20 63 75
+             73 74 6F 6D 20 63 68
+             61 72 61 63 74 65 72
+      002F73 0A                     220 	.db 0x0a
+      002F74 0D                     221 	.db 0x0d
+      002F75 00                     222 	.db 0x00
+                                    223 	.area CSEG    (CODE)
+                                    224 	.area XINIT   (CODE)
+                                    225 	.area CABS    (ABS,CODE)

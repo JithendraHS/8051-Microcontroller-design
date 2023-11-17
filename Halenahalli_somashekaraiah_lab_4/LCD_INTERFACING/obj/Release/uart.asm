@@ -605,9 +605,9 @@ _putstr:
 _echo:
 ;	uart.c:70: int8_t ch = getchar(); // Read a character from the UART
 	lcall	_getchar
+	mov	r6,dpl
 ;	uart.c:71: putchar(ch);           // Output the character, providing an echo effect
-	mov	a,dpl
-	mov	r6,a
+	mov	a,r6
 	mov	r5,a
 	rlc	a
 	subb	a,acc
@@ -616,16 +616,10 @@ _echo:
 	mov	dph,r7
 	push	ar6
 	lcall	_putchar
-;	uart.c:72: putchar('\r');
-	mov	dptr,#0x000d
-	lcall	_putchar
-;	uart.c:73: putchar('\n');
-	mov	dptr,#0x000a
-	lcall	_putchar
 	pop	ar6
-;	uart.c:74: return ch;             // Return the character read
+;	uart.c:72: return ch;             // Return the character read
 	mov	dpl,r6
-;	uart.c:75: }
+;	uart.c:73: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

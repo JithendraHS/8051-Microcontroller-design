@@ -69,7 +69,5 @@ int8_t echo()
 {
     int8_t ch = getchar(); // Read a character from the UART
     putchar(ch);           // Output the character, providing an echo effect
-    putchar('\r');
-    putchar('\n');
     return ch;             // Return the character read
 }

@@ -18,6 +18,7 @@
 #include <at89c51ed2.h>
 #include "delay.h"
 #include "stdio.h"
+#include "uart.h"
 
 #define R_W (P1_7)
 #define RS (P1_6)
@@ -189,18 +190,11 @@ void test_functionality() {
     lcdputstr("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyzJITHU");
     delay(100000);
 
-    // Creating a custom character and displaying it
-    create_custom_character(custom_char_code);
-    lcdgotoaddr(0x0F);
-    lcdputch(custom_char_code);
-    delay(100000);
-
     // Testing clear display
     lcdclear();
 
     printf_tiny("test_functionality end\n\r");
 }
-
 
 /**
  * @brief Sets the CGRAM address for custom character creation.
@@ -217,30 +211,12 @@ void set_cgram_address(uint8_t cgram_address) {
  * @brief Creates a custom character on the LCD.
  * @param char_num The custom character code to be created.
  */
-void create_custom_character(uint8_t char_num) {
-    // Array representing the pixel pattern of the custom character
-    uint8_t c[8] =
-    {0b00000100,
-     0b00001110,
-     0b00000100,
-     0b00000100,
-     0b00000100,
-     0b00000100,
-     0b00000100,
-     0b00001010
-     };
+void lcdcreatechar(uint8_t char_num, uint8_t c) {
+    // Set the CGRAM address
+    set_cgram_address(char_num);
 
-    // Iterate through each row of the character
-    for(int i = 0; i < BYTE_LENGTH; i++) {
-        // Calculate the CGRAM address for each row of the custom character
-        uint8_t cgram_address = 0b01000000 | (char_num << 3) | i;
-
-        // Set the CGRAM address
-        set_cgram_address(cgram_address);
-
-        // Write the pixel pattern to the LCD
-        lcdputch(c[i]);
-    }
+    // Write the pixel pattern to the cgram
+    lcdputch(c);
 }
 
 
@@ -345,5 +321,186 @@ void arrow_set(char a, char b, char c) {
     lcdputch(b);  // Display arrow indicator for "Stopped"
     lcdgotoxy(4, 6);
     lcdputch(c);  // Display arrow indicator for "Reset"
+}
+
+
+/**
+ * @brief Sets the DDRAM (Display Data RAM) address for the LCD.
+ *
+ * @param ddram_address The DDRAM address to set. Should be in the range of 0 to 0x27.
+ *
+ * @return None.
+ */
+void set_ddram_address(uint8_t ddram_address) {
+    RS = PULSE_LOW;            // Set RS (Register Select) to LOW for command mode
+    R_W = PULSE_LOW;           // Set R_W (Read/Write) to LOW for write operation
+    *ptr = ddram_address | 0b10000000; // Set the DDRAM address with the required command
+    lcdbusywait();             // Wait for the LCD to process the command
+}
+
+
+/**
+ * @brief Reads the data from the specified XRAM address.
+ *
+ * @return The data read from the XRAM address.
+ */
+uint8_t read_xxram_address() {
+    uint8_t data = 0;        // Variable to store the read data
+    RS = PULSE_HIGH;         // Set RS (Register Select) to HIGH for data mode
+    R_W = PULSE_HIGH;        // Set R_W (Read/Write) to HIGH for read operation
+    data = *ptr;             // Read the data from the specified XRAM address
+    lcdbusywait();           // Wait for the LCD to process the read operation
+    return data;             // Return the read data
+}
+
+/**
+ * @brief Dumps the content of the DDRAM in hexadecimal format.
+ *
+ * This function prints the hexadecimal content of the DDRAM, organized in rows and columns.
+ */
+void ddram_hex_dump() {
+    for(uint8_t i = 0; i < 4; i++) {
+        switch (i) {
+            case 0:
+                set_ddram_address(0x00);
+                printf_tiny("0x%x: ", 0x00);
+                break;
+            case 1:
+                set_ddram_address(0x40);
+                printf_tiny("0x%x: ", 0x40);
+                break;
+            case 2:
+                set_ddram_address(0x10);
+                printf_tiny("0x%x: ", 0x10);
+                break;
+            case 3:
+                set_ddram_address(0x50);
+                printf_tiny("0x%x: ", 0x50);
+                break;
+            default:
+                break;
+        }
+
+        for(int j = 0; j < 16; j++) {
+            printf_tiny(" %x", read_xxram_address());
+        }
+
+        printf_tiny("\n\r");
+    }
+}
+
+/**
+ * @brief Dumps the content of the CGRAM in hexadecimal format.
+ *
+ * This function prints the hexadecimal content of the CGRAM, organized in rows and columns.
+ */
+void cgram_hex_dump() {
+    set_cgram_address(0x00); // Set the CGRAM address to the start
+
+    for(uint8_t i = 0; i < 4; i++) {
+        printf_tiny("0x%x: ", i << 4);
+
+        for(int j = 0; j < 16; j++) {
+            printf_tiny(" %x", read_xxram_address());
+        }
+
+        printf_tiny("\n\r");
+    }
+}
+
+
+
+/**
+ * @brief Reads a hexadecimal value from user input.
+ * @return The hexadecimal value entered by the user.
+ */
+uint8_t get_hex_value(){
+    uint8_t value = 0;
+    for(int i = 0; i < 2; i++){
+        if(i == 0) printf_tiny("0x");
+        uint8_t char_received = echo(); // Read a character from UART
+        if((char_received >= '0') && (char_received <= '9')){
+            char_received = char_received - '0'; // Convert ASCII character to its
+                                                 // corresponding numerical value
+        }else if((char_received >= 'A') && (char_received <= 'F')){
+            char_received = char_received - 'A' + 10; // Convert ASCII character to its
+                                                 // corresponding numerical value
+        }else if((char_received >= 'a') && (char_received <= 'f')){
+            char_received = char_received - 'a' + 10; // Convert ASCII character to its
+                                                 // corresponding numerical value
+        }else if((char_received == '\n') || (char_received == '\r')){
+            printf_tiny("\n\r");
+            return value;
+        }else{
+            printf_tiny("-->Invalid input\n\r");
+            i = -1;
+            value = 0;
+            continue;
+        }
+        if(i == 0){
+            value |= char_received;
+        }else{
+           value = (value << 4) | char_received;
+        }
+    }
+    printf_tiny("\n\r");
+    return value;
+}
+
+/**
+ * @brief Process the creation of a custom character for the LCD.
+ *
+ * This function guides the user through entering the LCD display address
+ * and character code for a custom character. It then prompts the user to
+ * enter the pixel pattern in hex format for each row of the custom character.
+ */
+void process_custom_character() {
+    uint8_t ccode = 0;
+    uint8_t address = 0;
+
+    // Get the LCD display address for the custom character
+    while (1) {
+        printf_tiny("Enter LCD display address for the character\n\r");
+        address = get_hex_value();
+        if (address < 0x60) {
+            break;
+        } else {
+            printf_tiny("Invalid input\n\r");
+        }
+    }
+
+    // Get the character code for the custom character
+    while (1) {
+        printf_tiny("Enter the character code in range 0x00 <--> 0x07\n\r");
+        ccode = get_hex_value();
+        if (ccode < 0x08) {
+            break;
+        } else {
+            printf_tiny("Invalid input\n\r");
+        }
+    }
+
+    uint8_t char_array[8] = {0};
+
+    // Prompt the user to enter pixel pattern hex format for each row of custom character
+    printf_tiny("Enter pixel pattern hex format for each row of custom character\n\r");
+
+    // Iterate through each row of the character
+    for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+        printf_tiny("0x%x->", i);
+
+        // Calculate the CGRAM address for each row of the custom character
+        uint8_t cgram_address = 0b01000000 | (ccode << 3) | i;
+
+        // Get the hex value for the pixel pattern in the row
+        char_array[i] = get_hex_value() & 0b00011111;
+
+        // Create the custom character in the LCD CGRAM
+        lcdcreatechar(cgram_address, char_array[i]);
+
+        // Display the custom character at the specified LCD display address
+        lcdgotoaddr(address);
+        lcdputch(ccode);
+    }
 }
 

@@ -106,7 +106,16 @@ void main(void)
                     lcdputch(indicator);
                 }
                 break;
-
+            case 'd':
+                printf_tiny("LCD RAM dump:\n\r");
+                printf_tiny("DDRAM dump:\n\r");
+                ddram_hex_dump();
+                printf_tiny("CGRAM dump:\n\r");
+                cgram_hex_dump();
+                break;
+            case 'e':
+                process_custom_character();
+                break;
             default:
                 // Handle other cases or do nothing for unrecognized input
                 break;

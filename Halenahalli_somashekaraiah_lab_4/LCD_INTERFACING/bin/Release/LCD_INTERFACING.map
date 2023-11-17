@@ -53,9 +53,9 @@ C:   00000021  s_BIT_BANK
 C:   00000022  l_GSINIT3                       
 C:   0000002A  l_GSINIT4                       
 C:   00000031  l_HOME                          
-C:   0000003B  s_SSEG                          
+C:   0000003C  s_SSEG                          
 C:   0000006D  l_DSEG                          
-C:   000000C5  l_SSEG                          
+C:   000000C4  l_SSEG                          
 C:   00000100  l_IRAM                          
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
@@ -66,8 +66,8 @@ CABS                                00000000    00000000 =           0. bytes (A
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-C:   0000018D  l_CONST                         
-C:   0000087D  l_CSEG                          
+C:   000002CA  l_CONST                         
+C:   00000C04  l_CSEG                          
 C:   00002000  s_HOME                          
 C:   00002031  s_GSINIT0                       
 C:   00002034  s_GSINIT1                       
@@ -78,8 +78,8 @@ C:   0000208A  s_GSINIT
 C:   0000208A  s_GSINIT5                       
 C:   000020A5  s_GSFINAL                       
 C:   000020A8  s_CSEG                          
-C:   00002925  s_CONST                         
-C:   00002AB2  s_XINIT                         
+C:   00002CAC  s_CONST                         
+C:   00002F76  s_XINIT                         
 C:   0000FC00  s_PSEG                          
 C:   0000FC00  s_XISEG                         
 C:   0000FC00  s_XSEG                          
@@ -385,8 +385,9 @@ DSEG                                00000000    0000006D =         109. bytes (R
      00000022  _ptr                               lcd
      00000029  _clockrun_flag                     lcd
      00000030  _lcdgotoxy_PARM_2                  lcd
-     00000039  _arrow_set_PARM_2                  lcd
-     0000003A  _arrow_set_PARM_3                  lcd
+     00000031  _lcdcreatechar_PARM_2              lcd
+     00000032  _arrow_set_PARM_2                  lcd
+     00000033  _arrow_set_PARM_3                  lcd
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 12.
 Hexadecimal  [32-Bits]
@@ -407,11 +408,11 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-SSEG                                0000003B    000000C5 =         197. bytes (REL,OVR)
+SSEG                                0000003C    000000C4 =         196. bytes (REL,OVR)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000003B  __start__stack                     main
+     0000003C  __start__stack                     main
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 14.
 Hexadecimal  [32-Bits]
@@ -501,7 +502,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                000020A8    0000087D =        2173. bytes (REL,CON,CODE)
+CSEG                                000020A8    00000C04 =        3076. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -517,30 +518,36 @@ C:   0000217E  _lcdputstr                         lcd
 C:   00002223  _lcdinit                           lcd
 C:   000022AD  _lcdclear                          lcd
 C:   000022BD  _test_functionality                lcd
-C:   0000232D  _set_cgram_address                 lcd
-C:   0000233E  _create_custom_character           lcd
-C:   0000239C  _reset_clock                       lcd
-C:   000023DB  _clock_run                         lcd
-C:   000024BB  _menu_lcd                          lcd
-C:   00002506  _arrow_set                         lcd
-C:   00002538  __sdcc_external_startup            main
-C:   0000253F  _isr_timer2                        main
-C:   00002598  _main                              main
-C:   00002698  _menu                              menu
-C:   000026F3  _putchar                           uart
-C:   00002703  _getchar                           uart
-C:   00002711  _putstr                            uart
-C:   00002758  _echo                              uart
-C:   0000277D  _printf_tiny                       printf_tiny
-C:   00002886  __moduint                          _moduint
-C:   000028D3  __gptrget                          _gptrget
-C:   000028EF  __modsint                          _modsint
+C:   00002311  _set_cgram_address                 lcd
+C:   00002322  _lcdcreatechar                     lcd
+C:   0000232B  _reset_clock                       lcd
+C:   0000236A  _clock_run                         lcd
+C:   0000244A  _menu_lcd                          lcd
+C:   00002495  _arrow_set                         lcd
+C:   000024C7  _set_ddram_address                 lcd
+C:   000024DB  _read_xxram_address                lcd
+C:   000024F1  _ddram_hex_dump                    lcd
+C:   000025F0  _cgram_hex_dump                    lcd
+C:   00002679  _get_hex_value                     lcd
+C:   00002758  _process_custom_character          lcd
+C:   00002863  __sdcc_external_startup            main
+C:   0000286A  _isr_timer2                        main
+C:   000028C3  _main                              main
+C:   00002A0D  _menu                              menu
+C:   00002A86  _putchar                           uart
+C:   00002A96  _getchar                           uart
+C:   00002AA4  _putstr                            uart
+C:   00002AEB  _echo                              uart
+C:   00002B04  _printf_tiny                       printf_tiny
+C:   00002C0D  __moduint                          _moduint
+C:   00002C5A  __gptrget                          _gptrget
+C:   00002C76  __modsint                          _modsint
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               00002925    0000018D =         397. bytes (REL,CON,CODE)
+CONST                               00002CAC    000002CA =         714. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -549,7 +556,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-XINIT                               00002AB2    00000001 =           1. bytes (REL,CON,CODE)
+XINIT                               00002F76    00000001 =           1. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

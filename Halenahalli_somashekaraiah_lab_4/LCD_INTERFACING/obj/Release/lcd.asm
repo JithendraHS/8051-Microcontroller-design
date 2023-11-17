@@ -10,6 +10,8 @@
 ;--------------------------------------------------------
 	.globl _lcd_command_PARM_3
 	.globl _lcd_command_PARM_2
+	.globl _get_hex_value
+	.globl _echo
 	.globl _printf_tiny
 	.globl _delay
 	.globl _P5_7
@@ -211,6 +213,7 @@
 	.globl _db
 	.globl _arrow_set_PARM_3
 	.globl _arrow_set_PARM_2
+	.globl _lcdcreatechar_PARM_2
 	.globl _lcdgotoxy_PARM_2
 	.globl _clockrun_flag
 	.globl _ptr
@@ -224,11 +227,16 @@
 	.globl _lcdclear
 	.globl _test_functionality
 	.globl _set_cgram_address
-	.globl _create_custom_character
+	.globl _lcdcreatechar
 	.globl _reset_clock
 	.globl _clock_run
 	.globl _menu_lcd
 	.globl _arrow_set
+	.globl _set_ddram_address
+	.globl _read_xxram_address
+	.globl _ddram_hex_dump
+	.globl _cgram_hex_dump
+	.globl _process_custom_character
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -464,12 +472,14 @@ _elapsed_tick:
 	.ds 4
 _lcdgotoxy_PARM_2:
 	.ds 1
-_create_custom_character_c_65536_44:
-	.ds 8
+_lcdcreatechar_PARM_2:
+	.ds 1
 _arrow_set_PARM_2:
 	.ds 1
 _arrow_set_PARM_3:
 	.ds 1
+_process_custom_character_char_array_65537_92:
+	.ds 8
 ;--------------------------------------------------------
 ; overlayable items in internal ram
 ;--------------------------------------------------------
@@ -528,16 +538,16 @@ _db::
 	.area GSINIT  (CODE)
 	.area GSFINAL (CODE)
 	.area GSINIT  (CODE)
-;	lcd.c:30: extern __xdata uint8_t * ptr = &db;
+;	lcd.c:31: extern __xdata uint8_t * ptr = &db;
 	mov	_ptr,#_db
 	mov	(_ptr + 1),#(_db >> 8)
-;	lcd.c:36: extern volatile unsigned int clockrun_flag = 0;
+;	lcd.c:37: extern volatile unsigned int clockrun_flag = 0;
 	clr	a
 	mov	_clockrun_flag,a
 	mov	(_clockrun_flag + 1),a
-;	lcd.c:38: static uint8_t custom_char_code = 1;
+;	lcd.c:39: static uint8_t custom_char_code = 1;
 	mov	_custom_char_code,#0x01
-;	lcd.c:39: static uint32_t  elapsed_tick = 0;
+;	lcd.c:40: static uint32_t  elapsed_tick = 0;
 	mov	_elapsed_tick,a
 	mov	(_elapsed_tick + 1),a
 	mov	(_elapsed_tick + 2),a
@@ -558,7 +568,7 @@ _db::
 ;data                      Allocated with name '_lcd_command_PARM_3'
 ;rs                        Allocated to registers r7 
 ;------------------------------------------------------------
-;	lcd.c:47: void lcd_command(uint8_t rs, uint8_t r_w, uint8_t data) {
+;	lcd.c:48: void lcd_command(uint8_t rs, uint8_t r_w, uint8_t data) {
 ;	-----------------------------------------
 ;	 function lcd_command
 ;	-----------------------------------------
@@ -571,70 +581,70 @@ _lcd_command:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	lcd.c:48: RS = rs;              // Set the Register Select pin based on the provided parameter.
+;	lcd.c:49: RS = rs;              // Set the Register Select pin based on the provided parameter.
 ;	assignBit
 	mov	a,dpl
 	add	a,#0xff
 	mov	_P1_6,c
-;	lcd.c:49: R_W = r_w;            // Set the Read/Write pin based on the provided parameter.
+;	lcd.c:50: R_W = r_w;            // Set the Read/Write pin based on the provided parameter.
 ;	assignBit
 	mov	a,_lcd_command_PARM_2
 	add	a,#0xff
 	mov	_P1_7,c
-;	lcd.c:50: *ptr = data;          // Write the specified data byte to the LCD data buffer.
+;	lcd.c:51: *ptr = data;          // Write the specified data byte to the LCD data buffer.
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	mov	a,_lcd_command_PARM_3
 	movx	@dptr,a
-;	lcd.c:51: }
+;	lcd.c:52: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdbusywait'
 ;------------------------------------------------------------
-;	lcd.c:56: void lcdbusywait() {
+;	lcd.c:57: void lcdbusywait() {
 ;	-----------------------------------------
 ;	 function lcdbusywait
 ;	-----------------------------------------
 _lcdbusywait:
-;	lcd.c:57: RS = PULSE_LOW;              // Set Register Select to indicate a command is being sent.
+;	lcd.c:58: RS = PULSE_LOW;              // Set Register Select to indicate a command is being sent.
 ;	assignBit
 	clr	_P1_6
-;	lcd.c:58: R_W = PULSE_HIGH;            // Set Read/Write to read from the LCD.
+;	lcd.c:59: R_W = PULSE_HIGH;            // Set Read/Write to read from the LCD.
 ;	assignBit
 	setb	_P1_7
-;	lcd.c:59: while (*ptr & (0b10000000)) {
+;	lcd.c:60: while (*ptr & (0b10000000)) {
 00101$:
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	movx	a,@dptr
 	jb	acc.7,00101$
-;	lcd.c:62: }
+;	lcd.c:63: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdgotoaddr'
 ;------------------------------------------------------------
 ;addr                      Allocated to registers r7 
 ;------------------------------------------------------------
-;	lcd.c:68: void lcdgotoaddr(uint8_t addr) {
+;	lcd.c:69: void lcdgotoaddr(uint8_t addr) {
 ;	-----------------------------------------
 ;	 function lcdgotoaddr
 ;	-----------------------------------------
 _lcdgotoaddr:
 	mov	r7,dpl
-;	lcd.c:69: RS = PULSE_LOW;              // Set Register Select to indicate a command is being sent.
+;	lcd.c:70: RS = PULSE_LOW;              // Set Register Select to indicate a command is being sent.
 ;	assignBit
 	clr	_P1_6
-;	lcd.c:70: R_W = PULSE_LOW;             // Set Read/Write to write to the LCD.
+;	lcd.c:71: R_W = PULSE_LOW;             // Set Read/Write to write to the LCD.
 ;	assignBit
 	clr	_P1_7
-;	lcd.c:71: *ptr = addr | (0x80);        // Set the cursor address with the command prefix (0x80).
+;	lcd.c:72: *ptr = addr | (0x80);        // Set the cursor address with the command prefix (0x80).
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	orl	ar7,#0x80
 	mov	a,r7
 	movx	@dptr,a
-;	lcd.c:72: lcdbusywait();               // Wait until the LCD becomes idle.
-;	lcd.c:73: }
+;	lcd.c:73: lcdbusywait();               // Wait until the LCD becomes idle.
+;	lcd.c:74: }
 	ljmp	_lcdbusywait
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdgotoxy'
@@ -642,12 +652,12 @@ _lcdgotoaddr:
 ;column                    Allocated with name '_lcdgotoxy_PARM_2'
 ;row                       Allocated to registers r7 
 ;------------------------------------------------------------
-;	lcd.c:80: void lcdgotoxy(uint8_t row, uint8_t column) {
+;	lcd.c:81: void lcdgotoxy(uint8_t row, uint8_t column) {
 ;	-----------------------------------------
 ;	 function lcdgotoxy
 ;	-----------------------------------------
 _lcdgotoxy:
-;	lcd.c:82: lcdgotoaddr(((row % 2) ? column + (16 * !(row % 3)) : column + 64 + (16 * !(row % 4))) - 1);
+;	lcd.c:83: lcdgotoaddr(((row % 2) ? column + (16 * !(row % 3)) : column + 64 + (16 * !(row % 4))) - 1);
 	mov	r6,dpl
 	mov	r7,#0x00
 	mov	a,r6
@@ -695,32 +705,32 @@ _lcdgotoxy:
 	mov	a,r5
 	dec	a
 	mov	dpl,a
-;	lcd.c:83: }
+;	lcd.c:84: }
 	ljmp	_lcdgotoaddr
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdputch'
 ;------------------------------------------------------------
 ;cc                        Allocated to registers r7 
 ;------------------------------------------------------------
-;	lcd.c:89: void lcdputch(uint8_t cc) {
+;	lcd.c:90: void lcdputch(uint8_t cc) {
 ;	-----------------------------------------
 ;	 function lcdputch
 ;	-----------------------------------------
 _lcdputch:
 	mov	r7,dpl
-;	lcd.c:91: RS = PULSE_HIGH;
+;	lcd.c:92: RS = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_6
-;	lcd.c:92: R_W = PULSE_LOW;
+;	lcd.c:93: R_W = PULSE_LOW;
 ;	assignBit
 	clr	_P1_7
-;	lcd.c:93: *ptr = cc;
+;	lcd.c:94: *ptr = cc;
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	mov	a,r7
 	movx	@dptr,a
-;	lcd.c:94: lcdbusywait();  // Wait until the LCD is not busy before performing the next operation.
-;	lcd.c:95: }
+;	lcd.c:95: lcdbusywait();  // Wait until the LCD is not busy before performing the next operation.
+;	lcd.c:96: }
 	ljmp	_lcdbusywait
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdputstr'
@@ -728,7 +738,7 @@ _lcdputch:
 ;ss                        Allocated to registers 
 ;lcd_ptr_addr              Allocated to registers r4 
 ;------------------------------------------------------------
-;	lcd.c:102: void lcdputstr(uint8_t *ss) {
+;	lcd.c:103: void lcdputstr(uint8_t *ss) {
 ;	-----------------------------------------
 ;	 function lcdputstr
 ;	-----------------------------------------
@@ -736,7 +746,7 @@ _lcdputstr:
 	mov	r5,dpl
 	mov	r6,dph
 	mov	r7,b
-;	lcd.c:106: while (*ss != '\0') {
+;	lcd.c:107: while (*ss != '\0') {
 00107$:
 	mov	dpl,r5
 	mov	dph,r6
@@ -745,13 +755,13 @@ _lcdputstr:
 	jnz	00137$
 	ret
 00137$:
-;	lcd.c:108: RS = PULSE_LOW;
+;	lcd.c:109: RS = PULSE_LOW;
 ;	assignBit
 	clr	_P1_6
-;	lcd.c:109: R_W = PULSE_HIGH;
+;	lcd.c:110: R_W = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_7
-;	lcd.c:110: lcdputch(*ss);
+;	lcd.c:111: lcdputch(*ss);
 	mov	dpl,r5
 	mov	dph,r6
 	mov	b,r7
@@ -764,13 +774,13 @@ _lcdputstr:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:113: lcd_ptr_addr = *ptr & (0b01111111);
+;	lcd.c:114: lcd_ptr_addr = *ptr & (0b01111111);
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	movx	a,@dptr
 	mov	r4,a
 	anl	ar4,#0x7f
-;	lcd.c:114: switch (lcd_ptr_addr) {
+;	lcd.c:115: switch (lcd_ptr_addr) {
 	cjne	r4,#0x10,00138$
 	sjmp	00101$
 00138$:
@@ -780,11 +790,11 @@ _lcdputstr:
 	cjne	r4,#0x50,00140$
 	sjmp	00102$
 00140$:
-;	lcd.c:115: case 0x10:
+;	lcd.c:116: case 0x10:
 	cjne	r4,#0x60,00106$
 	sjmp	00104$
 00101$:
-;	lcd.c:116: lcdgotoaddr(0x40);
+;	lcd.c:117: lcdgotoaddr(0x40);
 	mov	dpl,#0x40
 	push	ar7
 	push	ar6
@@ -793,11 +803,11 @@ _lcdputstr:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:117: break;
-;	lcd.c:118: case 0x50:
+;	lcd.c:118: break;
+;	lcd.c:119: case 0x50:
 	sjmp	00106$
 00102$:
-;	lcd.c:119: lcdgotoaddr(0x10);
+;	lcd.c:120: lcdgotoaddr(0x10);
 	mov	dpl,#0x10
 	push	ar7
 	push	ar6
@@ -806,11 +816,11 @@ _lcdputstr:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:120: break;
-;	lcd.c:121: case 0x20:
+;	lcd.c:121: break;
+;	lcd.c:122: case 0x20:
 	sjmp	00106$
 00103$:
-;	lcd.c:122: lcdgotoaddr(0x50);
+;	lcd.c:123: lcdgotoaddr(0x50);
 	mov	dpl,#0x50
 	push	ar7
 	push	ar6
@@ -819,11 +829,11 @@ _lcdputstr:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:123: break;
-;	lcd.c:124: case 0x60:
+;	lcd.c:124: break;
+;	lcd.c:125: case 0x60:
 	sjmp	00106$
 00104$:
-;	lcd.c:125: lcdgotoaddr(0x00);
+;	lcd.c:126: lcdgotoaddr(0x00);
 	mov	dpl,#0x00
 	push	ar7
 	push	ar6
@@ -832,120 +842,120 @@ _lcdputstr:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	lcd.c:129: }
+;	lcd.c:130: }
 00106$:
-;	lcd.c:131: ss++;  // Move to the next character in the string.
+;	lcd.c:132: ss++;  // Move to the next character in the string.
 	inc	r5
 	cjne	r5,#0x00,00142$
 	inc	r6
 00142$:
-;	lcd.c:133: }
+;	lcd.c:134: }
 	ljmp	00107$
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdinit'
 ;------------------------------------------------------------
-;	lcd.c:138: void lcdinit() {
+;	lcd.c:139: void lcdinit() {
 ;	-----------------------------------------
 ;	 function lcdinit
 ;	-----------------------------------------
 _lcdinit:
-;	lcd.c:140: delay(14000);
+;	lcd.c:141: delay(14000);
 	mov	dptr,#0x36b0
 	clr	a
 	mov	b,a
 	lcall	_delay
-;	lcd.c:143: lcd_command(0, 0, 0x30);
+;	lcd.c:144: lcd_command(0, 0, 0x30);
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x30
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:144: delay(4000); // Wait for 4.1ms (1.085us * 4000 ~= 4.1ms)
+;	lcd.c:145: delay(4000); // Wait for 4.1ms (1.085us * 4000 ~= 4.1ms)
 	mov	dptr,#0x0fa0
 	clr	a
 	mov	b,a
 	lcall	_delay
-;	lcd.c:145: lcd_command(0, 0, 0x30);
+;	lcd.c:146: lcd_command(0, 0, 0x30);
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x30
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:146: delay(100);  // Wait for 100us (1.085us * 100 ~= 100us)
+;	lcd.c:147: delay(100);  // Wait for 100us (1.085us * 100 ~= 100us)
 	mov	dptr,#(0x64&0x00ff)
 	clr	a
 	mov	b,a
 	lcall	_delay
-;	lcd.c:147: lcd_command(0, 0, 0x30);
+;	lcd.c:148: lcd_command(0, 0, 0x30);
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x30
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:149: lcdbusywait();  // Wait for the LCD to finish processing the commands.
+;	lcd.c:150: lcdbusywait();  // Wait for the LCD to finish processing the commands.
 	lcall	_lcdbusywait
-;	lcd.c:151: lcd_command(0, 0, 0x38);  // Function set command
+;	lcd.c:152: lcd_command(0, 0, 0x38);  // Function set command
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x38
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:152: lcdbusywait();
+;	lcd.c:153: lcdbusywait();
 	lcall	_lcdbusywait
-;	lcd.c:154: lcd_command(0, 0, 0x08);  // Turn off display command
+;	lcd.c:155: lcd_command(0, 0, 0x08);  // Turn off display command
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x08
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:155: lcdbusywait();
+;	lcd.c:156: lcdbusywait();
 	lcall	_lcdbusywait
-;	lcd.c:157: lcd_command(0, 0, 0x0C);  // Turn on display command
+;	lcd.c:158: lcd_command(0, 0, 0x0C);  // Turn on display command
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x0c
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:158: lcdbusywait();
+;	lcd.c:159: lcdbusywait();
 	lcall	_lcdbusywait
-;	lcd.c:160: lcd_command(0, 0, 0x06);  // Entry mode set command
+;	lcd.c:161: lcd_command(0, 0, 0x06);  // Entry mode set command
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x06
 	mov	dpl,#0x00
 	lcall	_lcd_command
-;	lcd.c:161: lcdbusywait();
+;	lcd.c:162: lcdbusywait();
 	lcall	_lcdbusywait
-;	lcd.c:163: lcd_command(0, 0, 0x01);  // Clear screen and send the cursor home command
+;	lcd.c:164: lcd_command(0, 0, 0x01);  // Clear screen and send the cursor home command
 	mov	_lcd_command_PARM_2,#0x00
 	mov	_lcd_command_PARM_3,#0x01
 	mov	dpl,#0x00
-;	lcd.c:164: }
+;	lcd.c:165: }
 	ljmp	_lcd_command
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'lcdclear'
 ;------------------------------------------------------------
-;	lcd.c:169: void lcdclear() {
+;	lcd.c:170: void lcdclear() {
 ;	-----------------------------------------
 ;	 function lcdclear
 ;	-----------------------------------------
 _lcdclear:
-;	lcd.c:170: RS = PULSE_LOW;
+;	lcd.c:171: RS = PULSE_LOW;
 ;	assignBit
 	clr	_P1_6
-;	lcd.c:171: R_W = PULSE_LOW;
+;	lcd.c:172: R_W = PULSE_LOW;
 ;	assignBit
 	clr	_P1_7
-;	lcd.c:172: *ptr = 0b00000001;  // Send the command to clear the screen.
+;	lcd.c:173: *ptr = 0b00000001;  // Send the command to clear the screen.
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	mov	a,#0x01
 	movx	@dptr,a
-;	lcd.c:173: lcdbusywait();      // Wait for the LCD to finish processing the command.
-;	lcd.c:174: }
+;	lcd.c:174: lcdbusywait();      // Wait for the LCD to finish processing the command.
+;	lcd.c:175: }
 	ljmp	_lcdbusywait
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'test_functionality'
 ;------------------------------------------------------------
-;	lcd.c:179: void test_functionality() {
+;	lcd.c:180: void test_functionality() {
 ;	-----------------------------------------
 ;	 function test_functionality
 ;	-----------------------------------------
 _test_functionality:
-;	lcd.c:180: printf_tiny("test_functionality start\n\r");
+;	lcd.c:181: printf_tiny("test_functionality start\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -953,47 +963,33 @@ _test_functionality:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	lcd.c:183: lcdgotoaddr(0x01);
+;	lcd.c:184: lcdgotoaddr(0x01);
 	mov	dpl,#0x01
 	lcall	_lcdgotoaddr
-;	lcd.c:184: lcdputch('E');
+;	lcd.c:185: lcdputch('E');
 	mov	dpl,#0x45
 	lcall	_lcdputch
-;	lcd.c:185: delay(100000);
+;	lcd.c:186: delay(100000);
 	mov	dptr,#0x86a0
 	mov	b,#0x01
 	clr	a
 	lcall	_delay
-;	lcd.c:188: lcdgotoxy(1, 1);
+;	lcd.c:189: lcdgotoxy(1, 1);
 	mov	_lcdgotoxy_PARM_2,#0x01
 	mov	dpl,#0x01
 	lcall	_lcdgotoxy
-;	lcd.c:189: lcdputstr("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyzJITHU");
+;	lcd.c:190: lcdputstr("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyzJITHU");
 	mov	dptr,#___str_1
 	mov	b,#0x80
 	lcall	_lcdputstr
-;	lcd.c:190: delay(100000);
+;	lcd.c:191: delay(100000);
 	mov	dptr,#0x86a0
 	mov	b,#0x01
 	clr	a
 	lcall	_delay
-;	lcd.c:193: create_custom_character(custom_char_code);
-	mov	dpl,_custom_char_code
-	lcall	_create_custom_character
-;	lcd.c:194: lcdgotoaddr(0x0F);
-	mov	dpl,#0x0f
-	lcall	_lcdgotoaddr
-;	lcd.c:195: lcdputch(custom_char_code);
-	mov	dpl,_custom_char_code
-	lcall	_lcdputch
-;	lcd.c:196: delay(100000);
-	mov	dptr,#0x86a0
-	mov	b,#0x01
-	clr	a
-	lcall	_delay
-;	lcd.c:199: lcdclear();
+;	lcd.c:194: lcdclear();
 	lcall	_lcdclear
-;	lcd.c:201: printf_tiny("test_functionality end\n\r");
+;	lcd.c:196: printf_tiny("test_functionality end\n\r");
 	mov	a,#___str_2
 	push	acc
 	mov	a,#(___str_2 >> 8)
@@ -1001,155 +997,102 @@ _test_functionality:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	lcd.c:202: }
+;	lcd.c:197: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'set_cgram_address'
 ;------------------------------------------------------------
 ;cgram_address             Allocated to registers r7 
 ;------------------------------------------------------------
-;	lcd.c:209: void set_cgram_address(uint8_t cgram_address) {
+;	lcd.c:203: void set_cgram_address(uint8_t cgram_address) {
 ;	-----------------------------------------
 ;	 function set_cgram_address
 ;	-----------------------------------------
 _set_cgram_address:
 	mov	r7,dpl
-;	lcd.c:210: RS = PULSE_LOW;
+;	lcd.c:204: RS = PULSE_LOW;
 ;	assignBit
 	clr	_P1_6
-;	lcd.c:211: R_W = PULSE_LOW;
+;	lcd.c:205: R_W = PULSE_LOW;
 ;	assignBit
 	clr	_P1_7
-;	lcd.c:212: *ptr = cgram_address;
+;	lcd.c:206: *ptr = cgram_address;
 	mov	dpl,_ptr
 	mov	dph,(_ptr + 1)
 	mov	a,r7
 	movx	@dptr,a
-;	lcd.c:213: lcdbusywait();
-;	lcd.c:214: }
+;	lcd.c:207: lcdbusywait();
+;	lcd.c:208: }
 	ljmp	_lcdbusywait
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'create_custom_character'
+;Allocation info for local variables in function 'lcdcreatechar'
 ;------------------------------------------------------------
-;char_num                  Allocated to registers r7 
-;c                         Allocated with name '_create_custom_character_c_65536_44'
-;i                         Allocated to registers r5 r6 
-;cgram_address             Allocated to registers 
+;c                         Allocated with name '_lcdcreatechar_PARM_2'
+;char_num                  Allocated to registers 
 ;------------------------------------------------------------
-;	lcd.c:220: void create_custom_character(uint8_t char_num) {
+;	lcd.c:214: void lcdcreatechar(uint8_t char_num, uint8_t c) {
 ;	-----------------------------------------
-;	 function create_custom_character
+;	 function lcdcreatechar
 ;	-----------------------------------------
-_create_custom_character:
-	mov	r7,dpl
-;	lcd.c:222: uint8_t c[8] =
-	mov	_create_custom_character_c_65536_44,#0x04
-	mov	(_create_custom_character_c_65536_44 + 0x0001),#0x0e
-	mov	(_create_custom_character_c_65536_44 + 0x0002),#0x04
-	mov	(_create_custom_character_c_65536_44 + 0x0003),#0x04
-	mov	(_create_custom_character_c_65536_44 + 0x0004),#0x04
-	mov	(_create_custom_character_c_65536_44 + 0x0005),#0x04
-	mov	(_create_custom_character_c_65536_44 + 0x0006),#0x04
-	mov	(_create_custom_character_c_65536_44 + 0x0007),#0x0a
-;	lcd.c:234: for(int i = 0; i < BYTE_LENGTH; i++) {
-	mov	r5,#0x00
-	mov	r6,#0x00
-00103$:
-	clr	c
-	mov	a,r5
-	subb	a,#0x08
-	mov	a,r6
-	xrl	a,#0x80
-	subb	a,#0x80
-	jnc	00105$
-;	lcd.c:236: uint8_t cgram_address = 0b01000000 | (char_num << 3) | i;
-	mov	ar4,r7
-	mov	a,r4
-	swap	a
-	rr	a
-	anl	a,#0xf8
-	mov	r4,a
-	orl	ar4,#0x40
-	mov	ar3,r5
-	mov	a,r3
-	orl	a,r4
-	mov	dpl,a
-;	lcd.c:239: set_cgram_address(cgram_address);
-	push	ar7
-	push	ar6
-	push	ar5
+_lcdcreatechar:
+;	lcd.c:216: set_cgram_address(char_num);
 	lcall	_set_cgram_address
-	pop	ar5
-;	lcd.c:242: lcdputch(c[i]);
-	mov	a,r5
-	add	a,#_create_custom_character_c_65536_44
-	mov	r1,a
-	mov	dpl,@r1
-	push	ar5
-	lcall	_lcdputch
-	pop	ar5
-	pop	ar6
-	pop	ar7
-;	lcd.c:234: for(int i = 0; i < BYTE_LENGTH; i++) {
-	inc	r5
-	cjne	r5,#0x00,00103$
-	inc	r6
-	sjmp	00103$
-00105$:
-;	lcd.c:244: }
-	ret
+;	lcd.c:219: lcdputch(c);
+	mov	dpl,_lcdcreatechar_PARM_2
+;	lcd.c:220: }
+	ljmp	_lcdputch
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'reset_clock'
 ;------------------------------------------------------------
-;	lcd.c:250: void reset_clock() {
+;	lcd.c:226: void reset_clock() {
 ;	-----------------------------------------
 ;	 function reset_clock
 ;	-----------------------------------------
 _reset_clock:
-;	lcd.c:252: min_high = '0';
+;	lcd.c:228: min_high = '0';
 	mov	_min_high,#0x30
-;	lcd.c:253: min_low = '0';
+;	lcd.c:229: min_low = '0';
 	mov	_min_low,#0x30
-;	lcd.c:254: sec_high = '0';
+;	lcd.c:230: sec_high = '0';
 	mov	_sec_high,#0x30
-;	lcd.c:255: sec_low = '0';
+;	lcd.c:231: sec_low = '0';
 	mov	_sec_low,#0x30
-;	lcd.c:256: mili_sec = '0';
+;	lcd.c:232: mili_sec = '0';
 	mov	_mili_sec,#0x30
-;	lcd.c:259: lcdgotoaddr(0x59);
+;	lcd.c:235: lcdgotoaddr(0x59);
 	mov	dpl,#0x59
 	lcall	_lcdgotoaddr
-;	lcd.c:260: lcdputch(min_high);
+;	lcd.c:236: lcdputch(min_high);
 	mov	dpl,_min_high
 	lcall	_lcdputch
-;	lcd.c:261: lcdputch(min_low);
+;	lcd.c:237: lcdputch(min_low);
 	mov	dpl,_min_low
 	lcall	_lcdputch
-;	lcd.c:262: lcdputch(':');
+;	lcd.c:238: lcdputch(':');
 	mov	dpl,#0x3a
 	lcall	_lcdputch
-;	lcd.c:263: lcdputch(sec_high);
+;	lcd.c:239: lcdputch(sec_high);
 	mov	dpl,_sec_high
 	lcall	_lcdputch
-;	lcd.c:264: lcdputch(sec_low);
+;	lcd.c:240: lcdputch(sec_low);
 	mov	dpl,_sec_low
 	lcall	_lcdputch
-;	lcd.c:265: lcdputch('.');
+;	lcd.c:241: lcdputch('.');
 	mov	dpl,#0x2e
 	lcall	_lcdputch
-;	lcd.c:266: lcdputch(mili_sec);
+;	lcd.c:242: lcdputch(mili_sec);
 	mov	dpl,_mili_sec
-;	lcd.c:267: }
+;	lcd.c:243: }
 	ljmp	_lcdputch
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'clock_run'
 ;------------------------------------------------------------
-;	lcd.c:272: void clock_run() {
+;	lcd.c:248: void clock_run() {
 ;	-----------------------------------------
 ;	 function clock_run
 ;	-----------------------------------------
 _clock_run:
-;	lcd.c:274: if (clockrun_flag && ((tick % 2) == 0) && (tick > elapsed_tick)) {
+;	lcd.c:250: if (clockrun_flag && ((tick % 2) == 0) && (tick > elapsed_tick)) {
 	mov	a,_clockrun_flag
 	orl	a,(_clockrun_flag + 1)
 	jnz	00149$
@@ -1175,159 +1118,159 @@ _clock_run:
 	jc	00151$
 	ret
 00151$:
-;	lcd.c:275: elapsed_tick = tick;  // Update the elapsed tick
+;	lcd.c:251: elapsed_tick = tick;  // Update the elapsed tick
 	mov	_elapsed_tick,_tick
 	mov	(_elapsed_tick + 1),(_tick + 1)
 	mov	(_elapsed_tick + 2),#0x00
 	mov	(_elapsed_tick + 3),#0x00
-;	lcd.c:277: mili_sec++;  // Increment milliseconds
+;	lcd.c:253: mili_sec++;  // Increment milliseconds
 	inc	_mili_sec
-;	lcd.c:278: if (mili_sec > '9') {
+;	lcd.c:254: if (mili_sec > '9') {
 	mov	a,_mili_sec
 	add	a,#0xff - 0x39
 	jnc	00102$
-;	lcd.c:279: mili_sec = '0';
+;	lcd.c:255: mili_sec = '0';
 	mov	_mili_sec,#0x30
-;	lcd.c:280: lcdgotoaddr(0x5F);
+;	lcd.c:256: lcdgotoaddr(0x5F);
 	mov	dpl,#0x5f
 	lcall	_lcdgotoaddr
-;	lcd.c:281: lcdputch(mili_sec);
+;	lcd.c:257: lcdputch(mili_sec);
 	mov	dpl,_mili_sec
 	lcall	_lcdputch
-;	lcd.c:282: sec_low++;
+;	lcd.c:258: sec_low++;
 	inc	_sec_low
-;	lcd.c:283: lcdgotoaddr(0x5D);
+;	lcd.c:259: lcdgotoaddr(0x5D);
 	mov	dpl,#0x5d
 	lcall	_lcdgotoaddr
-;	lcd.c:284: lcdputch(sec_low);
+;	lcd.c:260: lcdputch(sec_low);
 	mov	dpl,_sec_low
 	lcall	_lcdputch
 00102$:
-;	lcd.c:286: if (sec_low > '9') {
+;	lcd.c:262: if (sec_low > '9') {
 	mov	a,_sec_low
 	add	a,#0xff - 0x39
 	jnc	00104$
-;	lcd.c:287: sec_low = '0';
+;	lcd.c:263: sec_low = '0';
 	mov	_sec_low,#0x30
-;	lcd.c:288: lcdgotoaddr(0x5D);
+;	lcd.c:264: lcdgotoaddr(0x5D);
 	mov	dpl,#0x5d
 	lcall	_lcdgotoaddr
-;	lcd.c:289: lcdputch(sec_low);
+;	lcd.c:265: lcdputch(sec_low);
 	mov	dpl,_sec_low
 	lcall	_lcdputch
-;	lcd.c:290: sec_high++;
+;	lcd.c:266: sec_high++;
 	inc	_sec_high
-;	lcd.c:291: lcdgotoaddr(0x5C);
+;	lcd.c:267: lcdgotoaddr(0x5C);
 	mov	dpl,#0x5c
 	lcall	_lcdgotoaddr
-;	lcd.c:292: lcdputch(sec_high);
+;	lcd.c:268: lcdputch(sec_high);
 	mov	dpl,_sec_high
 	lcall	_lcdputch
 00104$:
-;	lcd.c:294: if (sec_high > '5') {
+;	lcd.c:270: if (sec_high > '5') {
 	mov	a,_sec_high
 	add	a,#0xff - 0x35
 	jnc	00106$
-;	lcd.c:295: sec_high = '0';
+;	lcd.c:271: sec_high = '0';
 	mov	_sec_high,#0x30
-;	lcd.c:296: lcdgotoaddr(0x5C);
+;	lcd.c:272: lcdgotoaddr(0x5C);
 	mov	dpl,#0x5c
 	lcall	_lcdgotoaddr
-;	lcd.c:297: lcdputch(sec_high);
+;	lcd.c:273: lcdputch(sec_high);
 	mov	dpl,_sec_high
 	lcall	_lcdputch
-;	lcd.c:298: min_low++;
+;	lcd.c:274: min_low++;
 	inc	_min_low
-;	lcd.c:299: lcdgotoaddr(0x5A);
+;	lcd.c:275: lcdgotoaddr(0x5A);
 	mov	dpl,#0x5a
 	lcall	_lcdgotoaddr
-;	lcd.c:300: lcdputch(min_low);
+;	lcd.c:276: lcdputch(min_low);
 	mov	dpl,_min_low
 	lcall	_lcdputch
 00106$:
-;	lcd.c:302: if (min_low > '9') {
+;	lcd.c:278: if (min_low > '9') {
 	mov	a,_min_low
 	add	a,#0xff - 0x39
 	jnc	00108$
-;	lcd.c:303: min_low = '0';
+;	lcd.c:279: min_low = '0';
 	mov	_min_low,#0x30
-;	lcd.c:304: lcdgotoaddr(0x5A);
+;	lcd.c:280: lcdgotoaddr(0x5A);
 	mov	dpl,#0x5a
 	lcall	_lcdgotoaddr
-;	lcd.c:305: lcdputch(min_low);
+;	lcd.c:281: lcdputch(min_low);
 	mov	dpl,_min_low
 	lcall	_lcdputch
-;	lcd.c:306: min_high++;
+;	lcd.c:282: min_high++;
 	inc	_min_high
-;	lcd.c:307: lcdgotoaddr(0x59);
+;	lcd.c:283: lcdgotoaddr(0x59);
 	mov	dpl,#0x59
 	lcall	_lcdgotoaddr
-;	lcd.c:308: lcdputch(min_high);
+;	lcd.c:284: lcdputch(min_high);
 	mov	dpl,_min_high
 	lcall	_lcdputch
 00108$:
-;	lcd.c:310: if (min_high > '5') {
+;	lcd.c:286: if (min_high > '5') {
 	mov	a,_min_high
 	add	a,#0xff - 0x35
 	jnc	00110$
-;	lcd.c:311: min_high = '0';
+;	lcd.c:287: min_high = '0';
 	mov	_min_high,#0x30
-;	lcd.c:312: lcdgotoaddr(0x59);
+;	lcd.c:288: lcdgotoaddr(0x59);
 	mov	dpl,#0x59
 	lcall	_lcdgotoaddr
-;	lcd.c:313: lcdputch(min_high);
+;	lcd.c:289: lcdputch(min_high);
 	mov	dpl,_min_high
 	lcall	_lcdputch
 00110$:
-;	lcd.c:315: lcdgotoaddr(0x5F);
+;	lcd.c:291: lcdgotoaddr(0x5F);
 	mov	dpl,#0x5f
 	lcall	_lcdgotoaddr
-;	lcd.c:316: lcdputch(mili_sec);
+;	lcd.c:292: lcdputch(mili_sec);
 	mov	dpl,_mili_sec
-;	lcd.c:318: }
+;	lcd.c:294: }
 	ljmp	_lcdputch
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'menu_lcd'
 ;------------------------------------------------------------
-;	lcd.c:323: void menu_lcd() {
+;	lcd.c:299: void menu_lcd() {
 ;	-----------------------------------------
 ;	 function menu_lcd
 ;	-----------------------------------------
 _menu_lcd:
-;	lcd.c:324: reset_clock();  // Reset clock values for display consistency
+;	lcd.c:300: reset_clock();  // Reset clock values for display consistency
 	lcall	_reset_clock
-;	lcd.c:325: lcdgotoxy(1, 1);
+;	lcd.c:301: lcdgotoxy(1, 1);
 	mov	_lcdgotoxy_PARM_2,#0x01
 	mov	dpl,#0x01
 	lcall	_lcdgotoxy
-;	lcd.c:326: lcdputstr("Clock status:");
+;	lcd.c:302: lcdputstr("Clock status:");
 	mov	dptr,#___str_3
 	mov	b,#0x80
 	lcall	_lcdputstr
-;	lcd.c:327: lcdgotoxy(2, 1);
+;	lcd.c:303: lcdgotoxy(2, 1);
 	mov	_lcdgotoxy_PARM_2,#0x01
 	mov	dpl,#0x02
 	lcall	_lcdgotoxy
-;	lcd.c:328: lcdputstr("Running");
+;	lcd.c:304: lcdputstr("Running");
 	mov	dptr,#___str_4
 	mov	b,#0x80
 	lcall	_lcdputstr
-;	lcd.c:329: lcdgotoxy(3, 1);
+;	lcd.c:305: lcdgotoxy(3, 1);
 	mov	_lcdgotoxy_PARM_2,#0x01
 	mov	dpl,#0x03
 	lcall	_lcdgotoxy
-;	lcd.c:330: lcdputstr("Stopped");
+;	lcd.c:306: lcdputstr("Stopped");
 	mov	dptr,#___str_5
 	mov	b,#0x80
 	lcall	_lcdputstr
-;	lcd.c:331: lcdgotoxy(4, 1);
+;	lcd.c:307: lcdgotoxy(4, 1);
 	mov	_lcdgotoxy_PARM_2,#0x01
 	mov	dpl,#0x04
 	lcall	_lcdgotoxy
-;	lcd.c:332: lcdputstr("Reset");
+;	lcd.c:308: lcdputstr("Reset");
 	mov	dptr,#___str_6
 	mov	b,#0x80
-;	lcd.c:333: }
+;	lcd.c:309: }
 	ljmp	_lcdputstr
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'arrow_set'
@@ -1336,36 +1279,701 @@ _menu_lcd:
 ;c                         Allocated with name '_arrow_set_PARM_3'
 ;a                         Allocated to registers r7 
 ;------------------------------------------------------------
-;	lcd.c:341: void arrow_set(char a, char b, char c) {
+;	lcd.c:317: void arrow_set(char a, char b, char c) {
 ;	-----------------------------------------
 ;	 function arrow_set
 ;	-----------------------------------------
 _arrow_set:
 	mov	r7,dpl
-;	lcd.c:342: lcdgotoxy(2, 8);
+;	lcd.c:318: lcdgotoxy(2, 8);
 	mov	_lcdgotoxy_PARM_2,#0x08
 	mov	dpl,#0x02
 	push	ar7
 	lcall	_lcdgotoxy
 	pop	ar7
-;	lcd.c:343: lcdputch(a);  // Display arrow indicator for "Running"
+;	lcd.c:319: lcdputch(a);  // Display arrow indicator for "Running"
 	mov	dpl,r7
 	lcall	_lcdputch
-;	lcd.c:344: lcdgotoxy(3, 8);
+;	lcd.c:320: lcdgotoxy(3, 8);
 	mov	_lcdgotoxy_PARM_2,#0x08
 	mov	dpl,#0x03
 	lcall	_lcdgotoxy
-;	lcd.c:345: lcdputch(b);  // Display arrow indicator for "Stopped"
+;	lcd.c:321: lcdputch(b);  // Display arrow indicator for "Stopped"
 	mov	dpl,_arrow_set_PARM_2
 	lcall	_lcdputch
-;	lcd.c:346: lcdgotoxy(4, 6);
+;	lcd.c:322: lcdgotoxy(4, 6);
 	mov	_lcdgotoxy_PARM_2,#0x06
 	mov	dpl,#0x04
 	lcall	_lcdgotoxy
-;	lcd.c:347: lcdputch(c);  // Display arrow indicator for "Reset"
+;	lcd.c:323: lcdputch(c);  // Display arrow indicator for "Reset"
 	mov	dpl,_arrow_set_PARM_3
-;	lcd.c:348: }
+;	lcd.c:324: }
 	ljmp	_lcdputch
+;------------------------------------------------------------
+;Allocation info for local variables in function 'set_ddram_address'
+;------------------------------------------------------------
+;ddram_address             Allocated to registers r7 
+;------------------------------------------------------------
+;	lcd.c:334: void set_ddram_address(uint8_t ddram_address) {
+;	-----------------------------------------
+;	 function set_ddram_address
+;	-----------------------------------------
+_set_ddram_address:
+	mov	r7,dpl
+;	lcd.c:335: RS = PULSE_LOW;            // Set RS (Register Select) to LOW for command mode
+;	assignBit
+	clr	_P1_6
+;	lcd.c:336: R_W = PULSE_LOW;           // Set R_W (Read/Write) to LOW for write operation
+;	assignBit
+	clr	_P1_7
+;	lcd.c:337: *ptr = ddram_address | 0b10000000; // Set the DDRAM address with the required command
+	mov	dpl,_ptr
+	mov	dph,(_ptr + 1)
+	orl	ar7,#0x80
+	mov	a,r7
+	movx	@dptr,a
+;	lcd.c:338: lcdbusywait();             // Wait for the LCD to process the command
+;	lcd.c:339: }
+	ljmp	_lcdbusywait
+;------------------------------------------------------------
+;Allocation info for local variables in function 'read_xxram_address'
+;------------------------------------------------------------
+;data                      Allocated to registers r7 
+;------------------------------------------------------------
+;	lcd.c:347: uint8_t read_xxram_address() {
+;	-----------------------------------------
+;	 function read_xxram_address
+;	-----------------------------------------
+_read_xxram_address:
+;	lcd.c:349: RS = PULSE_HIGH;         // Set RS (Register Select) to HIGH for data mode
+;	assignBit
+	setb	_P1_6
+;	lcd.c:350: R_W = PULSE_HIGH;        // Set R_W (Read/Write) to HIGH for read operation
+;	assignBit
+	setb	_P1_7
+;	lcd.c:351: data = *ptr;             // Read the data from the specified XRAM address
+	mov	dpl,_ptr
+	mov	dph,(_ptr + 1)
+	movx	a,@dptr
+	mov	r7,a
+;	lcd.c:352: lcdbusywait();           // Wait for the LCD to process the read operation
+	push	ar7
+	lcall	_lcdbusywait
+	pop	ar7
+;	lcd.c:353: return data;             // Return the read data
+	mov	dpl,r7
+;	lcd.c:354: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'ddram_hex_dump'
+;------------------------------------------------------------
+;i                         Allocated to registers r7 
+;j                         Allocated to registers r5 r6 
+;------------------------------------------------------------
+;	lcd.c:361: void ddram_hex_dump() {
+;	-----------------------------------------
+;	 function ddram_hex_dump
+;	-----------------------------------------
+_ddram_hex_dump:
+;	lcd.c:362: for(uint8_t i = 0; i < 4; i++) {
+	mov	r7,#0x00
+00113$:
+	cjne	r7,#0x04,00139$
+00139$:
+	jc	00140$
+	ret
+00140$:
+;	lcd.c:363: switch (i) {
+	mov	a,r7
+	add	a,#0xff - 0x03
+	jnc	00141$
+	ljmp	00120$
+00141$:
+	mov	a,r7
+	add	a,r7
+;	lcd.c:364: case 0:
+	mov	dptr,#00142$
+	jmp	@a+dptr
+00142$:
+	sjmp	00101$
+	sjmp	00102$
+	sjmp	00103$
+	sjmp	00104$
+00101$:
+;	lcd.c:365: set_ddram_address(0x00);
+	mov	dpl,#0x00
+	push	ar7
+	lcall	_set_ddram_address
+;	lcd.c:366: printf_tiny("0x%x: ", 0x00);
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar7
+;	lcd.c:367: break;
+;	lcd.c:368: case 1:
+	sjmp	00120$
+00102$:
+;	lcd.c:369: set_ddram_address(0x40);
+	mov	dpl,#0x40
+	push	ar7
+	lcall	_set_ddram_address
+;	lcd.c:370: printf_tiny("0x%x: ", 0x40);
+	mov	a,#0x40
+	push	acc
+	clr	a
+	push	acc
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar7
+;	lcd.c:371: break;
+;	lcd.c:372: case 2:
+	sjmp	00120$
+00103$:
+;	lcd.c:373: set_ddram_address(0x10);
+	mov	dpl,#0x10
+	push	ar7
+	lcall	_set_ddram_address
+;	lcd.c:374: printf_tiny("0x%x: ", 0x10);
+	mov	a,#0x10
+	push	acc
+	clr	a
+	push	acc
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar7
+;	lcd.c:375: break;
+;	lcd.c:376: case 3:
+	sjmp	00120$
+00104$:
+;	lcd.c:377: set_ddram_address(0x50);
+	mov	dpl,#0x50
+	push	ar7
+	lcall	_set_ddram_address
+;	lcd.c:378: printf_tiny("0x%x: ", 0x50);
+	mov	a,#0x50
+	push	acc
+	clr	a
+	push	acc
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar7
+;	lcd.c:384: for(int j = 0; j < 16; j++) {
+00120$:
+	mov	r5,#0x00
+	mov	r6,#0x00
+00110$:
+	clr	c
+	mov	a,r5
+	subb	a,#0x10
+	mov	a,r6
+	xrl	a,#0x80
+	subb	a,#0x80
+	jnc	00107$
+;	lcd.c:385: printf_tiny(" %x", read_xxram_address());
+	push	ar7
+	push	ar6
+	push	ar5
+	lcall	_read_xxram_address
+	mov	r4,dpl
+	mov	r3,#0x00
+	push	ar4
+	push	ar3
+	mov	a,#___str_8
+	push	acc
+	mov	a,#(___str_8 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	lcd.c:384: for(int j = 0; j < 16; j++) {
+	inc	r5
+	cjne	r5,#0x00,00110$
+	inc	r6
+	sjmp	00110$
+00107$:
+;	lcd.c:388: printf_tiny("\n\r");
+	push	ar7
+	mov	a,#___str_9
+	push	acc
+	mov	a,#(___str_9 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar7
+;	lcd.c:362: for(uint8_t i = 0; i < 4; i++) {
+	inc	r7
+;	lcd.c:390: }
+	ljmp	00113$
+;------------------------------------------------------------
+;Allocation info for local variables in function 'cgram_hex_dump'
+;------------------------------------------------------------
+;i                         Allocated to registers r7 
+;j                         Allocated to registers r5 r6 
+;------------------------------------------------------------
+;	lcd.c:397: void cgram_hex_dump() {
+;	-----------------------------------------
+;	 function cgram_hex_dump
+;	-----------------------------------------
+_cgram_hex_dump:
+;	lcd.c:398: set_cgram_address(0x00); // Set the CGRAM address to the start
+	mov	dpl,#0x00
+	lcall	_set_cgram_address
+;	lcd.c:400: for(uint8_t i = 0; i < 4; i++) {
+	mov	r7,#0x00
+00107$:
+	cjne	r7,#0x04,00129$
+00129$:
+	jc	00130$
+	ret
+00130$:
+;	lcd.c:401: printf_tiny("0x%x: ", i << 4);
+	mov	ar5,r7
+	clr	a
+	xch	a,r5
+	swap	a
+	xch	a,r5
+	xrl	a,r5
+	xch	a,r5
+	anl	a,#0xf0
+	xch	a,r5
+	xrl	a,r5
+	mov	r6,a
+	push	ar7
+	push	ar5
+	push	ar6
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar7
+;	lcd.c:403: for(int j = 0; j < 16; j++) {
+	mov	r5,#0x00
+	mov	r6,#0x00
+00104$:
+	clr	c
+	mov	a,r5
+	subb	a,#0x10
+	mov	a,r6
+	xrl	a,#0x80
+	subb	a,#0x80
+	jnc	00101$
+;	lcd.c:404: printf_tiny(" %x", read_xxram_address());
+	push	ar7
+	push	ar6
+	push	ar5
+	lcall	_read_xxram_address
+	mov	r4,dpl
+	mov	r3,#0x00
+	push	ar4
+	push	ar3
+	mov	a,#___str_8
+	push	acc
+	mov	a,#(___str_8 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	lcd.c:403: for(int j = 0; j < 16; j++) {
+	inc	r5
+	cjne	r5,#0x00,00104$
+	inc	r6
+	sjmp	00104$
+00101$:
+;	lcd.c:407: printf_tiny("\n\r");
+	push	ar7
+	mov	a,#___str_9
+	push	acc
+	mov	a,#(___str_9 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar7
+;	lcd.c:400: for(uint8_t i = 0; i < 4; i++) {
+	inc	r7
+;	lcd.c:409: }
+	ljmp	00107$
+;------------------------------------------------------------
+;Allocation info for local variables in function 'get_hex_value'
+;------------------------------------------------------------
+;value                     Allocated to registers r7 
+;i                         Allocated to registers r5 r6 
+;char_received             Allocated to registers r3 
+;------------------------------------------------------------
+;	lcd.c:417: uint8_t get_hex_value(){
+;	-----------------------------------------
+;	 function get_hex_value
+;	-----------------------------------------
+_get_hex_value:
+;	lcd.c:418: uint8_t value = 0;
+	mov	r7,#0x00
+;	lcd.c:419: for(int i = 0; i < 2; i++){
+	mov	r5,#0x00
+	mov	r6,#0x00
+00125$:
+	clr	c
+	mov	a,r5
+	subb	a,#0x02
+	mov	a,r6
+	xrl	a,#0x80
+	subb	a,#0x80
+	jc	00183$
+	ljmp	00123$
+00183$:
+;	lcd.c:420: if(i == 0) printf_tiny("0x");
+	mov	a,r5
+	orl	a,r6
+	jnz	00102$
+	push	ar7
+	push	ar6
+	push	ar5
+	mov	a,#___str_10
+	push	acc
+	mov	a,#(___str_10 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar5
+	pop	ar6
+	pop	ar7
+00102$:
+;	lcd.c:421: uint8_t char_received = echo(); // Read a character from UART
+	push	ar7
+	push	ar6
+	push	ar5
+	lcall	_echo
+	mov	r4,dpl
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	lcd.c:422: if((char_received >= '0') && (char_received <= '9')){
+	cjne	r4,#0x30,00185$
+00185$:
+	jc	00116$
+	mov	a,r4
+	add	a,#0xff - 0x39
+	jc	00116$
+;	lcd.c:423: char_received = char_received - '0'; // Convert ASCII character to its
+	mov	ar3,r4
+	mov	a,r3
+	add	a,#0xd0
+	mov	r3,a
+	sjmp	00117$
+00116$:
+;	lcd.c:425: }else if((char_received >= 'A') && (char_received <= 'F')){
+	cjne	r4,#0x41,00188$
+00188$:
+	jc	00112$
+	mov	a,r4
+	add	a,#0xff - 0x46
+	jc	00112$
+;	lcd.c:426: char_received = char_received - 'A' + 10; // Convert ASCII character to its
+	mov	ar2,r4
+	mov	a,#0xc9
+	add	a,r2
+	mov	r3,a
+	sjmp	00117$
+00112$:
+;	lcd.c:428: }else if((char_received >= 'a') && (char_received <= 'f')){
+	cjne	r4,#0x61,00191$
+00191$:
+	jc	00108$
+	mov	a,r4
+	add	a,#0xff - 0x66
+	jc	00108$
+;	lcd.c:429: char_received = char_received - 'a' + 10; // Convert ASCII character to its
+	mov	ar2,r4
+	mov	a,#0xa9
+	add	a,r2
+	mov	r3,a
+	sjmp	00117$
+00108$:
+;	lcd.c:431: }else if((char_received == '\n') || (char_received == '\r')){
+	cjne	r4,#0x0a,00194$
+	sjmp	00103$
+00194$:
+	cjne	r4,#0x0d,00104$
+00103$:
+;	lcd.c:432: printf_tiny("\n\r");
+	push	ar7
+	mov	a,#___str_9
+	push	acc
+	mov	a,#(___str_9 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar7
+;	lcd.c:433: return value;
+	mov	dpl,r7
+	ret
+00104$:
+;	lcd.c:435: printf_tiny("-->Invalid input\n\r");
+	mov	a,#___str_11
+	push	acc
+	mov	a,#(___str_11 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	lcd.c:436: i = -1;
+	mov	r5,#0xff
+	mov	r6,#0xff
+;	lcd.c:437: value = 0;
+	mov	r7,#0x00
+;	lcd.c:438: continue;
+	sjmp	00122$
+00117$:
+;	lcd.c:440: if(i == 0){
+	mov	a,r5
+	orl	a,r6
+	jnz	00120$
+;	lcd.c:441: value |= char_received;
+	mov	a,r3
+	orl	ar7,a
+	sjmp	00122$
+00120$:
+;	lcd.c:443: value = (value << 4) | char_received;
+	mov	ar4,r7
+	mov	a,r4
+	swap	a
+	anl	a,#0xf0
+	mov	r4,a
+	orl	a,r3
+	mov	r7,a
+00122$:
+;	lcd.c:419: for(int i = 0; i < 2; i++){
+	inc	r5
+	cjne	r5,#0x00,00198$
+	inc	r6
+00198$:
+	ljmp	00125$
+00123$:
+;	lcd.c:446: printf_tiny("\n\r");
+	push	ar7
+	mov	a,#___str_9
+	push	acc
+	mov	a,#(___str_9 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar7
+;	lcd.c:447: return value;
+	mov	dpl,r7
+;	lcd.c:448: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'process_custom_character'
+;------------------------------------------------------------
+;ccode                     Allocated to registers r6 
+;address                   Allocated to registers r7 
+;char_array                Allocated with name '_process_custom_character_char_array_65537_92'
+;i                         Allocated to registers r5 
+;cgram_address             Allocated to registers r4 
+;------------------------------------------------------------
+;	lcd.c:457: void process_custom_character() {
+;	-----------------------------------------
+;	 function process_custom_character
+;	-----------------------------------------
+_process_custom_character:
+;	lcd.c:462: while (1) {
+00105$:
+;	lcd.c:463: printf_tiny("Enter LCD display address for the character\n\r");
+	mov	a,#___str_12
+	push	acc
+	mov	a,#(___str_12 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	lcd.c:464: address = get_hex_value();
+	lcall	_get_hex_value
+	mov	r7,dpl
+;	lcd.c:465: if (address < 0x60) {
+	cjne	r7,#0x60,00144$
+00144$:
+	jc	00111$
+;	lcd.c:468: printf_tiny("Invalid input\n\r");
+	mov	a,#___str_13
+	push	acc
+	mov	a,#(___str_13 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	lcd.c:473: while (1) {
+	sjmp	00105$
+00111$:
+;	lcd.c:474: printf_tiny("Enter the character code in range 0x00 <--> 0x07\n\r");
+	push	ar7
+	mov	a,#___str_14
+	push	acc
+	mov	a,#(___str_14 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	lcd.c:475: ccode = get_hex_value();
+	lcall	_get_hex_value
+	mov	r6,dpl
+	pop	ar7
+;	lcd.c:476: if (ccode < 0x08) {
+	cjne	r6,#0x08,00146$
+00146$:
+	jc	00112$
+;	lcd.c:479: printf_tiny("Invalid input\n\r");
+	push	ar7
+	mov	a,#___str_13
+	push	acc
+	mov	a,#(___str_13 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar7
+	sjmp	00111$
+00112$:
+;	lcd.c:483: uint8_t char_array[8] = {0};
+	mov	_process_custom_character_char_array_65537_92,#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0001),#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0002),#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0003),#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0004),#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0005),#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0006),#0x00
+	mov	(_process_custom_character_char_array_65537_92 + 0x0007),#0x00
+;	lcd.c:486: printf_tiny("Enter pixel pattern hex format for each row of custom character\n\r");
+	push	ar7
+	push	ar6
+	mov	a,#___str_15
+	push	acc
+	mov	a,#(___str_15 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+	pop	ar6
+	pop	ar7
+;	lcd.c:489: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+	mov	r5,#0x00
+00115$:
+	cjne	r5,#0x08,00148$
+00148$:
+	jc	00149$
+	ret
+00149$:
+;	lcd.c:490: printf_tiny("0x%x->", i);
+	mov	ar3,r5
+	mov	r4,#0x00
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar3
+	push	ar4
+	mov	a,#___str_16
+	push	acc
+	mov	a,#(___str_16 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar5
+	pop	ar6
+;	lcd.c:493: uint8_t cgram_address = 0b01000000 | (ccode << 3) | i;
+	mov	ar4,r6
+	mov	a,r4
+	swap	a
+	rr	a
+	anl	a,#0xf8
+	mov	r4,a
+	mov	a,#0x40
+	orl	a,r4
+	orl	a,r5
+	mov	r4,a
+;	lcd.c:496: char_array[i] = get_hex_value() & 0b00011111;
+	mov	a,r5
+	add	a,#_process_custom_character_char_array_65537_92
+	mov	r1,a
+	push	ar6
+	push	ar5
+	push	ar4
+	push	ar1
+	lcall	_get_hex_value
+	mov	a,dpl
+	pop	ar1
+	pop	ar4
+	anl	a,#0x1f
+	mov	r3,a
+	mov	@r1,a
+;	lcd.c:499: lcdcreatechar(cgram_address, char_array[i]);
+	mov	_lcdcreatechar_PARM_2,r3
+	mov	dpl,r4
+	lcall	_lcdcreatechar
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	lcd.c:502: lcdgotoaddr(address);
+	mov	dpl,r7
+	push	ar7
+	push	ar6
+	push	ar5
+	lcall	_lcdgotoaddr
+	pop	ar5
+	pop	ar6
+;	lcd.c:503: lcdputch(ccode);
+	mov	dpl,r6
+	push	ar6
+	push	ar5
+	lcall	_lcdputch
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	lcd.c:489: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+	inc	r5
+;	lcd.c:505: }
+	ljmp	00115$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
@@ -1406,6 +2014,68 @@ ___str_5:
 	.area CONST   (CODE)
 ___str_6:
 	.ascii "Reset"
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_7:
+	.ascii "0x%x: "
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_8:
+	.ascii " %x"
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_9:
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_10:
+	.ascii "0x"
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_11:
+	.ascii "-->Invalid input"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_12:
+	.ascii "Enter LCD display address for the character"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_13:
+	.ascii "Invalid input"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_14:
+	.ascii "Enter the character code in range 0x00 <--> 0x07"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_15:
+	.ascii "Enter pixel pattern hex format for each row of custom charac"
+	.ascii "ter"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_16:
+	.ascii "0x%x->"
 	.db 0x00
 	.area CSEG    (CODE)
 	.area XINIT   (CODE)

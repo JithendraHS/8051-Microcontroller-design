@@ -605,9 +605,9 @@
       000065                        605 _echo:
                                     606 ;	uart.c:70: int8_t ch = getchar(); // Read a character from the UART
       000065 12r00r10         [24]  607 	lcall	_getchar
-                                    608 ;	uart.c:71: putchar(ch);           // Output the character, providing an echo effect
-      000068 E5 82            [12]  609 	mov	a,dpl
-      00006A FE               [12]  610 	mov	r6,a
+      000068 AE 82            [24]  608 	mov	r6,dpl
+                                    609 ;	uart.c:71: putchar(ch);           // Output the character, providing an echo effect
+      00006A EE               [12]  610 	mov	a,r6
       00006B FD               [12]  611 	mov	r5,a
       00006C 33               [12]  612 	rlc	a
       00006D 95 E0            [12]  613 	subb	a,acc
@@ -616,18 +616,12 @@
       000072 8F 83            [24]  616 	mov	dph,r7
       000074 C0 06            [24]  617 	push	ar6
       000076 12r00r00         [24]  618 	lcall	_putchar
-                                    619 ;	uart.c:72: putchar('\r');
-      000079 90 00 0D         [24]  620 	mov	dptr,#0x000d
-      00007C 12r00r00         [24]  621 	lcall	_putchar
-                                    622 ;	uart.c:73: putchar('\n');
-      00007F 90 00 0A         [24]  623 	mov	dptr,#0x000a
-      000082 12r00r00         [24]  624 	lcall	_putchar
-      000085 D0 06            [24]  625 	pop	ar6
-                                    626 ;	uart.c:74: return ch;             // Return the character read
-      000087 8E 82            [24]  627 	mov	dpl,r6
-                                    628 ;	uart.c:75: }
-      000089 22               [24]  629 	ret
-                                    630 	.area CSEG    (CODE)
-                                    631 	.area CONST   (CODE)
-                                    632 	.area XINIT   (CODE)
-                                    633 	.area CABS    (ABS,CODE)
+      000079 D0 06            [24]  619 	pop	ar6
+                                    620 ;	uart.c:72: return ch;             // Return the character read
+      00007B 8E 82            [24]  621 	mov	dpl,r6
+                                    622 ;	uart.c:73: }
+      00007D 22               [24]  623 	ret
+                                    624 	.area CSEG    (CODE)
+                                    625 	.area CONST   (CODE)
+                                    626 	.area XINIT   (CODE)
+                                    627 	.area CABS    (ABS,CODE)

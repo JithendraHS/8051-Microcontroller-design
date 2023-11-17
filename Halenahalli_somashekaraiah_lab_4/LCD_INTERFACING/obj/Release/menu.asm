@@ -143,7 +143,23 @@ _menu:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	menu.c:27: printf_tiny("*************************************************************************\n\r");
+;	menu.c:27: printf_tiny("[d]. LCD RAM Dump\n\r");
+	mov	a,#___str_5
+	push	acc
+	mov	a,#(___str_5 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	menu.c:28: printf_tiny("[e]. Create custom character\n\r");
+	mov	a,#___str_6
+	push	acc
+	mov	a,#(___str_6 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	menu.c:29: printf_tiny("*************************************************************************\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -151,7 +167,7 @@ _menu:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	menu.c:28: }
+;	menu.c:30: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -187,6 +203,20 @@ ___str_3:
 	.area CONST   (CODE)
 ___str_4:
 	.ascii "[c]. Clock reset"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_5:
+	.ascii "[d]. LCD RAM Dump"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_6:
+	.ascii "[e]. Create custom character"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

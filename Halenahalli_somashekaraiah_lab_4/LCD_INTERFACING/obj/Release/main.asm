@@ -13,6 +13,9 @@
 	.globl __sdcc_external_startup
 	.globl _menu
 	.globl _timer2_interrupt_Init
+	.globl _process_custom_character
+	.globl _cgram_hex_dump
+	.globl _ddram_hex_dump
 	.globl _arrow_set
 	.globl _menu_lcd
 	.globl _clock_run
@@ -673,7 +676,7 @@ _main:
 ;	main.c:59: menu_lcd();
 	lcall	_menu_lcd
 ;	main.c:61: while (1)
-00116$:
+00118$:
 ;	main.c:63: int8_t user_input = echo(); // Read user input from UART
 	lcall	_echo
 	mov	r7,dpl
@@ -725,15 +728,23 @@ _main:
 	pop	ar7
 00103$:
 ;	main.c:75: switch (user_input)
-	cjne	r7,#0x61,00152$
+	cjne	r7,#0x61,00162$
 	sjmp	00107$
-00152$:
-	cjne	r7,#0x62,00153$
+00162$:
+	cjne	r7,#0x62,00163$
 	sjmp	00108$
-00153$:
-;	main.c:77: case 'a':
-	cjne	r7,#0x63,00116$
+00163$:
+	cjne	r7,#0x63,00164$
 	sjmp	00109$
+00164$:
+	cjne	r7,#0x64,00165$
+	ljmp	00113$
+00165$:
+	cjne	r7,#0x65,00166$
+	ljmp	00114$
+00166$:
+;	main.c:77: case 'a':
+	sjmp	00118$
 00107$:
 ;	main.c:79: printf_tiny("Restarting clock\n\r");
 	mov	a,#___str_2
@@ -752,7 +763,7 @@ _main:
 	mov	dpl,#0x3c
 	lcall	_arrow_set
 ;	main.c:82: break;
-	ljmp	00116$
+	ljmp	00118$
 ;	main.c:84: case 'b':
 00108$:
 ;	main.c:86: printf_tiny("Stopping clock\n\r");
@@ -773,7 +784,7 @@ _main:
 	mov	dpl,#0x20
 	lcall	_arrow_set
 ;	main.c:89: break;
-	ljmp	00116$
+	ljmp	00118$
 ;	main.c:91: case 'c':
 00109$:
 ;	main.c:93: printf_tiny("Resetting clock\n\r");
@@ -802,7 +813,7 @@ _main:
 ;	main.c:101: lcdputch(indicator);
 	mov	dpl,#0x3c
 	lcall	_lcdputch
-	ljmp	00116$
+	ljmp	00118$
 00111$:
 ;	main.c:105: lcdgotoxy(3, 8);
 	mov	_lcdgotoxy_PARM_2,#0x08
@@ -812,9 +823,47 @@ _main:
 	mov	dpl,#0x3c
 	lcall	_lcdputch
 ;	main.c:108: break;
-;	main.c:113: }
-;	main.c:115: }
-	ljmp	00116$
+	ljmp	00118$
+;	main.c:109: case 'd':
+00113$:
+;	main.c:110: printf_tiny("LCD RAM dump:\n\r");
+	mov	a,#___str_5
+	push	acc
+	mov	a,#(___str_5 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	main.c:111: printf_tiny("DDRAM dump:\n\r");
+	mov	a,#___str_6
+	push	acc
+	mov	a,#(___str_6 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	main.c:112: ddram_hex_dump();
+	lcall	_ddram_hex_dump
+;	main.c:113: printf_tiny("CGRAM dump:\n\r");
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	main.c:114: cgram_hex_dump();
+	lcall	_cgram_hex_dump
+;	main.c:115: break;
+	ljmp	00118$
+;	main.c:116: case 'e':
+00114$:
+;	main.c:117: process_custom_character();
+	lcall	_process_custom_character
+;	main.c:118: break;
+;	main.c:122: }
+;	main.c:124: }
+	ljmp	00118$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
@@ -847,6 +896,27 @@ ___str_3:
 	.area CONST   (CODE)
 ___str_4:
 	.ascii "Resetting clock"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_5:
+	.ascii "LCD RAM dump:"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_6:
+	.ascii "DDRAM dump:"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_7:
+	.ascii "CGRAM dump:"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00
