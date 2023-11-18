@@ -1,11 +1,9 @@
 -muwx
 -i bin\Release\LCD_INTERFACING.ihx
 -M
--X 0xffff
--C 0x3f40
+-X 0x7fff
+-C 0x4000
 -b HOME = 0x2000
--b XSEG = 0xfc00
--b PSEG = 0xfc00
 -b ISEG = 0x0000
 -b BSEG = 0x0000
 -k C:\Program Files\sdcc\lib

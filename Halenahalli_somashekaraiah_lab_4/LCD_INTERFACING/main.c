@@ -35,7 +35,7 @@ _sdcc_external_startup()
     return 0;               // Return 0 to indicate successful startup
 }
 
-// --code-loc 0x2000 --code-size 0x3F40 --xram-loc 0xFC00 --xram-size  0xFFFF -D DEBUG=1
+// --code-loc 0x2000 --code-size 0x3F40 --xram-loc 0x0000 --xram-size  0x7FFF -D DEBUG=1
 
 // Enable is controlled by (A15 & A14 & A13 & A12 & A11 & A10) & !(RD & WR)
 // tested ENABLE signal activity at address range 0x8000 to 0xFBFF, and ENABLING is not toggling for this address range
@@ -115,6 +115,10 @@ void main(void)
                 break;
             case 'e':
                 process_custom_character();
+                break;
+            case 'f':
+                printf(" printing custom character\n\r");
+                show_custom_character();
                 break;
             default:
                 // Handle other cases or do nothing for unrecognized input

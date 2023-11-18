@@ -159,7 +159,15 @@ _menu:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	menu.c:29: printf_tiny("*************************************************************************\n\r");
+;	menu.c:29: printf_tiny("[f]. Show custom character\n\r");
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	menu.c:30: printf_tiny("*************************************************************************\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -167,7 +175,7 @@ _menu:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	menu.c:30: }
+;	menu.c:31: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -217,6 +225,13 @@ ___str_5:
 	.area CONST   (CODE)
 ___str_6:
 	.ascii "[e]. Create custom character"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_7:
+	.ascii "[f]. Show custom character"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

@@ -13,6 +13,7 @@
 	.globl __sdcc_external_startup
 	.globl _menu
 	.globl _timer2_interrupt_Init
+	.globl _show_custom_character
 	.globl _process_custom_character
 	.globl _cgram_hex_dump
 	.globl _ddram_hex_dump
@@ -26,6 +27,7 @@
 	.globl _lcdgotoxy
 	.globl _echo
 	.globl _printf_tiny
+	.globl _printf
 	.globl _TF1
 	.globl _TR1
 	.globl _TF0
@@ -676,7 +678,7 @@ _main:
 ;	main.c:59: menu_lcd();
 	lcall	_menu_lcd
 ;	main.c:61: while (1)
-00118$:
+00119$:
 ;	main.c:63: int8_t user_input = echo(); // Read user input from UART
 	lcall	_echo
 	mov	r7,dpl
@@ -728,23 +730,26 @@ _main:
 	pop	ar7
 00103$:
 ;	main.c:75: switch (user_input)
-	cjne	r7,#0x61,00162$
+	cjne	r7,#0x61,00167$
 	sjmp	00107$
-00162$:
-	cjne	r7,#0x62,00163$
+00167$:
+	cjne	r7,#0x62,00168$
 	sjmp	00108$
-00163$:
-	cjne	r7,#0x63,00164$
+00168$:
+	cjne	r7,#0x63,00169$
 	sjmp	00109$
-00164$:
-	cjne	r7,#0x64,00165$
+00169$:
+	cjne	r7,#0x64,00170$
 	ljmp	00113$
-00165$:
-	cjne	r7,#0x65,00166$
+00170$:
+	cjne	r7,#0x65,00171$
 	ljmp	00114$
-00166$:
+00171$:
+	cjne	r7,#0x66,00172$
+	ljmp	00115$
+00172$:
+	ljmp	00119$
 ;	main.c:77: case 'a':
-	sjmp	00118$
 00107$:
 ;	main.c:79: printf_tiny("Restarting clock\n\r");
 	mov	a,#___str_2
@@ -763,7 +768,7 @@ _main:
 	mov	dpl,#0x3c
 	lcall	_arrow_set
 ;	main.c:82: break;
-	ljmp	00118$
+	ljmp	00119$
 ;	main.c:84: case 'b':
 00108$:
 ;	main.c:86: printf_tiny("Stopping clock\n\r");
@@ -784,7 +789,7 @@ _main:
 	mov	dpl,#0x20
 	lcall	_arrow_set
 ;	main.c:89: break;
-	ljmp	00118$
+	ljmp	00119$
 ;	main.c:91: case 'c':
 00109$:
 ;	main.c:93: printf_tiny("Resetting clock\n\r");
@@ -813,7 +818,7 @@ _main:
 ;	main.c:101: lcdputch(indicator);
 	mov	dpl,#0x3c
 	lcall	_lcdputch
-	ljmp	00118$
+	ljmp	00119$
 00111$:
 ;	main.c:105: lcdgotoxy(3, 8);
 	mov	_lcdgotoxy_PARM_2,#0x08
@@ -823,7 +828,7 @@ _main:
 	mov	dpl,#0x3c
 	lcall	_lcdputch
 ;	main.c:108: break;
-	ljmp	00118$
+	ljmp	00119$
 ;	main.c:109: case 'd':
 00113$:
 ;	main.c:110: printf_tiny("LCD RAM dump:\n\r");
@@ -855,15 +860,32 @@ _main:
 ;	main.c:114: cgram_hex_dump();
 	lcall	_cgram_hex_dump
 ;	main.c:115: break;
-	ljmp	00118$
+	ljmp	00119$
 ;	main.c:116: case 'e':
 00114$:
 ;	main.c:117: process_custom_character();
 	lcall	_process_custom_character
 ;	main.c:118: break;
-;	main.c:122: }
-;	main.c:124: }
-	ljmp	00118$
+	ljmp	00119$
+;	main.c:119: case 'f':
+00115$:
+;	main.c:120: printf(" printing custom character\n\r");
+	mov	a,#___str_8
+	push	acc
+	mov	a,#(___str_8 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	main.c:121: show_custom_character();
+	lcall	_show_custom_character
+;	main.c:122: break;
+;	main.c:126: }
+;	main.c:128: }
+	ljmp	00119$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 	.area CONST   (CODE)
@@ -917,6 +939,13 @@ ___str_6:
 	.area CONST   (CODE)
 ___str_7:
 	.ascii "CGRAM dump:"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_8:
+	.ascii " printing custom character"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

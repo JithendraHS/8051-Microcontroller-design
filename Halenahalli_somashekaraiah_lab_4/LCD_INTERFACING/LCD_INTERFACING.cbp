@@ -23,7 +23,7 @@
 					<Add directory="../LCD_INTERFACING" />
 				</Compiler>
 				<Linker>
-					<Add option="--code-loc 0x2000 --code-size 0x3F40 --xram-loc 0xFC00 --xram-size  0xFFFF -D DEBUG=1" />
+					<Add option="--code-loc 0x2000 --code-size 0x4000 --xram-loc 0xFC00 --xram-size  0xFFFF -D DEBUG=1" />
 				</Linker>
 			</Target>
 		</Build>

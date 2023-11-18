@@ -156,4 +156,6 @@ void cgram_hex_dump();
  */
 void process_custom_character();
 
+void show_custom_character();
+
 #endif  // LCD_H

@@ -27,8 +27,7 @@
 #define PULSE_LOW (0)
 #define BYTE_LENGTH (8)
 
-extern __xdata uint8_t db = 0;
-extern __xdata uint8_t * ptr = &db;
+extern __xdata uint8_t * ptr = (__xdata uint8_t *)0xFFFF;
 static char min_high;
 static char min_low;
 static char sec_high;
@@ -502,3 +501,33 @@ void process_custom_character() {
     }
 }
 
+
+
+void show_custom_character(){
+    uint8_t address[4] = {0x4d, 0x1c, 0x1d, 0x1e};
+    uint8_t ccode[4] = {0x00, 0x01, 0x02, 0x03};
+    __xdata uint8_t a[4][8] = {{0x00, 0x02, 0x06,0x0C,0x18,0x0c,0x06,0x04},
+                               {0x1f, 0x1f, 0x0f,0x0f,0x07,0x03,0x01,0x01},
+                               {0x1f, 0x1f, 0x1f,0x1f,0x1f,0x1f,0x1f,0x1f},
+                               {0x1f, 0x1f, 0x1e,0x1e,0x1c,0x18,0x10,0x10}};
+    uint8_t char_array[8] = {0};
+    for(uint8_t j = 0; j< 4; j++){
+        // Iterate through each row of the character
+        for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+
+            // Calculate the CGRAM address for each row of the custom character
+            uint8_t cgram_address = 0b01000000 | (ccode[j] << 3) | i;
+
+            // Get the hex value for the pixel pattern in the row
+            char_array[i] = a[j][i] & 0b00011111;
+            // Create the custom character in the LCD CGRAM
+            lcdcreatechar(cgram_address, char_array[i]);
+        }
+    }
+
+    for(uint8_t k = 0; k < 4; k++){
+          // Display the custom character at the specified LCD display address
+          lcdgotoaddr(address[k]);
+          lcdputch(ccode[k]);
+    }
+}
