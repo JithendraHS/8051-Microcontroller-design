@@ -11,14 +11,19 @@
 	.globl ___sdcc_heap_size
 	.globl _main
 	.globl __sdcc_external_startup
+	.globl _user_input_toggle_ioexpander_handle
+	.globl _user_input_read_ioexpander_handle
+	.globl _user_input_write_ioexpander_handle
 	.globl _user_input_reset_handle
 	.globl _user_input_hex_dump_handle
 	.globl _user_input_read_handle
 	.globl _user_input_write_handle
+	.globl _get_hex_value
 	.globl _echo
 	.globl _menu
 	.globl _delay
 	.globl _printf_tiny
+	.globl _printf
 	.globl _TF1
 	.globl _TR1
 	.globl _TF0
@@ -544,7 +549,7 @@ __sdcc_program_startup:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function '_sdcc_external_startup'
 ;------------------------------------------------------------
-;	main.c:39: _sdcc_external_startup()
+;	main.c:40: _sdcc_external_startup()
 ;	-----------------------------------------
 ;	 function _sdcc_external_startup
 ;	-----------------------------------------
@@ -557,30 +562,30 @@ __sdcc_external_startup:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	main.c:41: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
+;	main.c:42: AUXR |= (XRS1 | XRS0); // Configure XRAM (External RAM) for memory extension
 	orl	_AUXR,#0x0c
-;	main.c:43: return 0;               // Return 0 to indicate successful startup
+;	main.c:44: return 0;               // Return 0 to indicate successful startup
 	mov	dptr,#0x0000
-;	main.c:44: }
+;	main.c:45: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;user_input                Allocated to registers r7 
 ;------------------------------------------------------------
-;	main.c:49: void main()
+;	main.c:50: void main()
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:51: menu(); // Display the menu to the user
+;	main.c:52: menu(); // Display the menu to the user
 	lcall	_menu
-;	main.c:52: while (1) // Infinite loop for user interactions
-00114$:
-;	main.c:54: int8_t user_input = echo(); // Read user input from UART
+;	main.c:53: while (1) // Infinite loop for user interactions
+00117$:
+;	main.c:55: int8_t user_input = echo(); // Read user input from UART
 	lcall	_echo
 	mov	r7,dpl
-;	main.c:55: if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
+;	main.c:56: if (((user_input >= '0') && (user_input <= '9')) || ((user_input >= 'A') && (user_input <= 'Z')))
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -603,7 +608,7 @@ _main:
 	subb	a,b
 	jc	00102$
 00101$:
-;	main.c:58: printf_tiny("Please enter commands in small cases\n\r");
+;	main.c:59: printf_tiny("Please enter commands in small cases\n\r");
 	push	ar7
 	mov	a,#___str_0
 	push	acc
@@ -615,7 +620,7 @@ _main:
 	pop	ar7
 	sjmp	00103$
 00102$:
-;	main.c:62: printf_tiny("\n\r"); // Print newline for better output formatting
+;	main.c:63: printf_tiny("\n\r"); // Print newline for better output formatting
 	push	ar7
 	mov	a,#___str_1
 	push	acc
@@ -626,44 +631,94 @@ _main:
 	dec	sp
 	pop	ar7
 00103$:
-;	main.c:64: switch (user_input) // Switch statement based on user input
-	cjne	r7,#0x65,00150$
+;	main.c:65: switch (user_input) // Switch statement based on user input
+	cjne	r7,#0x61,00165$
+	sjmp	00111$
+00165$:
+	cjne	r7,#0x62,00166$
+	sjmp	00112$
+00166$:
+	cjne	r7,#0x63,00167$
+	sjmp	00113$
+00167$:
+	cjne	r7,#0x65,00168$
 	sjmp	00110$
-00150$:
-	cjne	r7,#0x68,00151$
+00168$:
+	cjne	r7,#0x68,00169$
 	sjmp	00109$
-00151$:
-	cjne	r7,#0x72,00152$
+00169$:
+	cjne	r7,#0x72,00170$
 	sjmp	00108$
-00152$:
-	cjne	r7,#0x77,00112$
-;	main.c:67: user_input_write_handle(); // Handle user input for writing data
+00170$:
+	cjne	r7,#0x77,00115$
+;	main.c:68: user_input_write_handle(); // Handle user input for writing data
 	lcall	_user_input_write_handle
-;	main.c:68: break;
-;	main.c:69: case 'r':
-	sjmp	00112$
+;	main.c:69: break;
+;	main.c:70: case 'r':
+	sjmp	00115$
 00108$:
-;	main.c:70: user_input_read_handle(); // Handle user input for reading data
+;	main.c:71: user_input_read_handle(); // Handle user input for reading data
 	lcall	_user_input_read_handle
-;	main.c:71: break;
-;	main.c:72: case 'h':
-	sjmp	00112$
+;	main.c:72: break;
+;	main.c:73: case 'h':
+	sjmp	00115$
 00109$:
-;	main.c:73: user_input_hex_dump_handle(); // Handle user input for hex dumping data
+;	main.c:74: user_input_hex_dump_handle(); // Handle user input for hex dumping data
 	lcall	_user_input_hex_dump_handle
-;	main.c:74: break;
-;	main.c:75: case 'e':
-	sjmp	00112$
+;	main.c:75: break;
+;	main.c:76: case 'e':
+	sjmp	00115$
 00110$:
-;	main.c:76: user_input_reset_handle(); // Handle user input for reset
+;	main.c:77: user_input_reset_handle(); // Handle user input for reset
 	lcall	_user_input_reset_handle
-;	main.c:80: }
+;	main.c:78: break;
+;	main.c:79: case 'a':
+	sjmp	00115$
+00111$:
+;	main.c:80: printf_tiny("Please enter data in hex format to store\n\r");
+	mov	a,#___str_2
+	push	acc
+	mov	a,#(___str_2 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	main.c:81: user_input_write_ioexpander_handle(get_hex_value()); // Handle user write input
+	lcall	_get_hex_value
+	lcall	_user_input_write_ioexpander_handle
+;	main.c:82: break;
+;	main.c:83: case 'b':
+	sjmp	00115$
 00112$:
-;	main.c:81: delay(3); // Delay for stability before processing the next input
+;	main.c:84: printf(" Received data %x\n\r",user_input_read_ioexpander_handle()); // Handle user read input
+	lcall	_user_input_read_ioexpander_handle
+	mov	r7,dpl
+	mov	r6,#0x00
+	push	ar7
+	push	ar6
+	mov	a,#___str_3
+	push	acc
+	mov	a,#(___str_3 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xfb
+	mov	sp,a
+;	main.c:85: break;
+;	main.c:86: case 'c':
+	sjmp	00115$
+00113$:
+;	main.c:87: user_input_toggle_ioexpander_handle(); // Handle user write input
+	lcall	_user_input_toggle_ioexpander_handle
+;	main.c:91: }
+00115$:
+;	main.c:92: delay(3); // Delay for stability before processing the next input
 	mov	dptr,#0x0003
 	lcall	_delay
-;	main.c:83: }
-	ljmp	00114$
+;	main.c:94: }
+	ljmp	00117$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___sdcc_heap_size:
@@ -677,6 +732,20 @@ ___str_0:
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
 ___str_1:
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_2:
+	.ascii "Please enter data in hex format to store"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_3:
+	.ascii " Received data %x"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

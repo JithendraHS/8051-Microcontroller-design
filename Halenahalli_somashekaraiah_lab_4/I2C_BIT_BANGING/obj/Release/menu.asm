@@ -151,7 +151,31 @@ _menu:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	menu.c:28: printf_tiny("*************************************************************************\n\r");
+;	menu.c:28: printf_tiny("[a]. To WRITE byte into I/O expander\n\r");
+	mov	a,#___str_6
+	push	acc
+	mov	a,#(___str_6 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	menu.c:29: printf_tiny("[b]. To READ byte from I/O expander\n\r");
+	mov	a,#___str_7
+	push	acc
+	mov	a,#(___str_7 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	menu.c:30: printf_tiny("[c]. Toggle port value\n\r");
+	mov	a,#___str_8
+	push	acc
+	mov	a,#(___str_8 >> 8)
+	push	acc
+	lcall	_printf_tiny
+	dec	sp
+	dec	sp
+;	menu.c:31: printf_tiny("*************************************************************************\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -159,7 +183,7 @@ _menu:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	menu.c:29: }
+;	menu.c:32: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)
@@ -202,6 +226,27 @@ ___str_4:
 	.area CONST   (CODE)
 ___str_5:
 	.ascii "[e]. To do software reset of EEPROM"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_6:
+	.ascii "[a]. To WRITE byte into I/O expander"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_7:
+	.ascii "[b]. To READ byte from I/O expander"
+	.db 0x0a
+	.db 0x0d
+	.db 0x00
+	.area CSEG    (CODE)
+	.area CONST   (CODE)
+___str_8:
+	.ascii "[c]. Toggle port value"
 	.db 0x0a
 	.db 0x0d
 	.db 0x00

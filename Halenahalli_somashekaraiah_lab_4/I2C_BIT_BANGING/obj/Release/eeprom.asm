@@ -454,7 +454,7 @@ _P5_7	=	0x00ef
 ; external ram data
 ;--------------------------------------------------------
 	.area XSEG    (XDATA)
-_get_hex_value_char_received_196608_51:
+_get_hex_value_char_received_196608_52:
 	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
@@ -495,7 +495,7 @@ _get_hex_value_char_received_196608_51:
 ;------------------------------------------------------------
 ;value                     Allocated to registers r7 
 ;i                         Allocated to registers r5 r6 
-;char_received             Allocated with name '_get_hex_value_char_received_196608_51'
+;char_received             Allocated with name '_get_hex_value_char_received_196608_52'
 ;------------------------------------------------------------
 ;	eeprom.c:12: __xdata uint8_t get_hex_value(){
 ;	-----------------------------------------
@@ -544,7 +544,7 @@ _get_hex_value:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	mov	a,r4
 	movx	@dptr,a
 ;	eeprom.c:17: if((char_received >= '0') && (char_received <= '9')){
@@ -559,12 +559,12 @@ _get_hex_value:
 ;	eeprom.c:18: char_received = char_received - '0'; // Convert ASCII character to its
 	mov	a,r4
 	add	a,#0xd0
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	movx	@dptr,a
 	sjmp	00114$
 00113$:
 ;	eeprom.c:20: }else if((char_received >= 'A') && (char_received <= 'F')){
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	movx	a,@dptr
 	mov	r4,a
 	cjne	r4,#0x41,00162$
@@ -574,14 +574,14 @@ _get_hex_value:
 	add	a,#0xff - 0x46
 	jc	00109$
 ;	eeprom.c:21: char_received = char_received - 'A' + 10; // Convert ASCII character to its
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	mov	a,#0xc9
 	add	a,r4
 	movx	@dptr,a
 	sjmp	00114$
 00109$:
 ;	eeprom.c:23: }else if((char_received >= 'a') && (char_received <= 'f')){
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	movx	a,@dptr
 	mov	r4,a
 	cjne	r4,#0x61,00165$
@@ -591,14 +591,14 @@ _get_hex_value:
 	add	a,#0xff - 0x66
 	jc	00105$
 ;	eeprom.c:24: char_received = char_received - 'a' + 10; // Convert ASCII character to its
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	mov	a,#0xa9
 	add	a,r4
 	movx	@dptr,a
 	sjmp	00114$
 00105$:
 ;	eeprom.c:26: }else if((char_received == '\n') || (char_received == '\r')){
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	movx	a,@dptr
 	mov	r4,a
 	cjne	r4,#0x0a,00168$
@@ -627,7 +627,7 @@ _get_hex_value:
 	add	a,acc
 	add	a,acc
 	mov	r4,a
-	mov	dptr,#_get_hex_value_char_received_196608_51
+	mov	dptr,#_get_hex_value_char_received_196608_52
 	movx	a,@dptr
 	mov	r3,a
 	mov	b,r4
@@ -664,9 +664,9 @@ _get_hex_value:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'user_input_write_handle'
 ;------------------------------------------------------------
-;address                   Allocated with name '_user_input_write_handle_address_65536_56'
-;data                      Allocated with name '_user_input_write_handle_data_65536_56'
-;block                     Allocated with name '_user_input_write_handle_block_65536_56'
+;address                   Allocated with name '_user_input_write_handle_address_65536_57'
+;data                      Allocated with name '_user_input_write_handle_data_65536_57'
+;block                     Allocated with name '_user_input_write_handle_block_65536_57'
 ;------------------------------------------------------------
 ;	eeprom.c:42: void user_input_write_handle(){
 ;	-----------------------------------------
@@ -749,9 +749,9 @@ _user_input_write_handle:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'user_input_read_handle'
 ;------------------------------------------------------------
-;address                   Allocated with name '_user_input_read_handle_address_65536_59'
-;data                      Allocated with name '_user_input_read_handle_data_65536_59'
-;block                     Allocated with name '_user_input_read_handle_block_65536_59'
+;address                   Allocated with name '_user_input_read_handle_address_65536_60'
+;data                      Allocated with name '_user_input_read_handle_data_65536_60'
+;block                     Allocated with name '_user_input_read_handle_block_65536_60'
 ;------------------------------------------------------------
 ;	eeprom.c:74: void user_input_read_handle(){
 ;	-----------------------------------------
@@ -839,9 +839,9 @@ _user_input_read_handle:
 ;buffer                    Allocated to registers r4 r7 
 ;address_range             Allocated to registers r5 
 ;i                         Allocated to registers r2 r3 
-;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_62'
-;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_62'
-;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_62'
+;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_63'
+;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_63'
+;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_63'
 ;------------------------------------------------------------
 ;	eeprom.c:107: void user_input_hex_dump_handle(){
 ;	-----------------------------------------

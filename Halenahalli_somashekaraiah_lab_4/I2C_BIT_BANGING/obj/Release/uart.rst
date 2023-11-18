@@ -491,7 +491,7 @@
                                     491 ;	-----------------------------------------
                                     492 ;	 function putchar
                                     493 ;	-----------------------------------------
-      003CC0                        494 _putchar:
+      003E4F                        494 _putchar:
                            000007   495 	ar7 = 0x07
                            000006   496 	ar6 = 0x06
                            000005   497 	ar5 = 0x05
@@ -500,21 +500,21 @@
                            000002   500 	ar2 = 0x02
                            000001   501 	ar1 = 0x01
                            000000   502 	ar0 = 0x00
-      003CC0 AE 82            [24]  503 	mov	r6,dpl
-      003CC2 AF 83            [24]  504 	mov	r7,dph
+      003E4F AE 82            [24]  503 	mov	r6,dpl
+      003E51 AF 83            [24]  504 	mov	r7,dph
                                     505 ;	uart.c:27: while(!TI); // Wait until the UART transmit buffer is ready to accept new
-      003CC4                        506 00101$:
-      003CC4 30 99 FD         [24]  507 	jnb	_TI,00101$
+      003E53                        506 00101$:
+      003E53 30 99 FD         [24]  507 	jnb	_TI,00101$
                                     508 ;	uart.c:29: SBUF = c;   // Load the character into the transmit buffer
-      003CC7 8E 99            [24]  509 	mov	_SBUF,r6
+      003E56 8E 99            [24]  509 	mov	_SBUF,r6
                                     510 ;	uart.c:30: TI = 0;     // Clear the transmit interrupt flag to indicate data has been
                                     511 ;	assignBit
-      003CC9 C2 99            [12]  512 	clr	_TI
+      003E58 C2 99            [12]  512 	clr	_TI
                                     513 ;	uart.c:32: return c;   // Return the character written
-      003CCB 8E 82            [24]  514 	mov	dpl,r6
-      003CCD 8F 83            [24]  515 	mov	dph,r7
+      003E5A 8E 82            [24]  514 	mov	dpl,r6
+      003E5C 8F 83            [24]  515 	mov	dph,r7
                                     516 ;	uart.c:33: }
-      003CCF 22               [24]  517 	ret
+      003E5E 22               [24]  517 	ret
                                     518 ;------------------------------------------------------------
                                     519 ;Allocation info for local variables in function 'getchar'
                                     520 ;------------------------------------------------------------
@@ -522,21 +522,21 @@
                                     522 ;	-----------------------------------------
                                     523 ;	 function getchar
                                     524 ;	-----------------------------------------
-      003CD0                        525 _getchar:
+      003E5F                        525 _getchar:
                                     526 ;	uart.c:41: while(!RI); // Wait until a character is received and ready to be read
-      003CD0                        527 00101$:
+      003E5F                        527 00101$:
                                     528 ;	uart.c:42: RI = 0;     // Clear the receive interrupt flag to indicate data has been
                                     529 ;	assignBit
-      003CD0 10 98 02         [24]  530 	jbc	_RI,00114$
-      003CD3 80 FB            [24]  531 	sjmp	00101$
-      003CD5                        532 00114$:
+      003E5F 10 98 02         [24]  530 	jbc	_RI,00114$
+      003E62 80 FB            [24]  531 	sjmp	00101$
+      003E64                        532 00114$:
                                     533 ;	uart.c:44: return SBUF; // Return the received character
-      003CD5 AE 99            [24]  534 	mov	r6,_SBUF
-      003CD7 7F 00            [12]  535 	mov	r7,#0x00
-      003CD9 8E 82            [24]  536 	mov	dpl,r6
-      003CDB 8F 83            [24]  537 	mov	dph,r7
+      003E64 AE 99            [24]  534 	mov	r6,_SBUF
+      003E66 7F 00            [12]  535 	mov	r7,#0x00
+      003E68 8E 82            [24]  536 	mov	dpl,r6
+      003E6A 8F 83            [24]  537 	mov	dph,r7
                                     538 ;	uart.c:45: }
-      003CDD 22               [24]  539 	ret
+      003E6C 22               [24]  539 	ret
                                     540 ;------------------------------------------------------------
                                     541 ;Allocation info for local variables in function 'putstr'
                                     542 ;------------------------------------------------------------
@@ -547,52 +547,52 @@
                                     547 ;	-----------------------------------------
                                     548 ;	 function putstr
                                     549 ;	-----------------------------------------
-      003CDE                        550 _putstr:
-      003CDE AD 82            [24]  551 	mov	r5,dpl
-      003CE0 AE 83            [24]  552 	mov	r6,dph
-      003CE2 AF F0            [24]  553 	mov	r7,b
+      003E6D                        550 _putstr:
+      003E6D AD 82            [24]  551 	mov	r5,dpl
+      003E6F AE 83            [24]  552 	mov	r6,dph
+      003E71 AF F0            [24]  553 	mov	r7,b
                                     554 ;	uart.c:55: while (*s)
-      003CE4 7B 00            [12]  555 	mov	r3,#0x00
-      003CE6 7C 00            [12]  556 	mov	r4,#0x00
-      003CE8                        557 00101$:
-      003CE8 8D 82            [24]  558 	mov	dpl,r5
-      003CEA 8E 83            [24]  559 	mov	dph,r6
-      003CEC 8F F0            [24]  560 	mov	b,r7
-      003CEE 12 3E 94         [24]  561 	lcall	__gptrget
-      003CF1 FA               [12]  562 	mov	r2,a
-      003CF2 60 2B            [24]  563 	jz	00103$
+      003E73 7B 00            [12]  555 	mov	r3,#0x00
+      003E75 7C 00            [12]  556 	mov	r4,#0x00
+      003E77                        557 00101$:
+      003E77 8D 82            [24]  558 	mov	dpl,r5
+      003E79 8E 83            [24]  559 	mov	dph,r6
+      003E7B 8F F0            [24]  560 	mov	b,r7
+      003E7D 12 47 8F         [24]  561 	lcall	__gptrget
+      003E80 FA               [12]  562 	mov	r2,a
+      003E81 60 2B            [24]  563 	jz	00103$
                                     564 ;	uart.c:57: putchar(*s++); // Output each character of the string
-      003CF4 0D               [12]  565 	inc	r5
-      003CF5 BD 00 01         [24]  566 	cjne	r5,#0x00,00116$
-      003CF8 0E               [12]  567 	inc	r6
-      003CF9                        568 00116$:
-      003CF9 8A 01            [24]  569 	mov	ar1,r2
-      003CFB 7A 00            [12]  570 	mov	r2,#0x00
-      003CFD 89 82            [24]  571 	mov	dpl,r1
-      003CFF 8A 83            [24]  572 	mov	dph,r2
-      003D01 C0 07            [24]  573 	push	ar7
-      003D03 C0 06            [24]  574 	push	ar6
-      003D05 C0 05            [24]  575 	push	ar5
-      003D07 C0 04            [24]  576 	push	ar4
-      003D09 C0 03            [24]  577 	push	ar3
-      003D0B 12 3C C0         [24]  578 	lcall	_putchar
-      003D0E D0 03            [24]  579 	pop	ar3
-      003D10 D0 04            [24]  580 	pop	ar4
-      003D12 D0 05            [24]  581 	pop	ar5
-      003D14 D0 06            [24]  582 	pop	ar6
-      003D16 D0 07            [24]  583 	pop	ar7
+      003E83 0D               [12]  565 	inc	r5
+      003E84 BD 00 01         [24]  566 	cjne	r5,#0x00,00116$
+      003E87 0E               [12]  567 	inc	r6
+      003E88                        568 00116$:
+      003E88 8A 01            [24]  569 	mov	ar1,r2
+      003E8A 7A 00            [12]  570 	mov	r2,#0x00
+      003E8C 89 82            [24]  571 	mov	dpl,r1
+      003E8E 8A 83            [24]  572 	mov	dph,r2
+      003E90 C0 07            [24]  573 	push	ar7
+      003E92 C0 06            [24]  574 	push	ar6
+      003E94 C0 05            [24]  575 	push	ar5
+      003E96 C0 04            [24]  576 	push	ar4
+      003E98 C0 03            [24]  577 	push	ar3
+      003E9A 12 3E 4F         [24]  578 	lcall	_putchar
+      003E9D D0 03            [24]  579 	pop	ar3
+      003E9F D0 04            [24]  580 	pop	ar4
+      003EA1 D0 05            [24]  581 	pop	ar5
+      003EA3 D0 06            [24]  582 	pop	ar6
+      003EA5 D0 07            [24]  583 	pop	ar7
                                     584 ;	uart.c:58: i++;
-      003D18 0B               [12]  585 	inc	r3
-      003D19 BB 00 CC         [24]  586 	cjne	r3,#0x00,00101$
-      003D1C 0C               [12]  587 	inc	r4
-      003D1D 80 C9            [24]  588 	sjmp	00101$
-      003D1F                        589 00103$:
+      003EA7 0B               [12]  585 	inc	r3
+      003EA8 BB 00 CC         [24]  586 	cjne	r3,#0x00,00101$
+      003EAB 0C               [12]  587 	inc	r4
+      003EAC 80 C9            [24]  588 	sjmp	00101$
+      003EAE                        589 00103$:
                                     590 ;	uart.c:60: return i + 1; // Return the total number of characters sent, including the
-      003D1F 8B 82            [24]  591 	mov	dpl,r3
-      003D21 8C 83            [24]  592 	mov	dph,r4
-      003D23 A3               [24]  593 	inc	dptr
+      003EAE 8B 82            [24]  591 	mov	dpl,r3
+      003EB0 8C 83            [24]  592 	mov	dph,r4
+      003EB2 A3               [24]  593 	inc	dptr
                                     594 ;	uart.c:62: }
-      003D24 22               [24]  595 	ret
+      003EB3 22               [24]  595 	ret
                                     596 ;------------------------------------------------------------
                                     597 ;Allocation info for local variables in function 'echo'
                                     598 ;------------------------------------------------------------
@@ -602,25 +602,25 @@
                                     602 ;	-----------------------------------------
                                     603 ;	 function echo
                                     604 ;	-----------------------------------------
-      003D25                        605 _echo:
+      003EB4                        605 _echo:
                                     606 ;	uart.c:70: int8_t ch = getchar(); // Read a character from the UART
-      003D25 12 3C D0         [24]  607 	lcall	_getchar
-      003D28 AE 82            [24]  608 	mov	r6,dpl
+      003EB4 12 3E 5F         [24]  607 	lcall	_getchar
+      003EB7 AE 82            [24]  608 	mov	r6,dpl
                                     609 ;	uart.c:71: putchar(ch);           // Output the character, providing an echo effect
-      003D2A EE               [12]  610 	mov	a,r6
-      003D2B FD               [12]  611 	mov	r5,a
-      003D2C 33               [12]  612 	rlc	a
-      003D2D 95 E0            [12]  613 	subb	a,acc
-      003D2F FF               [12]  614 	mov	r7,a
-      003D30 8D 82            [24]  615 	mov	dpl,r5
-      003D32 8F 83            [24]  616 	mov	dph,r7
-      003D34 C0 06            [24]  617 	push	ar6
-      003D36 12 3C C0         [24]  618 	lcall	_putchar
-      003D39 D0 06            [24]  619 	pop	ar6
+      003EB9 EE               [12]  610 	mov	a,r6
+      003EBA FD               [12]  611 	mov	r5,a
+      003EBB 33               [12]  612 	rlc	a
+      003EBC 95 E0            [12]  613 	subb	a,acc
+      003EBE FF               [12]  614 	mov	r7,a
+      003EBF 8D 82            [24]  615 	mov	dpl,r5
+      003EC1 8F 83            [24]  616 	mov	dph,r7
+      003EC3 C0 06            [24]  617 	push	ar6
+      003EC5 12 3E 4F         [24]  618 	lcall	_putchar
+      003EC8 D0 06            [24]  619 	pop	ar6
                                     620 ;	uart.c:72: return ch;             // Return the character read
-      003D3B 8E 82            [24]  621 	mov	dpl,r6
+      003ECA 8E 82            [24]  621 	mov	dpl,r6
                                     622 ;	uart.c:73: }
-      003D3D 22               [24]  623 	ret
+      003ECC 22               [24]  623 	ret
                                     624 	.area CSEG    (CODE)
                                     625 	.area CONST   (CODE)
                                     626 	.area XINIT   (CODE)

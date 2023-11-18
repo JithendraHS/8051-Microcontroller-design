@@ -15,6 +15,7 @@
 -l libfloat
 obj\Release\eeprom.rel
 obj\Release\i2c_bit_bang.rel
+obj\Release\ioexpander.rel
 obj\Release\main.rel
 obj\Release\menu.rel
 obj\Release\uart.rel

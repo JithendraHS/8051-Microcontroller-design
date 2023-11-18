@@ -454,7 +454,7 @@
                                     454 ; external ram data
                                     455 ;--------------------------------------------------------
                                     456 	.area XSEG    (XDATA)
-      000000                        457 _get_hex_value_char_received_196608_51:
+      000000                        457 _get_hex_value_char_received_196608_52:
       000000                        458 	.ds 1
                                     459 ;--------------------------------------------------------
                                     460 ; absolute external ram data
@@ -495,7 +495,7 @@
                                     495 ;------------------------------------------------------------
                                     496 ;value                     Allocated to registers r7 
                                     497 ;i                         Allocated to registers r5 r6 
-                                    498 ;char_received             Allocated with name '_get_hex_value_char_received_196608_51'
+                                    498 ;char_received             Allocated with name '_get_hex_value_char_received_196608_52'
                                     499 ;------------------------------------------------------------
                                     500 ;	eeprom.c:12: __xdata uint8_t get_hex_value(){
                                     501 ;	-----------------------------------------
@@ -544,7 +544,7 @@
       000032 D0 05            [24]  544 	pop	ar5
       000034 D0 06            [24]  545 	pop	ar6
       000036 D0 07            [24]  546 	pop	ar7
-      000038 90r00r00         [24]  547 	mov	dptr,#_get_hex_value_char_received_196608_51
+      000038 90r00r00         [24]  547 	mov	dptr,#_get_hex_value_char_received_196608_52
       00003B EC               [12]  548 	mov	a,r4
       00003C F0               [24]  549 	movx	@dptr,a
                                     550 ;	eeprom.c:17: if((char_received >= '0') && (char_received <= '9')){
@@ -559,12 +559,12 @@
                                     559 ;	eeprom.c:18: char_received = char_received - '0'; // Convert ASCII character to its
       00004B EC               [12]  560 	mov	a,r4
       00004C 24 D0            [12]  561 	add	a,#0xd0
-      00004E 90r00r00         [24]  562 	mov	dptr,#_get_hex_value_char_received_196608_51
+      00004E 90r00r00         [24]  562 	mov	dptr,#_get_hex_value_char_received_196608_52
       000051 F0               [24]  563 	movx	@dptr,a
       000052 80 52            [24]  564 	sjmp	00114$
       000054                        565 00113$:
                                     566 ;	eeprom.c:20: }else if((char_received >= 'A') && (char_received <= 'F')){
-      000054 90r00r00         [24]  567 	mov	dptr,#_get_hex_value_char_received_196608_51
+      000054 90r00r00         [24]  567 	mov	dptr,#_get_hex_value_char_received_196608_52
       000057 E0               [24]  568 	movx	a,@dptr
       000058 FC               [12]  569 	mov	r4,a
       000059 BC 41 00         [24]  570 	cjne	r4,#0x41,00162$
@@ -574,14 +574,14 @@
       00005F 24 B9            [12]  574 	add	a,#0xff - 0x46
       000061 40 09            [24]  575 	jc	00109$
                                     576 ;	eeprom.c:21: char_received = char_received - 'A' + 10; // Convert ASCII character to its
-      000063 90r00r00         [24]  577 	mov	dptr,#_get_hex_value_char_received_196608_51
+      000063 90r00r00         [24]  577 	mov	dptr,#_get_hex_value_char_received_196608_52
       000066 74 C9            [12]  578 	mov	a,#0xc9
       000068 2C               [12]  579 	add	a,r4
       000069 F0               [24]  580 	movx	@dptr,a
       00006A 80 3A            [24]  581 	sjmp	00114$
       00006C                        582 00109$:
                                     583 ;	eeprom.c:23: }else if((char_received >= 'a') && (char_received <= 'f')){
-      00006C 90r00r00         [24]  584 	mov	dptr,#_get_hex_value_char_received_196608_51
+      00006C 90r00r00         [24]  584 	mov	dptr,#_get_hex_value_char_received_196608_52
       00006F E0               [24]  585 	movx	a,@dptr
       000070 FC               [12]  586 	mov	r4,a
       000071 BC 61 00         [24]  587 	cjne	r4,#0x61,00165$
@@ -591,14 +591,14 @@
       000077 24 99            [12]  591 	add	a,#0xff - 0x66
       000079 40 09            [24]  592 	jc	00105$
                                     593 ;	eeprom.c:24: char_received = char_received - 'a' + 10; // Convert ASCII character to its
-      00007B 90r00r00         [24]  594 	mov	dptr,#_get_hex_value_char_received_196608_51
+      00007B 90r00r00         [24]  594 	mov	dptr,#_get_hex_value_char_received_196608_52
       00007E 74 A9            [12]  595 	mov	a,#0xa9
       000080 2C               [12]  596 	add	a,r4
       000081 F0               [24]  597 	movx	@dptr,a
       000082 80 22            [24]  598 	sjmp	00114$
       000084                        599 00105$:
                                     600 ;	eeprom.c:26: }else if((char_received == '\n') || (char_received == '\r')){
-      000084 90r00r00         [24]  601 	mov	dptr,#_get_hex_value_char_received_196608_51
+      000084 90r00r00         [24]  601 	mov	dptr,#_get_hex_value_char_received_196608_52
       000087 E0               [24]  602 	movx	a,@dptr
       000088 FC               [12]  603 	mov	r4,a
       000089 BC 0A 02         [24]  604 	cjne	r4,#0x0a,00168$
@@ -627,7 +627,7 @@
       0000AC 25 E0            [12]  627 	add	a,acc
       0000AE 25 E0            [12]  628 	add	a,acc
       0000B0 FC               [12]  629 	mov	r4,a
-      0000B1 90r00r00         [24]  630 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0000B1 90r00r00         [24]  630 	mov	dptr,#_get_hex_value_char_received_196608_52
       0000B4 E0               [24]  631 	movx	a,@dptr
       0000B5 FB               [12]  632 	mov	r3,a
       0000B6 8C F0            [24]  633 	mov	b,r4
@@ -664,9 +664,9 @@
                                     664 ;------------------------------------------------------------
                                     665 ;Allocation info for local variables in function 'user_input_write_handle'
                                     666 ;------------------------------------------------------------
-                                    667 ;address                   Allocated with name '_user_input_write_handle_address_65536_56'
-                                    668 ;data                      Allocated with name '_user_input_write_handle_data_65536_56'
-                                    669 ;block                     Allocated with name '_user_input_write_handle_block_65536_56'
+                                    667 ;address                   Allocated with name '_user_input_write_handle_address_65536_57'
+                                    668 ;data                      Allocated with name '_user_input_write_handle_data_65536_57'
+                                    669 ;block                     Allocated with name '_user_input_write_handle_block_65536_57'
                                     670 ;------------------------------------------------------------
                                     671 ;	eeprom.c:42: void user_input_write_handle(){
                                     672 ;	-----------------------------------------
@@ -749,9 +749,9 @@
                                     749 ;------------------------------------------------------------
                                     750 ;Allocation info for local variables in function 'user_input_read_handle'
                                     751 ;------------------------------------------------------------
-                                    752 ;address                   Allocated with name '_user_input_read_handle_address_65536_59'
-                                    753 ;data                      Allocated with name '_user_input_read_handle_data_65536_59'
-                                    754 ;block                     Allocated with name '_user_input_read_handle_block_65536_59'
+                                    752 ;address                   Allocated with name '_user_input_read_handle_address_65536_60'
+                                    753 ;data                      Allocated with name '_user_input_read_handle_data_65536_60'
+                                    754 ;block                     Allocated with name '_user_input_read_handle_block_65536_60'
                                     755 ;------------------------------------------------------------
                                     756 ;	eeprom.c:74: void user_input_read_handle(){
                                     757 ;	-----------------------------------------
@@ -839,9 +839,9 @@
                                     839 ;buffer                    Allocated to registers r4 r7 
                                     840 ;address_range             Allocated to registers r5 
                                     841 ;i                         Allocated to registers r2 r3 
-                                    842 ;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_62'
-                                    843 ;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_62'
-                                    844 ;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_62'
+                                    842 ;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_63'
+                                    843 ;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_63'
+                                    844 ;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_63'
                                     845 ;------------------------------------------------------------
                                     846 ;	eeprom.c:107: void user_input_hex_dump_handle(){
                                     847 ;	-----------------------------------------

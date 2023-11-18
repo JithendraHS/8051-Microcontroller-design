@@ -8,7 +8,6 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _sendByte
 	.globl _P5_7
 	.globl _P5_6
 	.globl _P5_5
@@ -224,6 +223,7 @@
 	.globl _Byte_Write_PARM_3
 	.globl _Byte_Write_PARM_2
 	.globl _delay
+	.globl _sendByte
 	.globl _Byte_Write
 	.globl _Byte_Read
 	.globl _Byte_Read_Sequential
@@ -456,9 +456,9 @@ _P5_7	=	0x00ef
 ; internal ram data
 ;--------------------------------------------------------
 	.area DSEG    (DATA)
-_Byte_Read_Sequential_l_131073_23:
+_Byte_Read_Sequential_l_131073_24:
 	.ds 2
-_Byte_Read_Sequential_k_262145_25:
+_Byte_Read_Sequential_k_262145_26:
 	.ds 2
 ;--------------------------------------------------------
 ; overlayable items in internal ram
@@ -489,19 +489,19 @@ _Byte_Write_PARM_2:
 	.ds 1
 _Byte_Write_PARM_3:
 	.ds 1
-_Byte_Write_data_65536_12:
+_Byte_Write_data_65536_13:
 	.ds 1
 _Byte_Read_PARM_2:
 	.ds 1
-_Byte_Read_block_65536_15:
+_Byte_Read_block_65536_16:
 	.ds 1
 _Byte_Read_Sequential_PARM_2:
 	.ds 1
 _Byte_Read_Sequential_PARM_3:
 	.ds 1
-_Byte_Read_Sequential_block_65536_20:
+_Byte_Read_Sequential_block_65536_21:
 	.ds 1
-_Byte_Read_Sequential_buffer_65536_21:
+_Byte_Read_Sequential_buffer_65536_22:
 	.ds 256
 ;--------------------------------------------------------
 ; absolute external ram data
@@ -542,7 +542,7 @@ _Byte_Read_Sequential_buffer_65536_21:
 ;------------------------------------------------------------
 ;t                         Allocated to registers 
 ;------------------------------------------------------------
-;	i2c_bit_bang.c:23: void delay(unsigned int t)
+;	i2c_bit_bang.c:17: void delay(unsigned int t)
 ;	-----------------------------------------
 ;	 function delay
 ;	-----------------------------------------
@@ -557,7 +557,7 @@ _delay:
 	ar0 = 0x00
 	mov	r6,dpl
 	mov	r7,dph
-;	i2c_bit_bang.c:25: while(t--){
+;	i2c_bit_bang.c:19: while(t--){
 00101$:
 	mov	ar4,r6
 	mov	ar5,r7
@@ -568,11 +568,11 @@ _delay:
 	mov	a,r4
 	orl	a,r5
 	jz	00104$
-;	i2c_bit_bang.c:26: NOP;  // Assembly NOP instruction for delaying program execution.
+;	i2c_bit_bang.c:20: NOP;  // Assembly NOP instruction for delaying program execution.
 	nop	
 	sjmp	00101$
 00104$:
-;	i2c_bit_bang.c:28: }
+;	i2c_bit_bang.c:22: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'sendByte'
@@ -580,13 +580,13 @@ _delay:
 ;byte                      Allocated to registers r7 
 ;i                         Allocated to registers r5 r6 
 ;------------------------------------------------------------
-;	i2c_bit_bang.c:34: void sendByte(uint8_t byte) {
+;	i2c_bit_bang.c:28: void sendByte(uint8_t byte) {
 ;	-----------------------------------------
 ;	 function sendByte
 ;	-----------------------------------------
 _sendByte:
 	mov	r7,dpl
-;	i2c_bit_bang.c:35: for(int i = 0; i < BYTE_LENGTH; i++){
+;	i2c_bit_bang.c:29: for(int i = 0; i < BYTE_LENGTH; i++){
 	mov	r5,#0x00
 	mov	r6,#0x00
 00103$:
@@ -597,17 +597,17 @@ _sendByte:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00105$
-;	i2c_bit_bang.c:36: SDA = byte & (0b10000000);
+;	i2c_bit_bang.c:30: SDA = byte & (0b10000000);
 	mov	a,r7
 	rl	a
 	anl	a,#0x01
 ;	assignBit
 	add	a,#0xff
 	mov	_P1_3,c
-;	i2c_bit_bang.c:37: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:31: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:38: delay(2);
+;	i2c_bit_bang.c:32: delay(2);
 	mov	dptr,#0x0002
 	push	ar7
 	push	ar6
@@ -616,15 +616,15 @@ _sendByte:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	i2c_bit_bang.c:39: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:33: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:40: byte = byte << 1;
+;	i2c_bit_bang.c:34: byte = byte << 1;
 	mov	ar4,r7
 	mov	a,r4
 	add	a,r4
 	mov	r7,a
-;	i2c_bit_bang.c:41: delay(0);
+;	i2c_bit_bang.c:35: delay(0);
 	mov	dptr,#0x0000
 	push	ar7
 	push	ar6
@@ -633,13 +633,13 @@ _sendByte:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	i2c_bit_bang.c:35: for(int i = 0; i < BYTE_LENGTH; i++){
+;	i2c_bit_bang.c:29: for(int i = 0; i < BYTE_LENGTH; i++){
 	inc	r5
 	cjne	r5,#0x00,00103$
 	inc	r6
 	sjmp	00103$
 00105$:
-;	i2c_bit_bang.c:43: }
+;	i2c_bit_bang.c:37: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Byte_Write'
@@ -647,35 +647,35 @@ _sendByte:
 ;byte                      Allocated to registers 
 ;block                     Allocated with name '_Byte_Write_PARM_2'
 ;address                   Allocated with name '_Byte_Write_PARM_3'
-;data                      Allocated with name '_Byte_Write_data_65536_12'
+;data                      Allocated with name '_Byte_Write_data_65536_13'
 ;------------------------------------------------------------
-;	i2c_bit_bang.c:51: void Byte_Write(__xdata uint8_t data, __xdata uint8_t block, __xdata uint8_t address){
+;	i2c_bit_bang.c:45: void Byte_Write(__xdata uint8_t data, __xdata uint8_t block, __xdata uint8_t address){
 ;	-----------------------------------------
 ;	 function Byte_Write
 ;	-----------------------------------------
 _Byte_Write:
 	mov	a,dpl
-	mov	dptr,#_Byte_Write_data_65536_12
+	mov	dptr,#_Byte_Write_data_65536_13
 	movx	@dptr,a
-;	i2c_bit_bang.c:53: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:47: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:54: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:48: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:57: delay(2);
+;	i2c_bit_bang.c:51: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:58: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:52: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:59: delay(2);
+;	i2c_bit_bang.c:53: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:60: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:54: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:63: uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
+;	i2c_bit_bang.c:57: uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
 	mov	dptr,#_Byte_Write_PARM_2
 	movx	a,@dptr
 	add	a,acc
@@ -683,79 +683,79 @@ _Byte_Write:
 	mov	a,#0xa0
 	orl	a,r7
 	mov	dpl,a
-;	i2c_bit_bang.c:66: sendByte(byte);
+;	i2c_bit_bang.c:60: sendByte(byte);
 	lcall	_sendByte
-;	i2c_bit_bang.c:67: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:61: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:68: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:62: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:69: delay(2);
+;	i2c_bit_bang.c:63: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:75: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:69: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:76: delay(0);
+;	i2c_bit_bang.c:70: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:78: sendByte(address);
+;	i2c_bit_bang.c:72: sendByte(address);
 	mov	dptr,#_Byte_Write_PARM_3
 	movx	a,@dptr
 	mov	dpl,a
 	lcall	_sendByte
-;	i2c_bit_bang.c:79: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:73: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:80: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:74: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:81: delay(2);
+;	i2c_bit_bang.c:75: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:87: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:81: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:88: delay(0);
+;	i2c_bit_bang.c:82: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:90: sendByte(data);
-	mov	dptr,#_Byte_Write_data_65536_12
+;	i2c_bit_bang.c:84: sendByte(data);
+	mov	dptr,#_Byte_Write_data_65536_13
 	movx	a,@dptr
 	mov	dpl,a
 	lcall	_sendByte
-;	i2c_bit_bang.c:93: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:87: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:94: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:88: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:95: delay(2);
+;	i2c_bit_bang.c:89: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:104: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:98: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:105: delay(1);
+;	i2c_bit_bang.c:99: delay(1);
 	mov	dptr,#0x0001
 	lcall	_delay
-;	i2c_bit_bang.c:106: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:100: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:107: delay(1);
+;	i2c_bit_bang.c:101: delay(1);
 	mov	dptr,#0x0001
 	lcall	_delay
-;	i2c_bit_bang.c:108: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:102: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:109: delay(0);
+;	i2c_bit_bang.c:103: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:110: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:104: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:111: }
+;	i2c_bit_bang.c:105: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Byte_Read'
@@ -763,126 +763,126 @@ _Byte_Write:
 ;byte                      Allocated to registers r4 
 ;k                         Allocated to registers r5 r6 
 ;address                   Allocated with name '_Byte_Read_PARM_2'
-;block                     Allocated with name '_Byte_Read_block_65536_15'
+;block                     Allocated with name '_Byte_Read_block_65536_16'
 ;------------------------------------------------------------
-;	i2c_bit_bang.c:119: __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
+;	i2c_bit_bang.c:113: __xdata uint8_t Byte_Read(__xdata uint8_t block, __xdata uint8_t address){
 ;	-----------------------------------------
 ;	 function Byte_Read
 ;	-----------------------------------------
 _Byte_Read:
 	mov	a,dpl
-	mov	dptr,#_Byte_Read_block_65536_15
+	mov	dptr,#_Byte_Read_block_65536_16
 	movx	@dptr,a
-;	i2c_bit_bang.c:121: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:115: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:122: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:116: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:125: delay(2);
+;	i2c_bit_bang.c:119: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:126: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:120: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:127: delay(2);
+;	i2c_bit_bang.c:121: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:128: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:122: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:131: uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
-	mov	dptr,#_Byte_Read_block_65536_15
+;	i2c_bit_bang.c:125: uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
+	mov	dptr,#_Byte_Read_block_65536_16
 	movx	a,@dptr
 	add	a,acc
 	mov	r7,a
 	mov	a,#0xa0
 	orl	a,r7
 	mov	dpl,a
-;	i2c_bit_bang.c:134: sendByte(byte);
+;	i2c_bit_bang.c:128: sendByte(byte);
 	push	ar7
 	lcall	_sendByte
-;	i2c_bit_bang.c:135: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:129: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:136: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:130: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:137: delay(3);
+;	i2c_bit_bang.c:131: delay(3);
 	mov	dptr,#0x0003
 	lcall	_delay
-;	i2c_bit_bang.c:143: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:137: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:144: delay(0);
+;	i2c_bit_bang.c:138: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:146: sendByte(address);
+;	i2c_bit_bang.c:140: sendByte(address);
 	mov	dptr,#_Byte_Read_PARM_2
 	movx	a,@dptr
 	mov	dpl,a
 	lcall	_sendByte
-;	i2c_bit_bang.c:147: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:141: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:148: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:142: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:149: delay(2);
+;	i2c_bit_bang.c:143: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:155: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:149: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:156: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:150: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:157: delay(2);
+;	i2c_bit_bang.c:151: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:158: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:152: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:159: delay(0);
+;	i2c_bit_bang.c:153: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:160: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:154: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:161: delay(2);
+;	i2c_bit_bang.c:155: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
 	pop	ar7
-;	i2c_bit_bang.c:162: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:156: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:163: byte = START_BYTE | (block << 1) | READ_BYTE;
+;	i2c_bit_bang.c:157: byte = START_BYTE | (block << 1) | READ_BYTE;
 	mov	a,#0xa1
 	orl	a,r7
 	mov	dpl,a
-;	i2c_bit_bang.c:166: sendByte(byte);
+;	i2c_bit_bang.c:160: sendByte(byte);
 	lcall	_sendByte
-;	i2c_bit_bang.c:168: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:162: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:169: delay(2);
+;	i2c_bit_bang.c:163: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:175: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:169: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:176: delay(2);
+;	i2c_bit_bang.c:170: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:177: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:171: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:178: delay(2);
+;	i2c_bit_bang.c:172: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:179: byte = 0;
+;	i2c_bit_bang.c:173: byte = 0;
 	mov	r7,#0x00
-;	i2c_bit_bang.c:180: for(int k = 0; k < BYTE_LENGTH; k++){
+;	i2c_bit_bang.c:174: for(int k = 0; k < BYTE_LENGTH; k++){
 	mov	r5,#0x00
 	mov	r6,#0x00
 00103$:
@@ -893,15 +893,15 @@ _Byte_Read:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00101$
-;	i2c_bit_bang.c:181: byte = byte << 1;
+;	i2c_bit_bang.c:175: byte = byte << 1;
 	mov	ar4,r7
 	mov	a,r4
 	add	a,r4
 	mov	r4,a
-;	i2c_bit_bang.c:182: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:176: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:183: delay(2);
+;	i2c_bit_bang.c:177: delay(2);
 	mov	dptr,#0x0002
 	push	ar6
 	push	ar5
@@ -910,16 +910,16 @@ _Byte_Read:
 	pop	ar4
 	pop	ar5
 	pop	ar6
-;	i2c_bit_bang.c:184: byte |= SDA;
+;	i2c_bit_bang.c:178: byte |= SDA;
 	mov	c,_P1_3
 	clr	a
 	rlc	a
 	orl	a,r4
 	mov	r7,a
-;	i2c_bit_bang.c:185: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:179: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:186: delay(1);
+;	i2c_bit_bang.c:180: delay(1);
 	mov	dptr,#0x0001
 	push	ar7
 	push	ar6
@@ -928,704 +928,704 @@ _Byte_Read:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	i2c_bit_bang.c:180: for(int k = 0; k < BYTE_LENGTH; k++){
+;	i2c_bit_bang.c:174: for(int k = 0; k < BYTE_LENGTH; k++){
 	inc	r5
 	cjne	r5,#0x00,00103$
 	inc	r6
 	sjmp	00103$
 00101$:
-;	i2c_bit_bang.c:189: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:183: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:190: delay(2);
+;	i2c_bit_bang.c:184: delay(2);
 	mov	dptr,#0x0002
 	push	ar7
 	lcall	_delay
-;	i2c_bit_bang.c:191: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:185: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:192: delay(2);
+;	i2c_bit_bang.c:186: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:193: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:187: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:194: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:188: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
+;	i2c_bit_bang.c:189: delay(2);
+	mov	dptr,#0x0002
+	lcall	_delay
+;	i2c_bit_bang.c:190: SCL = PULSE_HIGH;
+;	assignBit
+	setb	_P1_2
+;	i2c_bit_bang.c:191: delay(2);
+	mov	dptr,#0x0002
+	lcall	_delay
+;	i2c_bit_bang.c:192: SDA = PULSE_HIGH;
+;	assignBit
+	setb	_P1_3
+;	i2c_bit_bang.c:193: delay(2);
+	mov	dptr,#0x0002
+	lcall	_delay
+;	i2c_bit_bang.c:194: SCL = PULSE_LOW;
+;	assignBit
+	clr	_P1_2
 ;	i2c_bit_bang.c:195: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:196: SCL = PULSE_HIGH;
-;	assignBit
-	setb	_P1_2
-;	i2c_bit_bang.c:197: delay(2);
-	mov	dptr,#0x0002
-	lcall	_delay
-;	i2c_bit_bang.c:198: SDA = PULSE_HIGH;
-;	assignBit
-	setb	_P1_3
-;	i2c_bit_bang.c:199: delay(2);
-	mov	dptr,#0x0002
-	lcall	_delay
-;	i2c_bit_bang.c:200: SCL = PULSE_LOW;
-;	assignBit
-	clr	_P1_2
-;	i2c_bit_bang.c:201: delay(2);
-	mov	dptr,#0x0002
-	lcall	_delay
 	pop	ar7
-;	i2c_bit_bang.c:202: return byte;
+;	i2c_bit_bang.c:196: return byte;
 	mov	dpl,r7
-;	i2c_bit_bang.c:203: }
+;	i2c_bit_bang.c:197: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'Byte_Read_Sequential'
 ;------------------------------------------------------------
 ;byte                      Allocated to registers 
-;l                         Allocated with name '_Byte_Read_Sequential_l_131073_23'
-;k                         Allocated with name '_Byte_Read_Sequential_k_262145_25'
+;l                         Allocated with name '_Byte_Read_Sequential_l_131073_24'
+;k                         Allocated with name '_Byte_Read_Sequential_k_262145_26'
 ;start_address             Allocated with name '_Byte_Read_Sequential_PARM_2'
 ;address_range             Allocated with name '_Byte_Read_Sequential_PARM_3'
-;block                     Allocated with name '_Byte_Read_Sequential_block_65536_20'
-;buffer                    Allocated with name '_Byte_Read_Sequential_buffer_65536_21'
+;block                     Allocated with name '_Byte_Read_Sequential_block_65536_21'
+;buffer                    Allocated with name '_Byte_Read_Sequential_buffer_65536_22'
 ;------------------------------------------------------------
-;	i2c_bit_bang.c:213: __xdata uint8_t * Byte_Read_Sequential(__xdata uint8_t block, __xdata uint8_t start_address,
+;	i2c_bit_bang.c:207: __xdata uint8_t * Byte_Read_Sequential(__xdata uint8_t block, __xdata uint8_t start_address,
 ;	-----------------------------------------
 ;	 function Byte_Read_Sequential
 ;	-----------------------------------------
 _Byte_Read_Sequential:
 	mov	a,dpl
-	mov	dptr,#_Byte_Read_Sequential_block_65536_20
+	mov	dptr,#_Byte_Read_Sequential_block_65536_21
 	movx	@dptr,a
-;	i2c_bit_bang.c:216: __xdata uint8_t buffer[256] = {0};
-	mov	dptr,#_Byte_Read_Sequential_buffer_65536_21
+;	i2c_bit_bang.c:210: __xdata uint8_t buffer[256] = {0};
+	mov	dptr,#_Byte_Read_Sequential_buffer_65536_22
 	clr	a
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0001)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0001)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0002)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0002)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0003)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0003)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0004)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0004)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0005)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0005)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0006)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0006)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0007)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0007)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0008)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0008)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0009)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0009)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x000a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x000a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x000b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x000b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x000c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x000c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x000d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x000d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x000e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x000e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x000f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x000f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0010)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0010)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0011)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0011)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0012)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0012)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0013)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0013)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0014)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0014)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0015)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0015)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0016)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0016)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0017)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0017)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0018)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0018)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0019)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0019)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x001a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x001a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x001b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x001b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x001c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x001c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x001d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x001d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x001e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x001e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x001f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x001f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0020)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0020)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0021)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0021)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0022)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0022)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0023)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0023)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0024)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0024)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0025)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0025)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0026)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0026)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0027)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0027)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0028)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0028)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0029)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0029)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x002a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x002a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x002b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x002b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x002c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x002c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x002d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x002d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x002e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x002e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x002f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x002f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0030)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0030)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0031)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0031)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0032)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0032)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0033)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0033)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0034)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0034)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0035)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0035)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0036)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0036)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0037)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0037)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0038)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0038)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0039)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0039)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x003a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x003a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x003b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x003b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x003c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x003c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x003d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x003d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x003e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x003e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x003f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x003f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0040)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0040)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0041)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0041)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0042)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0042)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0043)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0043)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0044)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0044)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0045)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0045)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0046)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0046)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0047)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0047)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0048)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0048)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0049)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0049)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x004a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x004a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x004b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x004b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x004c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x004c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x004d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x004d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x004e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x004e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x004f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x004f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0050)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0050)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0051)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0051)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0052)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0052)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0053)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0053)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0054)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0054)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0055)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0055)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0056)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0056)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0057)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0057)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0058)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0058)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0059)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0059)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x005a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x005a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x005b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x005b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x005c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x005c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x005d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x005d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x005e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x005e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x005f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x005f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0060)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0060)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0061)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0061)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0062)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0062)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0063)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0063)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0064)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0064)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0065)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0065)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0066)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0066)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0067)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0067)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0068)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0068)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0069)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0069)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x006a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x006a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x006b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x006b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x006c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x006c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x006d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x006d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x006e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x006e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x006f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x006f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0070)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0070)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0071)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0071)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0072)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0072)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0073)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0073)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0074)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0074)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0075)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0075)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0076)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0076)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0077)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0077)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0078)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0078)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0079)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0079)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x007a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x007a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x007b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x007b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x007c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x007c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x007d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x007d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x007e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x007e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x007f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x007f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0080)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0080)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0081)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0081)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0082)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0082)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0083)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0083)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0084)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0084)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0085)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0085)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0086)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0086)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0087)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0087)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0088)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0088)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0089)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0089)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x008a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x008a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x008b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x008b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x008c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x008c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x008d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x008d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x008e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x008e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x008f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x008f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0090)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0090)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0091)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0091)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0092)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0092)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0093)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0093)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0094)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0094)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0095)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0095)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0096)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0096)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0097)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0097)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0098)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0098)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x0099)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x0099)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x009a)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x009a)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x009b)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x009b)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x009c)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x009c)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x009d)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x009d)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x009e)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x009e)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x009f)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x009f)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a0)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a0)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a1)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a1)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a2)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a2)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a3)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a3)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a4)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a4)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a5)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a5)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a6)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a6)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a7)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a7)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a8)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a8)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00a9)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00a9)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00aa)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00aa)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ab)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ab)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ac)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ac)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ad)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ad)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ae)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ae)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00af)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00af)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b0)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b0)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b1)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b1)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b2)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b2)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b3)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b3)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b4)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b4)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b5)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b5)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b6)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b6)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b7)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b7)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b8)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b8)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00b9)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00b9)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ba)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ba)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00bb)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00bb)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00bc)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00bc)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00bd)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00bd)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00be)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00be)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00bf)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00bf)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c0)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c0)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c1)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c1)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c2)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c2)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c3)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c3)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c4)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c4)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c5)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c5)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c6)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c6)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c7)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c7)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c8)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c8)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00c9)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00c9)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ca)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ca)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00cb)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00cb)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00cc)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00cc)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00cd)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00cd)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ce)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ce)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00cf)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00cf)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d0)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d0)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d1)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d1)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d2)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d2)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d3)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d3)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d4)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d4)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d5)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d5)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d6)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d6)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d7)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d7)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d8)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d8)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00d9)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00d9)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00da)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00da)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00db)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00db)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00dc)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00dc)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00dd)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00dd)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00de)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00de)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00df)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00df)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e0)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e0)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e1)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e1)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e2)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e2)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e3)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e3)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e4)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e4)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e5)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e5)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e6)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e6)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e7)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e7)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e8)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e8)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00e9)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00e9)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ea)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ea)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00eb)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00eb)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ec)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ec)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ed)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ed)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ee)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ee)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ef)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ef)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f0)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f0)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f1)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f1)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f2)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f2)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f3)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f3)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f4)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f4)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f5)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f5)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f6)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f6)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f7)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f7)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f8)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f8)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00f9)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00f9)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00fa)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00fa)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00fb)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00fb)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00fc)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00fc)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00fd)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00fd)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00fe)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00fe)
 	movx	@dptr,a
-	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_21 + 0x00ff)
+	mov	dptr,#(_Byte_Read_Sequential_buffer_65536_22 + 0x00ff)
 	movx	@dptr,a
-;	i2c_bit_bang.c:219: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:213: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:220: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:214: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:221: delay(2);
+;	i2c_bit_bang.c:215: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:222: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:216: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:223: delay(2);
+;	i2c_bit_bang.c:217: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:224: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:218: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:227: uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
-	mov	dptr,#_Byte_Read_Sequential_block_65536_20
+;	i2c_bit_bang.c:221: uint8_t byte = START_BYTE | (block << 1) | WRITE_BYTE;
+	mov	dptr,#_Byte_Read_Sequential_block_65536_21
 	movx	a,@dptr
 	add	a,acc
 	mov	r7,a
 	mov	a,#0xa0
 	orl	a,r7
 	mov	dpl,a
-;	i2c_bit_bang.c:230: sendByte(byte);
+;	i2c_bit_bang.c:224: sendByte(byte);
 	push	ar7
 	lcall	_sendByte
-;	i2c_bit_bang.c:231: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:225: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:232: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:226: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:233: delay(3);
+;	i2c_bit_bang.c:227: delay(3);
 	mov	dptr,#0x0003
 	lcall	_delay
-;	i2c_bit_bang.c:239: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:233: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:240: delay(0);
+;	i2c_bit_bang.c:234: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:242: sendByte(start_address);
+;	i2c_bit_bang.c:236: sendByte(start_address);
 	mov	dptr,#_Byte_Read_Sequential_PARM_2
 	movx	a,@dptr
 	mov	dpl,a
 	lcall	_sendByte
-;	i2c_bit_bang.c:244: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:238: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:245: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:239: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:246: delay(2);
+;	i2c_bit_bang.c:240: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:252: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:246: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:253: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:247: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:254: delay(2);
+;	i2c_bit_bang.c:248: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:255: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:249: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:256: delay(0);
+;	i2c_bit_bang.c:250: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:257: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:251: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:258: delay(2);
+;	i2c_bit_bang.c:252: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
 	pop	ar7
-;	i2c_bit_bang.c:259: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:253: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:260: byte = START_BYTE | (block << 1) | READ_BYTE;
+;	i2c_bit_bang.c:254: byte = START_BYTE | (block << 1) | READ_BYTE;
 	mov	a,#0xa1
 	orl	a,r7
 	mov	dpl,a
-;	i2c_bit_bang.c:263: sendByte(byte);
+;	i2c_bit_bang.c:257: sendByte(byte);
 	lcall	_sendByte
-;	i2c_bit_bang.c:264: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:258: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:265: delay(2);
+;	i2c_bit_bang.c:259: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:271: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:265: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:272: delay(2);
+;	i2c_bit_bang.c:266: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:273: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:267: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:274: delay(2);
+;	i2c_bit_bang.c:268: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:276: for(int l = 0; l < (address_range + 1); l++){
+;	i2c_bit_bang.c:270: for(int l = 0; l < (address_range + 1); l++){
 	mov	dptr,#_Byte_Read_Sequential_PARM_3
 	movx	a,@dptr
 	mov	r7,a
 	clr	a
-	mov	_Byte_Read_Sequential_l_131073_23,a
-	mov	(_Byte_Read_Sequential_l_131073_23 + 1),a
+	mov	_Byte_Read_Sequential_l_131073_24,a
+	mov	(_Byte_Read_Sequential_l_131073_24 + 1),a
 00109$:
 	mov	ar3,r7
 	mov	r4,#0x00
@@ -1636,9 +1636,9 @@ _Byte_Read_Sequential:
 	addc	a,r4
 	mov	r2,a
 	clr	c
-	mov	a,_Byte_Read_Sequential_l_131073_23
+	mov	a,_Byte_Read_Sequential_l_131073_24
 	subb	a,r1
-	mov	a,(_Byte_Read_Sequential_l_131073_23 + 1)
+	mov	a,(_Byte_Read_Sequential_l_131073_24 + 1)
 	xrl	a,#0x80
 	mov	b,r2
 	xrl	b,#0x80
@@ -1646,27 +1646,27 @@ _Byte_Read_Sequential:
 	jc	00140$
 	ljmp	00104$
 00140$:
-;	i2c_bit_bang.c:277: for(int k = 0; k < BYTE_LENGTH; k++){
+;	i2c_bit_bang.c:271: for(int k = 0; k < BYTE_LENGTH; k++){
 	clr	a
-	mov	_Byte_Read_Sequential_k_262145_25,a
-	mov	(_Byte_Read_Sequential_k_262145_25 + 1),a
+	mov	_Byte_Read_Sequential_k_262145_26,a
+	mov	(_Byte_Read_Sequential_k_262145_26 + 1),a
 00106$:
 	clr	c
-	mov	a,_Byte_Read_Sequential_k_262145_25
+	mov	a,_Byte_Read_Sequential_k_262145_26
 	subb	a,#0x08
-	mov	a,(_Byte_Read_Sequential_k_262145_25 + 1)
+	mov	a,(_Byte_Read_Sequential_k_262145_26 + 1)
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00101$
-;	i2c_bit_bang.c:278: SDA= PULSE_HIGH;
+;	i2c_bit_bang.c:272: SDA= PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:279: buffer[l] = buffer[l] << 1;
-	mov	a,_Byte_Read_Sequential_l_131073_23
-	add	a,#_Byte_Read_Sequential_buffer_65536_21
+;	i2c_bit_bang.c:273: buffer[l] = buffer[l] << 1;
+	mov	a,_Byte_Read_Sequential_l_131073_24
+	add	a,#_Byte_Read_Sequential_buffer_65536_22
 	mov	r0,a
-	mov	a,(_Byte_Read_Sequential_l_131073_23 + 1)
-	addc	a,#(_Byte_Read_Sequential_buffer_65536_21 >> 8)
+	mov	a,(_Byte_Read_Sequential_l_131073_24 + 1)
+	addc	a,#(_Byte_Read_Sequential_buffer_65536_22 >> 8)
 	mov	r2,a
 	mov	dpl,r0
 	mov	dph,r2
@@ -1675,10 +1675,10 @@ _Byte_Read_Sequential:
 	mov	dpl,r0
 	mov	dph,r2
 	movx	@dptr,a
-;	i2c_bit_bang.c:280: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:274: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:281: delay(1);
+;	i2c_bit_bang.c:275: delay(1);
 	mov	dptr,#0x0001
 	push	ar7
 	push	ar4
@@ -1688,7 +1688,7 @@ _Byte_Read_Sequential:
 	lcall	_delay
 	pop	ar0
 	pop	ar2
-;	i2c_bit_bang.c:282: buffer[l] |= SDA;
+;	i2c_bit_bang.c:276: buffer[l] |= SDA;
 	mov	dpl,r0
 	mov	dph,r2
 	movx	a,@dptr
@@ -1701,136 +1701,136 @@ _Byte_Read_Sequential:
 	mov	dph,r2
 	mov	a,r1
 	movx	@dptr,a
-;	i2c_bit_bang.c:283: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:277: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:284: delay(1);
+;	i2c_bit_bang.c:278: delay(1);
 	mov	dptr,#0x0001
 	lcall	_delay
 	pop	ar3
 	pop	ar4
 	pop	ar7
-;	i2c_bit_bang.c:277: for(int k = 0; k < BYTE_LENGTH; k++){
-	inc	_Byte_Read_Sequential_k_262145_25
+;	i2c_bit_bang.c:271: for(int k = 0; k < BYTE_LENGTH; k++){
+	inc	_Byte_Read_Sequential_k_262145_26
 	clr	a
-	cjne	a,_Byte_Read_Sequential_k_262145_25,00106$
-	inc	(_Byte_Read_Sequential_k_262145_25 + 1)
+	cjne	a,_Byte_Read_Sequential_k_262145_26,00106$
+	inc	(_Byte_Read_Sequential_k_262145_26 + 1)
 	sjmp	00106$
 00101$:
-;	i2c_bit_bang.c:287: if(l < address_range){
+;	i2c_bit_bang.c:281: if(l < address_range){
 	clr	c
-	mov	a,_Byte_Read_Sequential_l_131073_23
+	mov	a,_Byte_Read_Sequential_l_131073_24
 	subb	a,r3
-	mov	a,(_Byte_Read_Sequential_l_131073_23 + 1)
+	mov	a,(_Byte_Read_Sequential_l_131073_24 + 1)
 	xrl	a,#0x80
 	mov	b,r4
 	xrl	b,#0x80
 	subb	a,b
 	jnc	00110$
-;	i2c_bit_bang.c:288: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:282: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:289: delay(0);
+;	i2c_bit_bang.c:283: delay(0);
 	mov	dptr,#0x0000
 	push	ar7
 	lcall	_delay
-;	i2c_bit_bang.c:290: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:284: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:291: delay(2);
+;	i2c_bit_bang.c:285: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:292: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:286: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:293: delay(1);
+;	i2c_bit_bang.c:287: delay(1);
 	mov	dptr,#0x0001
 	lcall	_delay
 	pop	ar7
 00110$:
-;	i2c_bit_bang.c:276: for(int l = 0; l < (address_range + 1); l++){
-	inc	_Byte_Read_Sequential_l_131073_23
+;	i2c_bit_bang.c:270: for(int l = 0; l < (address_range + 1); l++){
+	inc	_Byte_Read_Sequential_l_131073_24
 	clr	a
-	cjne	a,_Byte_Read_Sequential_l_131073_23,00144$
-	inc	(_Byte_Read_Sequential_l_131073_23 + 1)
+	cjne	a,_Byte_Read_Sequential_l_131073_24,00144$
+	inc	(_Byte_Read_Sequential_l_131073_24 + 1)
 00144$:
 	ljmp	00109$
 00104$:
-;	i2c_bit_bang.c:297: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:291: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:298: delay(2);
+;	i2c_bit_bang.c:292: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:299: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:293: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:300: delay(2);
+;	i2c_bit_bang.c:294: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:301: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:295: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:302: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:296: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
+;	i2c_bit_bang.c:297: delay(2);
+	mov	dptr,#0x0002
+	lcall	_delay
+;	i2c_bit_bang.c:298: SCL = PULSE_HIGH;
+;	assignBit
+	setb	_P1_2
+;	i2c_bit_bang.c:299: delay(2);
+	mov	dptr,#0x0002
+	lcall	_delay
+;	i2c_bit_bang.c:300: SDA = PULSE_HIGH;
+;	assignBit
+	setb	_P1_3
+;	i2c_bit_bang.c:301: delay(2);
+	mov	dptr,#0x0002
+	lcall	_delay
+;	i2c_bit_bang.c:302: SCL = PULSE_LOW;
+;	assignBit
+	clr	_P1_2
 ;	i2c_bit_bang.c:303: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:304: SCL = PULSE_HIGH;
-;	assignBit
-	setb	_P1_2
-;	i2c_bit_bang.c:305: delay(2);
-	mov	dptr,#0x0002
-	lcall	_delay
-;	i2c_bit_bang.c:306: SDA = PULSE_HIGH;
-;	assignBit
-	setb	_P1_3
-;	i2c_bit_bang.c:307: delay(2);
-	mov	dptr,#0x0002
-	lcall	_delay
-;	i2c_bit_bang.c:308: SCL = PULSE_LOW;
-;	assignBit
-	clr	_P1_2
-;	i2c_bit_bang.c:309: delay(2);
-	mov	dptr,#0x0002
-	lcall	_delay
-;	i2c_bit_bang.c:312: return buffer;
-	mov	dptr,#_Byte_Read_Sequential_buffer_65536_21
-;	i2c_bit_bang.c:313: }
+;	i2c_bit_bang.c:306: return buffer;
+	mov	dptr,#_Byte_Read_Sequential_buffer_65536_22
+;	i2c_bit_bang.c:307: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'eeprom_reset'
 ;------------------------------------------------------------
 ;i                         Allocated to registers r6 r7 
 ;------------------------------------------------------------
-;	i2c_bit_bang.c:318: void eeprom_reset(){
+;	i2c_bit_bang.c:312: void eeprom_reset(){
 ;	-----------------------------------------
 ;	 function eeprom_reset
 ;	-----------------------------------------
 _eeprom_reset:
-;	i2c_bit_bang.c:320: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:314: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:321: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:315: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:322: delay(2);
+;	i2c_bit_bang.c:316: delay(2);
 	mov	dptr,#0x0002
 	lcall	_delay
-;	i2c_bit_bang.c:323: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:317: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:324: delay(0);
+;	i2c_bit_bang.c:318: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:325: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:319: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:326: delay(0);
+;	i2c_bit_bang.c:320: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:329: for(int i = 0; i < (BYTE_LENGTH + 1); i++){
+;	i2c_bit_bang.c:323: for(int i = 0; i < (BYTE_LENGTH + 1); i++){
 	mov	r6,#0x00
 	mov	r7,#0x00
 00103$:
@@ -1841,68 +1841,68 @@ _eeprom_reset:
 	xrl	a,#0x80
 	subb	a,#0x80
 	jnc	00101$
-;	i2c_bit_bang.c:330: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:324: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:331: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:325: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:332: delay(2);
+;	i2c_bit_bang.c:326: delay(2);
 	mov	dptr,#0x0002
 	push	ar7
 	push	ar6
 	lcall	_delay
-;	i2c_bit_bang.c:333: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:327: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:334: delay(1);
+;	i2c_bit_bang.c:328: delay(1);
 	mov	dptr,#0x0001
 	lcall	_delay
 	pop	ar6
 	pop	ar7
-;	i2c_bit_bang.c:329: for(int i = 0; i < (BYTE_LENGTH + 1); i++){
+;	i2c_bit_bang.c:323: for(int i = 0; i < (BYTE_LENGTH + 1); i++){
 	inc	r6
 	cjne	r6,#0x00,00103$
 	inc	r7
 	sjmp	00103$
 00101$:
-;	i2c_bit_bang.c:339: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:333: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:340: delay(0);
+;	i2c_bit_bang.c:334: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:341: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:335: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:342: delay(0);
+;	i2c_bit_bang.c:336: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:343: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:337: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:344: SDA = PULSE_LOW;
+;	i2c_bit_bang.c:338: SDA = PULSE_LOW;
 ;	assignBit
 	clr	_P1_3
-;	i2c_bit_bang.c:345: delay(1);
+;	i2c_bit_bang.c:339: delay(1);
 	mov	dptr,#0x0001
 	lcall	_delay
-;	i2c_bit_bang.c:346: SCL = PULSE_HIGH;
+;	i2c_bit_bang.c:340: SCL = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_2
-;	i2c_bit_bang.c:347: delay(0);
+;	i2c_bit_bang.c:341: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:348: SDA = PULSE_HIGH;
+;	i2c_bit_bang.c:342: SDA = PULSE_HIGH;
 ;	assignBit
 	setb	_P1_3
-;	i2c_bit_bang.c:349: delay(0);
+;	i2c_bit_bang.c:343: delay(0);
 	mov	dptr,#0x0000
 	lcall	_delay
-;	i2c_bit_bang.c:350: SCL = PULSE_LOW;
+;	i2c_bit_bang.c:344: SCL = PULSE_LOW;
 ;	assignBit
 	clr	_P1_2
-;	i2c_bit_bang.c:351: }
+;	i2c_bit_bang.c:345: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

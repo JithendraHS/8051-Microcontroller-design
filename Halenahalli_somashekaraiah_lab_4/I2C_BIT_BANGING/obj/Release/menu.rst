@@ -94,7 +94,7 @@
                                      94 ;	-----------------------------------------
                                      95 ;	 function menu
                                      96 ;	-----------------------------------------
-      003C56                         97 _menu:
+      003DB8                         97 _menu:
                            000007    98 	ar7 = 0x07
                            000006    99 	ar6 = 0x06
                            000005   100 	ar5 = 0x05
@@ -104,68 +104,92 @@
                            000001   104 	ar1 = 0x01
                            000000   105 	ar0 = 0x00
                                     106 ;	menu.c:22: printf_tiny("*************************************************************************\n\r");
-      003C56 74 65            [12]  107 	mov	a,#___str_0
-      003C58 C0 E0            [24]  108 	push	acc
-      003C5A 74 41            [12]  109 	mov	a,#(___str_0 >> 8)
-      003C5C C0 E0            [24]  110 	push	acc
-      003C5E 12 3D 3E         [24]  111 	lcall	_printf_tiny
-      003C61 15 81            [12]  112 	dec	sp
-      003C63 15 81            [12]  113 	dec	sp
+      003DB8 74 9F            [12]  107 	mov	a,#___str_0
+      003DBA C0 E0            [24]  108 	push	acc
+      003DBC 74 4A            [12]  109 	mov	a,#(___str_0 >> 8)
+      003DBE C0 E0            [24]  110 	push	acc
+      003DC0 12 3E CD         [24]  111 	lcall	_printf_tiny
+      003DC3 15 81            [12]  112 	dec	sp
+      003DC5 15 81            [12]  113 	dec	sp
                                     114 ;	menu.c:23: printf_tiny("Choose the options from below menu : \n\r");
-      003C65 74 B1            [12]  115 	mov	a,#___str_1
-      003C67 C0 E0            [24]  116 	push	acc
-      003C69 74 41            [12]  117 	mov	a,#(___str_1 >> 8)
-      003C6B C0 E0            [24]  118 	push	acc
-      003C6D 12 3D 3E         [24]  119 	lcall	_printf_tiny
-      003C70 15 81            [12]  120 	dec	sp
-      003C72 15 81            [12]  121 	dec	sp
+      003DC7 74 EB            [12]  115 	mov	a,#___str_1
+      003DC9 C0 E0            [24]  116 	push	acc
+      003DCB 74 4A            [12]  117 	mov	a,#(___str_1 >> 8)
+      003DCD C0 E0            [24]  118 	push	acc
+      003DCF 12 3E CD         [24]  119 	lcall	_printf_tiny
+      003DD2 15 81            [12]  120 	dec	sp
+      003DD4 15 81            [12]  121 	dec	sp
                                     122 ;	menu.c:24: printf_tiny("[w]. To WRITE byte into EEPROM\n\r");
-      003C74 74 D9            [12]  123 	mov	a,#___str_2
-      003C76 C0 E0            [24]  124 	push	acc
-      003C78 74 41            [12]  125 	mov	a,#(___str_2 >> 8)
-      003C7A C0 E0            [24]  126 	push	acc
-      003C7C 12 3D 3E         [24]  127 	lcall	_printf_tiny
-      003C7F 15 81            [12]  128 	dec	sp
-      003C81 15 81            [12]  129 	dec	sp
+      003DD6 74 13            [12]  123 	mov	a,#___str_2
+      003DD8 C0 E0            [24]  124 	push	acc
+      003DDA 74 4B            [12]  125 	mov	a,#(___str_2 >> 8)
+      003DDC C0 E0            [24]  126 	push	acc
+      003DDE 12 3E CD         [24]  127 	lcall	_printf_tiny
+      003DE1 15 81            [12]  128 	dec	sp
+      003DE3 15 81            [12]  129 	dec	sp
                                     130 ;	menu.c:25: printf_tiny("[r]. To READ byte from EEPROM\n\r");
-      003C83 74 FA            [12]  131 	mov	a,#___str_3
-      003C85 C0 E0            [24]  132 	push	acc
-      003C87 74 41            [12]  133 	mov	a,#(___str_3 >> 8)
-      003C89 C0 E0            [24]  134 	push	acc
-      003C8B 12 3D 3E         [24]  135 	lcall	_printf_tiny
-      003C8E 15 81            [12]  136 	dec	sp
-      003C90 15 81            [12]  137 	dec	sp
+      003DE5 74 34            [12]  131 	mov	a,#___str_3
+      003DE7 C0 E0            [24]  132 	push	acc
+      003DE9 74 4B            [12]  133 	mov	a,#(___str_3 >> 8)
+      003DEB C0 E0            [24]  134 	push	acc
+      003DED 12 3E CD         [24]  135 	lcall	_printf_tiny
+      003DF0 15 81            [12]  136 	dec	sp
+      003DF2 15 81            [12]  137 	dec	sp
                                     138 ;	menu.c:26: printf_tiny("[h]. To see HEX dump of EEPROM\n\r");
-      003C92 74 1A            [12]  139 	mov	a,#___str_4
-      003C94 C0 E0            [24]  140 	push	acc
-      003C96 74 42            [12]  141 	mov	a,#(___str_4 >> 8)
-      003C98 C0 E0            [24]  142 	push	acc
-      003C9A 12 3D 3E         [24]  143 	lcall	_printf_tiny
-      003C9D 15 81            [12]  144 	dec	sp
-      003C9F 15 81            [12]  145 	dec	sp
+      003DF4 74 54            [12]  139 	mov	a,#___str_4
+      003DF6 C0 E0            [24]  140 	push	acc
+      003DF8 74 4B            [12]  141 	mov	a,#(___str_4 >> 8)
+      003DFA C0 E0            [24]  142 	push	acc
+      003DFC 12 3E CD         [24]  143 	lcall	_printf_tiny
+      003DFF 15 81            [12]  144 	dec	sp
+      003E01 15 81            [12]  145 	dec	sp
                                     146 ;	menu.c:27: printf_tiny("[e]. To do software reset of EEPROM\n\r");
-      003CA1 74 3B            [12]  147 	mov	a,#___str_5
-      003CA3 C0 E0            [24]  148 	push	acc
-      003CA5 74 42            [12]  149 	mov	a,#(___str_5 >> 8)
-      003CA7 C0 E0            [24]  150 	push	acc
-      003CA9 12 3D 3E         [24]  151 	lcall	_printf_tiny
-      003CAC 15 81            [12]  152 	dec	sp
-      003CAE 15 81            [12]  153 	dec	sp
-                                    154 ;	menu.c:28: printf_tiny("*************************************************************************\n\r");
-      003CB0 74 65            [12]  155 	mov	a,#___str_0
-      003CB2 C0 E0            [24]  156 	push	acc
-      003CB4 74 41            [12]  157 	mov	a,#(___str_0 >> 8)
-      003CB6 C0 E0            [24]  158 	push	acc
-      003CB8 12 3D 3E         [24]  159 	lcall	_printf_tiny
-      003CBB 15 81            [12]  160 	dec	sp
-      003CBD 15 81            [12]  161 	dec	sp
-                                    162 ;	menu.c:29: }
-      003CBF 22               [24]  163 	ret
-                                    164 	.area CSEG    (CODE)
-                                    165 	.area CONST   (CODE)
-                                    166 	.area CONST   (CODE)
-      004165                        167 ___str_0:
-      004165 2A 2A 2A 2A 2A 2A 2A   168 	.ascii "************************************************************"
+      003E03 74 75            [12]  147 	mov	a,#___str_5
+      003E05 C0 E0            [24]  148 	push	acc
+      003E07 74 4B            [12]  149 	mov	a,#(___str_5 >> 8)
+      003E09 C0 E0            [24]  150 	push	acc
+      003E0B 12 3E CD         [24]  151 	lcall	_printf_tiny
+      003E0E 15 81            [12]  152 	dec	sp
+      003E10 15 81            [12]  153 	dec	sp
+                                    154 ;	menu.c:28: printf_tiny("[a]. To WRITE byte into I/O expander\n\r");
+      003E12 74 9B            [12]  155 	mov	a,#___str_6
+      003E14 C0 E0            [24]  156 	push	acc
+      003E16 74 4B            [12]  157 	mov	a,#(___str_6 >> 8)
+      003E18 C0 E0            [24]  158 	push	acc
+      003E1A 12 3E CD         [24]  159 	lcall	_printf_tiny
+      003E1D 15 81            [12]  160 	dec	sp
+      003E1F 15 81            [12]  161 	dec	sp
+                                    162 ;	menu.c:29: printf_tiny("[b]. To READ byte from I/O expander\n\r");
+      003E21 74 C2            [12]  163 	mov	a,#___str_7
+      003E23 C0 E0            [24]  164 	push	acc
+      003E25 74 4B            [12]  165 	mov	a,#(___str_7 >> 8)
+      003E27 C0 E0            [24]  166 	push	acc
+      003E29 12 3E CD         [24]  167 	lcall	_printf_tiny
+      003E2C 15 81            [12]  168 	dec	sp
+      003E2E 15 81            [12]  169 	dec	sp
+                                    170 ;	menu.c:30: printf_tiny("[c]. Toggle port value\n\r");
+      003E30 74 E8            [12]  171 	mov	a,#___str_8
+      003E32 C0 E0            [24]  172 	push	acc
+      003E34 74 4B            [12]  173 	mov	a,#(___str_8 >> 8)
+      003E36 C0 E0            [24]  174 	push	acc
+      003E38 12 3E CD         [24]  175 	lcall	_printf_tiny
+      003E3B 15 81            [12]  176 	dec	sp
+      003E3D 15 81            [12]  177 	dec	sp
+                                    178 ;	menu.c:31: printf_tiny("*************************************************************************\n\r");
+      003E3F 74 9F            [12]  179 	mov	a,#___str_0
+      003E41 C0 E0            [24]  180 	push	acc
+      003E43 74 4A            [12]  181 	mov	a,#(___str_0 >> 8)
+      003E45 C0 E0            [24]  182 	push	acc
+      003E47 12 3E CD         [24]  183 	lcall	_printf_tiny
+      003E4A 15 81            [12]  184 	dec	sp
+      003E4C 15 81            [12]  185 	dec	sp
+                                    186 ;	menu.c:32: }
+      003E4E 22               [24]  187 	ret
+                                    188 	.area CSEG    (CODE)
+                                    189 	.area CONST   (CODE)
+                                    190 	.area CONST   (CODE)
+      004A9F                        191 ___str_0:
+      004A9F 2A 2A 2A 2A 2A 2A 2A   192 	.ascii "************************************************************"
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
@@ -174,67 +198,100 @@
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A 2A 2A 2A
              2A 2A 2A 2A
-      0041A1 2A 2A 2A 2A 2A 2A 2A   169 	.ascii "*************"
+      004ADB 2A 2A 2A 2A 2A 2A 2A   193 	.ascii "*************"
              2A 2A 2A 2A 2A 2A
-      0041AE 0A                     170 	.db 0x0a
-      0041AF 0D                     171 	.db 0x0d
-      0041B0 00                     172 	.db 0x00
-                                    173 	.area CSEG    (CODE)
-                                    174 	.area CONST   (CODE)
-      0041B1                        175 ___str_1:
-      0041B1 43 68 6F 6F 73 65 20   176 	.ascii "Choose the options from below menu : "
+      004AE8 0A                     194 	.db 0x0a
+      004AE9 0D                     195 	.db 0x0d
+      004AEA 00                     196 	.db 0x00
+                                    197 	.area CSEG    (CODE)
+                                    198 	.area CONST   (CODE)
+      004AEB                        199 ___str_1:
+      004AEB 43 68 6F 6F 73 65 20   200 	.ascii "Choose the options from below menu : "
              74 68 65 20 6F 70 74
              69 6F 6E 73 20 66 72
              6F 6D 20 62 65 6C 6F
              77 20 6D 65 6E 75 20
              3A 20
-      0041D6 0A                     177 	.db 0x0a
-      0041D7 0D                     178 	.db 0x0d
-      0041D8 00                     179 	.db 0x00
-                                    180 	.area CSEG    (CODE)
-                                    181 	.area CONST   (CODE)
-      0041D9                        182 ___str_2:
-      0041D9 5B 77 5D 2E 20 54 6F   183 	.ascii "[w]. To WRITE byte into EEPROM"
+      004B10 0A                     201 	.db 0x0a
+      004B11 0D                     202 	.db 0x0d
+      004B12 00                     203 	.db 0x00
+                                    204 	.area CSEG    (CODE)
+                                    205 	.area CONST   (CODE)
+      004B13                        206 ___str_2:
+      004B13 5B 77 5D 2E 20 54 6F   207 	.ascii "[w]. To WRITE byte into EEPROM"
              20 57 52 49 54 45 20
              62 79 74 65 20 69 6E
              74 6F 20 45 45 50 52
              4F 4D
-      0041F7 0A                     184 	.db 0x0a
-      0041F8 0D                     185 	.db 0x0d
-      0041F9 00                     186 	.db 0x00
-                                    187 	.area CSEG    (CODE)
-                                    188 	.area CONST   (CODE)
-      0041FA                        189 ___str_3:
-      0041FA 5B 72 5D 2E 20 54 6F   190 	.ascii "[r]. To READ byte from EEPROM"
+      004B31 0A                     208 	.db 0x0a
+      004B32 0D                     209 	.db 0x0d
+      004B33 00                     210 	.db 0x00
+                                    211 	.area CSEG    (CODE)
+                                    212 	.area CONST   (CODE)
+      004B34                        213 ___str_3:
+      004B34 5B 72 5D 2E 20 54 6F   214 	.ascii "[r]. To READ byte from EEPROM"
              20 52 45 41 44 20 62
              79 74 65 20 66 72 6F
              6D 20 45 45 50 52 4F
              4D
-      004217 0A                     191 	.db 0x0a
-      004218 0D                     192 	.db 0x0d
-      004219 00                     193 	.db 0x00
-                                    194 	.area CSEG    (CODE)
-                                    195 	.area CONST   (CODE)
-      00421A                        196 ___str_4:
-      00421A 5B 68 5D 2E 20 54 6F   197 	.ascii "[h]. To see HEX dump of EEPROM"
+      004B51 0A                     215 	.db 0x0a
+      004B52 0D                     216 	.db 0x0d
+      004B53 00                     217 	.db 0x00
+                                    218 	.area CSEG    (CODE)
+                                    219 	.area CONST   (CODE)
+      004B54                        220 ___str_4:
+      004B54 5B 68 5D 2E 20 54 6F   221 	.ascii "[h]. To see HEX dump of EEPROM"
              20 73 65 65 20 48 45
              58 20 64 75 6D 70 20
              6F 66 20 45 45 50 52
              4F 4D
-      004238 0A                     198 	.db 0x0a
-      004239 0D                     199 	.db 0x0d
-      00423A 00                     200 	.db 0x00
-                                    201 	.area CSEG    (CODE)
-                                    202 	.area CONST   (CODE)
-      00423B                        203 ___str_5:
-      00423B 5B 65 5D 2E 20 54 6F   204 	.ascii "[e]. To do software reset of EEPROM"
+      004B72 0A                     222 	.db 0x0a
+      004B73 0D                     223 	.db 0x0d
+      004B74 00                     224 	.db 0x00
+                                    225 	.area CSEG    (CODE)
+                                    226 	.area CONST   (CODE)
+      004B75                        227 ___str_5:
+      004B75 5B 65 5D 2E 20 54 6F   228 	.ascii "[e]. To do software reset of EEPROM"
              20 64 6F 20 73 6F 66
              74 77 61 72 65 20 72
              65 73 65 74 20 6F 66
              20 45 45 50 52 4F 4D
-      00425E 0A                     205 	.db 0x0a
-      00425F 0D                     206 	.db 0x0d
-      004260 00                     207 	.db 0x00
-                                    208 	.area CSEG    (CODE)
-                                    209 	.area XINIT   (CODE)
-                                    210 	.area CABS    (ABS,CODE)
+      004B98 0A                     229 	.db 0x0a
+      004B99 0D                     230 	.db 0x0d
+      004B9A 00                     231 	.db 0x00
+                                    232 	.area CSEG    (CODE)
+                                    233 	.area CONST   (CODE)
+      004B9B                        234 ___str_6:
+      004B9B 5B 61 5D 2E 20 54 6F   235 	.ascii "[a]. To WRITE byte into I/O expander"
+             20 57 52 49 54 45 20
+             62 79 74 65 20 69 6E
+             74 6F 20 49 2F 4F 20
+             65 78 70 61 6E 64 65
+             72
+      004BBF 0A                     236 	.db 0x0a
+      004BC0 0D                     237 	.db 0x0d
+      004BC1 00                     238 	.db 0x00
+                                    239 	.area CSEG    (CODE)
+                                    240 	.area CONST   (CODE)
+      004BC2                        241 ___str_7:
+      004BC2 5B 62 5D 2E 20 54 6F   242 	.ascii "[b]. To READ byte from I/O expander"
+             20 52 45 41 44 20 62
+             79 74 65 20 66 72 6F
+             6D 20 49 2F 4F 20 65
+             78 70 61 6E 64 65 72
+      004BE5 0A                     243 	.db 0x0a
+      004BE6 0D                     244 	.db 0x0d
+      004BE7 00                     245 	.db 0x00
+                                    246 	.area CSEG    (CODE)
+                                    247 	.area CONST   (CODE)
+      004BE8                        248 ___str_8:
+      004BE8 5B 63 5D 2E 20 54 6F   249 	.ascii "[c]. Toggle port value"
+             67 67 6C 65 20 70 6F
+             72 74 20 76 61 6C 75
+             65
+      004BFE 0A                     250 	.db 0x0a
+      004BFF 0D                     251 	.db 0x0d
+      004C00 00                     252 	.db 0x00
+                                    253 	.area CSEG    (CODE)
+                                    254 	.area XINIT   (CODE)
+                                    255 	.area CABS    (ABS,CODE)

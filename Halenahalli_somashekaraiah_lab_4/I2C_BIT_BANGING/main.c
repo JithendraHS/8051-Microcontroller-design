@@ -29,6 +29,7 @@
 #include "menu.h"
 #include "uart.h"
 #include "eeprom.h"
+#include "ioexpander.h"
 
 #define SET_X2 (0x35)        // Constant for configuring X2 mode in CKCON0 register.
 
@@ -74,6 +75,16 @@ void main()
                 break;
             case 'e':
                 user_input_reset_handle(); // Handle user input for reset
+                break;
+            case 'a':
+                printf_tiny("Please enter data in hex format to store\n\r");
+                user_input_write_ioexpander_handle(get_hex_value()); // Handle user write input
+                break;
+            case 'b':
+                printf(" Received data %x\n\r",user_input_read_ioexpander_handle()); // Handle user read input
+                break;
+            case 'c':
+                user_input_toggle_ioexpander_handle(); // Handle user write input
                 break;
             default:
                 break; // Do nothing for other user inputs

@@ -443,7 +443,7 @@ Symbol Table
     _echo                                                          ****** GX
     _eeprom_reset                                                  ****** GX
  16 _get_hex_value                                                 000000 GR
-  A _get_hex_value_char_received_196608_51                         000000 R
+  A _get_hex_value_char_received_196608_52                         000000 R
     _printf_tiny                                                   ****** GX
  16 _user_input_hex_dump_handle                                    0001DB GR
  16 _user_input_read_handle                                        00015C GR

@@ -25,5 +25,8 @@ void menu(){
     printf_tiny("[r]. To READ byte from EEPROM\n\r");
     printf_tiny("[h]. To see HEX dump of EEPROM\n\r");
     printf_tiny("[e]. To do software reset of EEPROM\n\r");
+    printf_tiny("[a]. To WRITE byte into I/O expander\n\r");
+    printf_tiny("[b]. To READ byte from I/O expander\n\r");
+    printf_tiny("[c]. Toggle port value\n\r");
     printf_tiny("*************************************************************************\n\r");
 }

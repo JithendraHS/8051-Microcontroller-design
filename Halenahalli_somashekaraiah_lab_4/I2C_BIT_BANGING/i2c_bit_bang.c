@@ -6,12 +6,6 @@
 #include <stdio.h>
 #endif // DEBUG
 
-#define PULSE_HIGH 1         // Constant representing a logic high level.
-#define PULSE_LOW 0          // Constant representing a logic low level.
-#define NOP __asm nop __endasm  // Assembly NOP instruction to introduce delays.
-#define SCL P1_2             // Pin configuration for the I2C clock line.
-#define SDA P1_3             // Pin configuration for the I2C data line.
-#define BYTE_LENGTH 8        // Number of bits in a byte.
 #define START_BYTE (0b10100000)  // Start byte for I2C communication (including device address and write bit).
 #define WRITE_BYTE (0)       // Value representing a write operation in I2C communication.
 #define READ_BYTE (1)        // Value representing a read operation in I2C communication.

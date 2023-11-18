@@ -41,6 +41,10 @@
 		</ExtraCommands>
 		<Unit filename="_heap.h" />
 		<Unit filename="debug.h" />
+		<Unit filename="eeprom.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="eeprom.h" />
 		<Unit filename="i2c_bit_bang.c">
 			<Option compilerVar="CC" />
 		</Unit>

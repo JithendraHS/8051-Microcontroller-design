@@ -454,7 +454,7 @@
                                     454 ; external ram data
                                     455 ;--------------------------------------------------------
                                     456 	.area XSEG    (XDATA)
-      000000                        457 _get_hex_value_char_received_196608_51:
+      000000                        457 _get_hex_value_char_received_196608_52:
       000000                        458 	.ds 1
                                     459 ;--------------------------------------------------------
                                     460 ; absolute external ram data
@@ -495,7 +495,7 @@
                                     495 ;------------------------------------------------------------
                                     496 ;value                     Allocated to registers r7 
                                     497 ;i                         Allocated to registers r5 r6 
-                                    498 ;char_received             Allocated with name '_get_hex_value_char_received_196608_51'
+                                    498 ;char_received             Allocated with name '_get_hex_value_char_received_196608_52'
                                     499 ;------------------------------------------------------------
                                     500 ;	eeprom.c:12: __xdata uint8_t get_hex_value(){
                                     501 ;	-----------------------------------------
@@ -514,11 +514,11 @@
       003062 7F 00            [12]  514 	mov	r7,#0x00
                                     515 ;	eeprom.c:14: printf_tiny("0x");
       003064 C0 07            [24]  516 	push	ar7
-      003066 74 E6            [12]  517 	mov	a,#___str_0
+      003066 74 E1            [12]  517 	mov	a,#___str_0
       003068 C0 E0            [24]  518 	push	acc
-      00306A 74 3E            [12]  519 	mov	a,#(___str_0 >> 8)
+      00306A 74 47            [12]  519 	mov	a,#(___str_0 >> 8)
       00306C C0 E0            [24]  520 	push	acc
-      00306E 12 3D 3E         [24]  521 	lcall	_printf_tiny
+      00306E 12 3E CD         [24]  521 	lcall	_printf_tiny
       003071 15 81            [12]  522 	dec	sp
       003073 15 81            [12]  523 	dec	sp
       003075 D0 07            [24]  524 	pop	ar7
@@ -539,12 +539,12 @@
       003089 C0 07            [24]  539 	push	ar7
       00308B C0 06            [24]  540 	push	ar6
       00308D C0 05            [24]  541 	push	ar5
-      00308F 12 3D 25         [24]  542 	lcall	_echo
+      00308F 12 3E B4         [24]  542 	lcall	_echo
       003092 AC 82            [24]  543 	mov	r4,dpl
       003094 D0 05            [24]  544 	pop	ar5
       003096 D0 06            [24]  545 	pop	ar6
       003098 D0 07            [24]  546 	pop	ar7
-      00309A 90 00 00         [24]  547 	mov	dptr,#_get_hex_value_char_received_196608_51
+      00309A 90 00 00         [24]  547 	mov	dptr,#_get_hex_value_char_received_196608_52
       00309D EC               [12]  548 	mov	a,r4
       00309E F0               [24]  549 	movx	@dptr,a
                                     550 ;	eeprom.c:17: if((char_received >= '0') && (char_received <= '9')){
@@ -559,12 +559,12 @@
                                     559 ;	eeprom.c:18: char_received = char_received - '0'; // Convert ASCII character to its
       0030AD EC               [12]  560 	mov	a,r4
       0030AE 24 D0            [12]  561 	add	a,#0xd0
-      0030B0 90 00 00         [24]  562 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030B0 90 00 00         [24]  562 	mov	dptr,#_get_hex_value_char_received_196608_52
       0030B3 F0               [24]  563 	movx	@dptr,a
       0030B4 80 52            [24]  564 	sjmp	00114$
       0030B6                        565 00113$:
                                     566 ;	eeprom.c:20: }else if((char_received >= 'A') && (char_received <= 'F')){
-      0030B6 90 00 00         [24]  567 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030B6 90 00 00         [24]  567 	mov	dptr,#_get_hex_value_char_received_196608_52
       0030B9 E0               [24]  568 	movx	a,@dptr
       0030BA FC               [12]  569 	mov	r4,a
       0030BB BC 41 00         [24]  570 	cjne	r4,#0x41,00162$
@@ -574,14 +574,14 @@
       0030C1 24 B9            [12]  574 	add	a,#0xff - 0x46
       0030C3 40 09            [24]  575 	jc	00109$
                                     576 ;	eeprom.c:21: char_received = char_received - 'A' + 10; // Convert ASCII character to its
-      0030C5 90 00 00         [24]  577 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030C5 90 00 00         [24]  577 	mov	dptr,#_get_hex_value_char_received_196608_52
       0030C8 74 C9            [12]  578 	mov	a,#0xc9
       0030CA 2C               [12]  579 	add	a,r4
       0030CB F0               [24]  580 	movx	@dptr,a
       0030CC 80 3A            [24]  581 	sjmp	00114$
       0030CE                        582 00109$:
                                     583 ;	eeprom.c:23: }else if((char_received >= 'a') && (char_received <= 'f')){
-      0030CE 90 00 00         [24]  584 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030CE 90 00 00         [24]  584 	mov	dptr,#_get_hex_value_char_received_196608_52
       0030D1 E0               [24]  585 	movx	a,@dptr
       0030D2 FC               [12]  586 	mov	r4,a
       0030D3 BC 61 00         [24]  587 	cjne	r4,#0x61,00165$
@@ -591,14 +591,14 @@
       0030D9 24 99            [12]  591 	add	a,#0xff - 0x66
       0030DB 40 09            [24]  592 	jc	00105$
                                     593 ;	eeprom.c:24: char_received = char_received - 'a' + 10; // Convert ASCII character to its
-      0030DD 90 00 00         [24]  594 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030DD 90 00 00         [24]  594 	mov	dptr,#_get_hex_value_char_received_196608_52
       0030E0 74 A9            [12]  595 	mov	a,#0xa9
       0030E2 2C               [12]  596 	add	a,r4
       0030E3 F0               [24]  597 	movx	@dptr,a
       0030E4 80 22            [24]  598 	sjmp	00114$
       0030E6                        599 00105$:
                                     600 ;	eeprom.c:26: }else if((char_received == '\n') || (char_received == '\r')){
-      0030E6 90 00 00         [24]  601 	mov	dptr,#_get_hex_value_char_received_196608_51
+      0030E6 90 00 00         [24]  601 	mov	dptr,#_get_hex_value_char_received_196608_52
       0030E9 E0               [24]  602 	movx	a,@dptr
       0030EA FC               [12]  603 	mov	r4,a
       0030EB BC 0A 02         [24]  604 	cjne	r4,#0x0a,00168$
@@ -608,11 +608,11 @@
       0030F3                        608 00101$:
                                     609 ;	eeprom.c:27: printf_tiny("\n\r");
       0030F3 C0 07            [24]  610 	push	ar7
-      0030F5 74 E9            [12]  611 	mov	a,#___str_1
+      0030F5 74 E4            [12]  611 	mov	a,#___str_1
       0030F7 C0 E0            [24]  612 	push	acc
-      0030F9 74 3E            [12]  613 	mov	a,#(___str_1 >> 8)
+      0030F9 74 47            [12]  613 	mov	a,#(___str_1 >> 8)
       0030FB C0 E0            [24]  614 	push	acc
-      0030FD 12 3D 3E         [24]  615 	lcall	_printf_tiny
+      0030FD 12 3E CD         [24]  615 	lcall	_printf_tiny
       003100 15 81            [12]  616 	dec	sp
       003102 15 81            [12]  617 	dec	sp
       003104 D0 07            [24]  618 	pop	ar7
@@ -627,7 +627,7 @@
       00310E 25 E0            [12]  627 	add	a,acc
       003110 25 E0            [12]  628 	add	a,acc
       003112 FC               [12]  629 	mov	r4,a
-      003113 90 00 00         [24]  630 	mov	dptr,#_get_hex_value_char_received_196608_51
+      003113 90 00 00         [24]  630 	mov	dptr,#_get_hex_value_char_received_196608_52
       003116 E0               [24]  631 	movx	a,@dptr
       003117 FB               [12]  632 	mov	r3,a
       003118 8C F0            [24]  633 	mov	b,r4
@@ -649,11 +649,11 @@
       00312F                        649 00116$:
                                     650 ;	eeprom.c:32: printf_tiny("\n\r");
       00312F C0 07            [24]  651 	push	ar7
-      003131 74 E9            [12]  652 	mov	a,#___str_1
+      003131 74 E4            [12]  652 	mov	a,#___str_1
       003133 C0 E0            [24]  653 	push	acc
-      003135 74 3E            [12]  654 	mov	a,#(___str_1 >> 8)
+      003135 74 47            [12]  654 	mov	a,#(___str_1 >> 8)
       003137 C0 E0            [24]  655 	push	acc
-      003139 12 3D 3E         [24]  656 	lcall	_printf_tiny
+      003139 12 3E CD         [24]  656 	lcall	_printf_tiny
       00313C 15 81            [12]  657 	dec	sp
       00313E 15 81            [12]  658 	dec	sp
       003140 D0 07            [24]  659 	pop	ar7
@@ -664,9 +664,9 @@
                                     664 ;------------------------------------------------------------
                                     665 ;Allocation info for local variables in function 'user_input_write_handle'
                                     666 ;------------------------------------------------------------
-                                    667 ;address                   Allocated with name '_user_input_write_handle_address_65536_56'
-                                    668 ;data                      Allocated with name '_user_input_write_handle_data_65536_56'
-                                    669 ;block                     Allocated with name '_user_input_write_handle_block_65536_56'
+                                    667 ;address                   Allocated with name '_user_input_write_handle_address_65536_57'
+                                    668 ;data                      Allocated with name '_user_input_write_handle_data_65536_57'
+                                    669 ;block                     Allocated with name '_user_input_write_handle_block_65536_57'
                                     670 ;------------------------------------------------------------
                                     671 ;	eeprom.c:42: void user_input_write_handle(){
                                     672 ;	-----------------------------------------
@@ -676,11 +676,11 @@
                                     676 ;	eeprom.c:48: while(1){
       003145                        677 00104$:
                                     678 ;	eeprom.c:49: printf_tiny("Please enter block # in hex format to store data\n\r");
-      003145 74 EC            [12]  679 	mov	a,#___str_2
+      003145 74 E7            [12]  679 	mov	a,#___str_2
       003147 C0 E0            [24]  680 	push	acc
-      003149 74 3E            [12]  681 	mov	a,#(___str_2 >> 8)
+      003149 74 47            [12]  681 	mov	a,#(___str_2 >> 8)
       00314B C0 E0            [24]  682 	push	acc
-      00314D 12 3D 3E         [24]  683 	lcall	_printf_tiny
+      00314D 12 3E CD         [24]  683 	lcall	_printf_tiny
       003150 15 81            [12]  684 	dec	sp
       003152 15 81            [12]  685 	dec	sp
                                     686 ;	eeprom.c:50: block = get_hex_value();
@@ -691,11 +691,11 @@
       00315A 24 F8            [12]  691 	add	a,#0xff - 0x07
       00315C 50 11            [24]  692 	jnc	00102$
                                     693 ;	eeprom.c:54: printf_tiny("Please enter block # in range of 0-7\n\r");
-      00315E 74 1F            [12]  694 	mov	a,#___str_3
+      00315E 74 1A            [12]  694 	mov	a,#___str_3
       003160 C0 E0            [24]  695 	push	acc
-      003162 74 3F            [12]  696 	mov	a,#(___str_3 >> 8)
+      003162 74 48            [12]  696 	mov	a,#(___str_3 >> 8)
       003164 C0 E0            [24]  697 	push	acc
-      003166 12 3D 3E         [24]  698 	lcall	_printf_tiny
+      003166 12 3E CD         [24]  698 	lcall	_printf_tiny
       003169 15 81            [12]  699 	dec	sp
       00316B 15 81            [12]  700 	dec	sp
                                     701 ;	eeprom.c:55: continue;
@@ -703,11 +703,11 @@
       00316F                        703 00102$:
                                     704 ;	eeprom.c:58: printf_tiny("Please enter address in hex format to store the data byte\n\r");
       00316F C0 07            [24]  705 	push	ar7
-      003171 74 46            [12]  706 	mov	a,#___str_4
+      003171 74 41            [12]  706 	mov	a,#___str_4
       003173 C0 E0            [24]  707 	push	acc
-      003175 74 3F            [12]  708 	mov	a,#(___str_4 >> 8)
+      003175 74 48            [12]  708 	mov	a,#(___str_4 >> 8)
       003177 C0 E0            [24]  709 	push	acc
-      003179 12 3D 3E         [24]  710 	lcall	_printf_tiny
+      003179 12 3E CD         [24]  710 	lcall	_printf_tiny
       00317C 15 81            [12]  711 	dec	sp
       00317E 15 81            [12]  712 	dec	sp
                                     713 ;	eeprom.c:59: address = get_hex_value();
@@ -715,11 +715,11 @@
       003183 AE 82            [24]  715 	mov	r6,dpl
                                     716 ;	eeprom.c:60: printf_tiny("Please enter data in hex format to store\n\r");
       003185 C0 06            [24]  717 	push	ar6
-      003187 74 82            [12]  718 	mov	a,#___str_5
+      003187 74 7D            [12]  718 	mov	a,#___str_5
       003189 C0 E0            [24]  719 	push	acc
-      00318B 74 3F            [12]  720 	mov	a,#(___str_5 >> 8)
+      00318B 74 48            [12]  720 	mov	a,#(___str_5 >> 8)
       00318D C0 E0            [24]  721 	push	acc
-      00318F 12 3D 3E         [24]  722 	lcall	_printf_tiny
+      00318F 12 3E CD         [24]  722 	lcall	_printf_tiny
       003192 15 81            [12]  723 	dec	sp
       003194 15 81            [12]  724 	dec	sp
                                     725 ;	eeprom.c:61: data = get_hex_value();
@@ -737,11 +737,11 @@
       0031A9 8D 82            [24]  737 	mov	dpl,r5
       0031AB 12 34 2F         [24]  738 	lcall	_Byte_Write
                                     739 ;	eeprom.c:68: printf_tiny("=========================================================================\n\r");
-      0031AE 74 AD            [12]  740 	mov	a,#___str_6
+      0031AE 74 A8            [12]  740 	mov	a,#___str_6
       0031B0 C0 E0            [24]  741 	push	acc
-      0031B2 74 3F            [12]  742 	mov	a,#(___str_6 >> 8)
+      0031B2 74 48            [12]  742 	mov	a,#(___str_6 >> 8)
       0031B4 C0 E0            [24]  743 	push	acc
-      0031B6 12 3D 3E         [24]  744 	lcall	_printf_tiny
+      0031B6 12 3E CD         [24]  744 	lcall	_printf_tiny
       0031B9 15 81            [12]  745 	dec	sp
       0031BB 15 81            [12]  746 	dec	sp
                                     747 ;	eeprom.c:69: }
@@ -749,9 +749,9 @@
                                     749 ;------------------------------------------------------------
                                     750 ;Allocation info for local variables in function 'user_input_read_handle'
                                     751 ;------------------------------------------------------------
-                                    752 ;address                   Allocated with name '_user_input_read_handle_address_65536_59'
-                                    753 ;data                      Allocated with name '_user_input_read_handle_data_65536_59'
-                                    754 ;block                     Allocated with name '_user_input_read_handle_block_65536_59'
+                                    752 ;address                   Allocated with name '_user_input_read_handle_address_65536_60'
+                                    753 ;data                      Allocated with name '_user_input_read_handle_data_65536_60'
+                                    754 ;block                     Allocated with name '_user_input_read_handle_block_65536_60'
                                     755 ;------------------------------------------------------------
                                     756 ;	eeprom.c:74: void user_input_read_handle(){
                                     757 ;	-----------------------------------------
@@ -761,11 +761,11 @@
                                     761 ;	eeprom.c:80: while(1){
       0031BE                        762 00104$:
                                     763 ;	eeprom.c:81: printf_tiny("Please enter block # in hex format to read data\n\r");
-      0031BE 74 F9            [12]  764 	mov	a,#___str_7
+      0031BE 74 F4            [12]  764 	mov	a,#___str_7
       0031C0 C0 E0            [24]  765 	push	acc
-      0031C2 74 3F            [12]  766 	mov	a,#(___str_7 >> 8)
+      0031C2 74 48            [12]  766 	mov	a,#(___str_7 >> 8)
       0031C4 C0 E0            [24]  767 	push	acc
-      0031C6 12 3D 3E         [24]  768 	lcall	_printf_tiny
+      0031C6 12 3E CD         [24]  768 	lcall	_printf_tiny
       0031C9 15 81            [12]  769 	dec	sp
       0031CB 15 81            [12]  770 	dec	sp
                                     771 ;	eeprom.c:82: block = get_hex_value();
@@ -776,11 +776,11 @@
       0031D3 24 F8            [12]  776 	add	a,#0xff - 0x07
       0031D5 50 11            [24]  777 	jnc	00102$
                                     778 ;	eeprom.c:86: printf_tiny("Please enter block # in range of 0-7\n\r");
-      0031D7 74 1F            [12]  779 	mov	a,#___str_3
+      0031D7 74 1A            [12]  779 	mov	a,#___str_3
       0031D9 C0 E0            [24]  780 	push	acc
-      0031DB 74 3F            [12]  781 	mov	a,#(___str_3 >> 8)
+      0031DB 74 48            [12]  781 	mov	a,#(___str_3 >> 8)
       0031DD C0 E0            [24]  782 	push	acc
-      0031DF 12 3D 3E         [24]  783 	lcall	_printf_tiny
+      0031DF 12 3E CD         [24]  783 	lcall	_printf_tiny
       0031E2 15 81            [12]  784 	dec	sp
       0031E4 15 81            [12]  785 	dec	sp
                                     786 ;	eeprom.c:87: continue;
@@ -788,11 +788,11 @@
       0031E8                        788 00102$:
                                     789 ;	eeprom.c:90: printf_tiny("Please enter address in hex format to get the data byte\n\r");
       0031E8 C0 07            [24]  790 	push	ar7
-      0031EA 74 2B            [12]  791 	mov	a,#___str_8
+      0031EA 74 26            [12]  791 	mov	a,#___str_8
       0031EC C0 E0            [24]  792 	push	acc
-      0031EE 74 40            [12]  793 	mov	a,#(___str_8 >> 8)
+      0031EE 74 49            [12]  793 	mov	a,#(___str_8 >> 8)
       0031F0 C0 E0            [24]  794 	push	acc
-      0031F2 12 3D 3E         [24]  795 	lcall	_printf_tiny
+      0031F2 12 3E CD         [24]  795 	lcall	_printf_tiny
       0031F5 15 81            [12]  796 	dec	sp
       0031F7 15 81            [12]  797 	dec	sp
                                     798 ;	eeprom.c:91: address = get_hex_value();
@@ -815,20 +815,20 @@
       003216 C0 05            [24]  815 	push	ar5
       003218 C0 06            [24]  816 	push	ar6
       00321A C0 04            [24]  817 	push	ar4
-      00321C 74 65            [12]  818 	mov	a,#___str_9
+      00321C 74 60            [12]  818 	mov	a,#___str_9
       00321E C0 E0            [24]  819 	push	acc
-      003220 74 40            [12]  820 	mov	a,#(___str_9 >> 8)
+      003220 74 49            [12]  820 	mov	a,#(___str_9 >> 8)
       003222 C0 E0            [24]  821 	push	acc
-      003224 12 3D 3E         [24]  822 	lcall	_printf_tiny
+      003224 12 3E CD         [24]  822 	lcall	_printf_tiny
       003227 E5 81            [12]  823 	mov	a,sp
       003229 24 FA            [12]  824 	add	a,#0xfa
       00322B F5 81            [12]  825 	mov	sp,a
                                     826 ;	eeprom.c:100: printf_tiny("=========================================================================\n\r");
-      00322D 74 AD            [12]  827 	mov	a,#___str_6
+      00322D 74 A8            [12]  827 	mov	a,#___str_6
       00322F C0 E0            [24]  828 	push	acc
-      003231 74 3F            [12]  829 	mov	a,#(___str_6 >> 8)
+      003231 74 48            [12]  829 	mov	a,#(___str_6 >> 8)
       003233 C0 E0            [24]  830 	push	acc
-      003235 12 3D 3E         [24]  831 	lcall	_printf_tiny
+      003235 12 3E CD         [24]  831 	lcall	_printf_tiny
       003238 15 81            [12]  832 	dec	sp
       00323A 15 81            [12]  833 	dec	sp
                                     834 ;	eeprom.c:101: }
@@ -839,9 +839,9 @@
                                     839 ;buffer                    Allocated to registers r4 r7 
                                     840 ;address_range             Allocated to registers r5 
                                     841 ;i                         Allocated to registers r2 r3 
-                                    842 ;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_62'
-                                    843 ;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_62'
-                                    844 ;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_62'
+                                    842 ;start_address             Allocated with name '_user_input_hex_dump_handle_start_address_65536_63'
+                                    843 ;end_address               Allocated with name '_user_input_hex_dump_handle_end_address_65536_63'
+                                    844 ;block                     Allocated with name '_user_input_hex_dump_handle_block_65536_63'
                                     845 ;------------------------------------------------------------
                                     846 ;	eeprom.c:107: void user_input_hex_dump_handle(){
                                     847 ;	-----------------------------------------
@@ -851,11 +851,11 @@
                                     851 ;	eeprom.c:114: while(1){
       00323D                        852 00106$:
                                     853 ;	eeprom.c:115: printf_tiny("Please enter block # in hex format to read data\n\r");
-      00323D 74 F9            [12]  854 	mov	a,#___str_7
+      00323D 74 F4            [12]  854 	mov	a,#___str_7
       00323F C0 E0            [24]  855 	push	acc
-      003241 74 3F            [12]  856 	mov	a,#(___str_7 >> 8)
+      003241 74 48            [12]  856 	mov	a,#(___str_7 >> 8)
       003243 C0 E0            [24]  857 	push	acc
-      003245 12 3D 3E         [24]  858 	lcall	_printf_tiny
+      003245 12 3E CD         [24]  858 	lcall	_printf_tiny
       003248 15 81            [12]  859 	dec	sp
       00324A 15 81            [12]  860 	dec	sp
                                     861 ;	eeprom.c:116: block = get_hex_value();
@@ -866,11 +866,11 @@
       003252 24 F8            [12]  866 	add	a,#0xff - 0x07
       003254 50 11            [24]  867 	jnc	00102$
                                     868 ;	eeprom.c:120: printf_tiny("Please enter block # in range of 0-7\n\r");
-      003256 74 1F            [12]  869 	mov	a,#___str_3
+      003256 74 1A            [12]  869 	mov	a,#___str_3
       003258 C0 E0            [24]  870 	push	acc
-      00325A 74 3F            [12]  871 	mov	a,#(___str_3 >> 8)
+      00325A 74 48            [12]  871 	mov	a,#(___str_3 >> 8)
       00325C C0 E0            [24]  872 	push	acc
-      00325E 12 3D 3E         [24]  873 	lcall	_printf_tiny
+      00325E 12 3E CD         [24]  873 	lcall	_printf_tiny
       003261 15 81            [12]  874 	dec	sp
       003263 15 81            [12]  875 	dec	sp
                                     876 ;	eeprom.c:121: continue;
@@ -878,11 +878,11 @@
       003267                        878 00102$:
                                     879 ;	eeprom.c:124: printf_tiny("Please enter start address in hex format\n\r");
       003267 C0 07            [24]  880 	push	ar7
-      003269 74 7F            [12]  881 	mov	a,#___str_10
+      003269 74 7A            [12]  881 	mov	a,#___str_10
       00326B C0 E0            [24]  882 	push	acc
-      00326D 74 40            [12]  883 	mov	a,#(___str_10 >> 8)
+      00326D 74 49            [12]  883 	mov	a,#(___str_10 >> 8)
       00326F C0 E0            [24]  884 	push	acc
-      003271 12 3D 3E         [24]  885 	lcall	_printf_tiny
+      003271 12 3E CD         [24]  885 	lcall	_printf_tiny
       003274 15 81            [12]  886 	dec	sp
       003276 15 81            [12]  887 	dec	sp
                                     888 ;	eeprom.c:125: start_address = get_hex_value();
@@ -890,11 +890,11 @@
       00327B AE 82            [24]  890 	mov	r6,dpl
                                     891 ;	eeprom.c:126: printf_tiny("Please enter end address in hex format\n\r");
       00327D C0 06            [24]  892 	push	ar6
-      00327F 74 AA            [12]  893 	mov	a,#___str_11
+      00327F 74 A5            [12]  893 	mov	a,#___str_11
       003281 C0 E0            [24]  894 	push	acc
-      003283 74 40            [12]  895 	mov	a,#(___str_11 >> 8)
+      003283 74 49            [12]  895 	mov	a,#(___str_11 >> 8)
       003285 C0 E0            [24]  896 	push	acc
-      003287 12 3D 3E         [24]  897 	lcall	_printf_tiny
+      003287 12 3E CD         [24]  897 	lcall	_printf_tiny
       00328A 15 81            [12]  898 	dec	sp
       00328C 15 81            [12]  899 	dec	sp
                                     900 ;	eeprom.c:127: end_address = get_hex_value();
@@ -908,11 +908,11 @@
       003299 9D               [12]  908 	subb	a,r5
       00329A 40 11            [24]  909 	jc	00107$
                                     910 ;	eeprom.c:134: printf_tiny("Invalid address range, end address should be greater than start address\n\r");
-      00329C 74 D3            [12]  911 	mov	a,#___str_12
+      00329C 74 CE            [12]  911 	mov	a,#___str_12
       00329E C0 E0            [24]  912 	push	acc
-      0032A0 74 40            [12]  913 	mov	a,#(___str_12 >> 8)
+      0032A0 74 49            [12]  913 	mov	a,#(___str_12 >> 8)
       0032A2 C0 E0            [24]  914 	push	acc
-      0032A4 12 3D 3E         [24]  915 	lcall	_printf_tiny
+      0032A4 12 3E CD         [24]  915 	lcall	_printf_tiny
       0032A7 15 81            [12]  916 	dec	sp
       0032A9 15 81            [12]  917 	dec	sp
       0032AB 80 90            [24]  918 	sjmp	00106$
@@ -959,8 +959,8 @@
       0032E8 02 33 8B         [24]  959 	ljmp	00110$
       0032EB                        960 00144$:
                                     961 ;	eeprom.c:142: if(i % 16 == 0){
-      0032EB 75 0D 10         [24]  962 	mov	__modsint_PARM_2,#0x10
-      0032EE 75 0E 00         [24]  963 	mov	(__modsint_PARM_2 + 1),#0x00
+      0032EB 75 3C 10         [24]  962 	mov	__modsint_PARM_2,#0x10
+      0032EE 75 3D 00         [24]  963 	mov	(__modsint_PARM_2 + 1),#0x00
       0032F1 8A 82            [24]  964 	mov	dpl,r2
       0032F3 8B 83            [24]  965 	mov	dph,r3
       0032F5 C0 07            [24]  966 	push	ar7
@@ -969,7 +969,7 @@
       0032FB C0 04            [24]  969 	push	ar4
       0032FD C0 03            [24]  970 	push	ar3
       0032FF C0 02            [24]  971 	push	ar2
-      003301 12 3E B0         [24]  972 	lcall	__modsint
+      003301 12 47 AB         [24]  972 	lcall	__modsint
       003304 E5 82            [12]  973 	mov	a,dpl
       003306 85 83 F0         [24]  974 	mov	b,dph
       003309 D0 02            [24]  975 	pop	ar2
@@ -991,11 +991,11 @@
       003326 C0 02            [24]  991 	push	ar2
       003328 C0 00            [24]  992 	push	ar0
       00332A C0 01            [24]  993 	push	ar1
-      00332C 74 1D            [12]  994 	mov	a,#___str_13
+      00332C 74 18            [12]  994 	mov	a,#___str_13
       00332E C0 E0            [24]  995 	push	acc
-      003330 74 41            [12]  996 	mov	a,#(___str_13 >> 8)
+      003330 74 4A            [12]  996 	mov	a,#(___str_13 >> 8)
       003332 C0 E0            [24]  997 	push	acc
-      003334 12 3D 3E         [24]  998 	lcall	_printf_tiny
+      003334 12 3E CD         [24]  998 	lcall	_printf_tiny
       003337 E5 81            [12]  999 	mov	a,sp
       003339 24 FC            [12] 1000 	add	a,#0xfc
       00333B F5 81            [12] 1001 	mov	sp,a
@@ -1024,11 +1024,11 @@
       00335F C0 02            [24] 1024 	push	ar2
       003361 C0 00            [24] 1025 	push	ar0
       003363 C0 01            [24] 1026 	push	ar1
-      003365 74 26            [12] 1027 	mov	a,#___str_14
+      003365 74 21            [12] 1027 	mov	a,#___str_14
       003367 C0 E0            [24] 1028 	push	acc
-      003369 74 41            [12] 1029 	mov	a,#(___str_14 >> 8)
+      003369 74 4A            [12] 1029 	mov	a,#(___str_14 >> 8)
       00336B C0 E0            [24] 1030 	push	acc
-      00336D 12 3D 3E         [24] 1031 	lcall	_printf_tiny
+      00336D 12 3E CD         [24] 1031 	lcall	_printf_tiny
       003370 E5 81            [12] 1032 	mov	a,sp
       003372 24 FC            [12] 1033 	add	a,#0xfc
       003374 F5 81            [12] 1034 	mov	sp,a
@@ -1048,19 +1048,19 @@
       003388 02 32 D0         [24] 1048 	ljmp	00112$
       00338B                       1049 00110$:
                                    1050 ;	eeprom.c:149: printf_tiny("\n\r");
-      00338B 74 E9            [12] 1051 	mov	a,#___str_1
+      00338B 74 E4            [12] 1051 	mov	a,#___str_1
       00338D C0 E0            [24] 1052 	push	acc
-      00338F 74 3E            [12] 1053 	mov	a,#(___str_1 >> 8)
+      00338F 74 47            [12] 1053 	mov	a,#(___str_1 >> 8)
       003391 C0 E0            [24] 1054 	push	acc
-      003393 12 3D 3E         [24] 1055 	lcall	_printf_tiny
+      003393 12 3E CD         [24] 1055 	lcall	_printf_tiny
       003396 15 81            [12] 1056 	dec	sp
       003398 15 81            [12] 1057 	dec	sp
                                    1058 ;	eeprom.c:150: printf_tiny("=========================================================================\n\r");
-      00339A 74 AD            [12] 1059 	mov	a,#___str_6
+      00339A 74 A8            [12] 1059 	mov	a,#___str_6
       00339C C0 E0            [24] 1060 	push	acc
-      00339E 74 3F            [12] 1061 	mov	a,#(___str_6 >> 8)
+      00339E 74 48            [12] 1061 	mov	a,#(___str_6 >> 8)
       0033A0 C0 E0            [24] 1062 	push	acc
-      0033A2 12 3D 3E         [24] 1063 	lcall	_printf_tiny
+      0033A2 12 3E CD         [24] 1063 	lcall	_printf_tiny
       0033A5 15 81            [12] 1064 	dec	sp
       0033A7 15 81            [12] 1065 	dec	sp
                                    1066 ;	eeprom.c:151: }
@@ -1074,21 +1074,21 @@
                                    1074 ;	-----------------------------------------
       0033AA                       1075 _user_input_reset_handle:
                                    1076 ;	eeprom.c:158: printf_tiny("Reset mode\n\r");
-      0033AA 74 2C            [12] 1077 	mov	a,#___str_15
+      0033AA 74 27            [12] 1077 	mov	a,#___str_15
       0033AC C0 E0            [24] 1078 	push	acc
-      0033AE 74 41            [12] 1079 	mov	a,#(___str_15 >> 8)
+      0033AE 74 4A            [12] 1079 	mov	a,#(___str_15 >> 8)
       0033B0 C0 E0            [24] 1080 	push	acc
-      0033B2 12 3D 3E         [24] 1081 	lcall	_printf_tiny
+      0033B2 12 3E CD         [24] 1081 	lcall	_printf_tiny
       0033B5 15 81            [12] 1082 	dec	sp
       0033B7 15 81            [12] 1083 	dec	sp
                                    1084 ;	eeprom.c:161: eeprom_reset();
       0033B9 12 3B 55         [24] 1085 	lcall	_eeprom_reset
                                    1086 ;	eeprom.c:163: printf_tiny("=========================================================================\n\r");
-      0033BC 74 AD            [12] 1087 	mov	a,#___str_6
+      0033BC 74 A8            [12] 1087 	mov	a,#___str_6
       0033BE C0 E0            [24] 1088 	push	acc
-      0033C0 74 3F            [12] 1089 	mov	a,#(___str_6 >> 8)
+      0033C0 74 48            [12] 1089 	mov	a,#(___str_6 >> 8)
       0033C2 C0 E0            [24] 1090 	push	acc
-      0033C4 12 3D 3E         [24] 1091 	lcall	_printf_tiny
+      0033C4 12 3E CD         [24] 1091 	lcall	_printf_tiny
       0033C7 15 81            [12] 1092 	dec	sp
       0033C9 15 81            [12] 1093 	dec	sp
                                    1094 ;	eeprom.c:164: }
@@ -1096,44 +1096,44 @@
                                    1096 	.area CSEG    (CODE)
                                    1097 	.area CONST   (CODE)
                                    1098 	.area CONST   (CODE)
-      003EE6                       1099 ___str_0:
-      003EE6 30 78                 1100 	.ascii "0x"
-      003EE8 00                    1101 	.db 0x00
+      0047E1                       1099 ___str_0:
+      0047E1 30 78                 1100 	.ascii "0x"
+      0047E3 00                    1101 	.db 0x00
                                    1102 	.area CSEG    (CODE)
                                    1103 	.area CONST   (CODE)
-      003EE9                       1104 ___str_1:
-      003EE9 0A                    1105 	.db 0x0a
-      003EEA 0D                    1106 	.db 0x0d
-      003EEB 00                    1107 	.db 0x00
+      0047E4                       1104 ___str_1:
+      0047E4 0A                    1105 	.db 0x0a
+      0047E5 0D                    1106 	.db 0x0d
+      0047E6 00                    1107 	.db 0x00
                                    1108 	.area CSEG    (CODE)
                                    1109 	.area CONST   (CODE)
-      003EEC                       1110 ___str_2:
-      003EEC 50 6C 65 61 73 65 20  1111 	.ascii "Please enter block # in hex format to store data"
+      0047E7                       1110 ___str_2:
+      0047E7 50 6C 65 61 73 65 20  1111 	.ascii "Please enter block # in hex format to store data"
              65 6E 74 65 72 20 62
              6C 6F 63 6B 20 23 20
              69 6E 20 68 65 78 20
              66 6F 72 6D 61 74 20
              74 6F 20 73 74 6F 72
              65 20 64 61 74 61
-      003F1C 0A                    1112 	.db 0x0a
-      003F1D 0D                    1113 	.db 0x0d
-      003F1E 00                    1114 	.db 0x00
+      004817 0A                    1112 	.db 0x0a
+      004818 0D                    1113 	.db 0x0d
+      004819 00                    1114 	.db 0x00
                                    1115 	.area CSEG    (CODE)
                                    1116 	.area CONST   (CODE)
-      003F1F                       1117 ___str_3:
-      003F1F 50 6C 65 61 73 65 20  1118 	.ascii "Please enter block # in range of 0-7"
+      00481A                       1117 ___str_3:
+      00481A 50 6C 65 61 73 65 20  1118 	.ascii "Please enter block # in range of 0-7"
              65 6E 74 65 72 20 62
              6C 6F 63 6B 20 23 20
              69 6E 20 72 61 6E 67
              65 20 6F 66 20 30 2D
              37
-      003F43 0A                    1119 	.db 0x0a
-      003F44 0D                    1120 	.db 0x0d
-      003F45 00                    1121 	.db 0x00
+      00483E 0A                    1119 	.db 0x0a
+      00483F 0D                    1120 	.db 0x0d
+      004840 00                    1121 	.db 0x00
                                    1122 	.area CSEG    (CODE)
                                    1123 	.area CONST   (CODE)
-      003F46                       1124 ___str_4:
-      003F46 50 6C 65 61 73 65 20  1125 	.ascii "Please enter address in hex format to store the data byte"
+      004841                       1124 ___str_4:
+      004841 50 6C 65 61 73 65 20  1125 	.ascii "Please enter address in hex format to store the data byte"
              65 6E 74 65 72 20 61
              64 64 72 65 73 73 20
              69 6E 20 68 65 78 20
@@ -1142,25 +1142,25 @@
              65 20 74 68 65 20 64
              61 74 61 20 62 79 74
              65
-      003F7F 0A                    1126 	.db 0x0a
-      003F80 0D                    1127 	.db 0x0d
-      003F81 00                    1128 	.db 0x00
+      00487A 0A                    1126 	.db 0x0a
+      00487B 0D                    1127 	.db 0x0d
+      00487C 00                    1128 	.db 0x00
                                    1129 	.area CSEG    (CODE)
                                    1130 	.area CONST   (CODE)
-      003F82                       1131 ___str_5:
-      003F82 50 6C 65 61 73 65 20  1132 	.ascii "Please enter data in hex format to store"
+      00487D                       1131 ___str_5:
+      00487D 50 6C 65 61 73 65 20  1132 	.ascii "Please enter data in hex format to store"
              65 6E 74 65 72 20 64
              61 74 61 20 69 6E 20
              68 65 78 20 66 6F 72
              6D 61 74 20 74 6F 20
              73 74 6F 72 65
-      003FAA 0A                    1133 	.db 0x0a
-      003FAB 0D                    1134 	.db 0x0d
-      003FAC 00                    1135 	.db 0x00
+      0048A5 0A                    1133 	.db 0x0a
+      0048A6 0D                    1134 	.db 0x0d
+      0048A7 00                    1135 	.db 0x00
                                    1136 	.area CSEG    (CODE)
                                    1137 	.area CONST   (CODE)
-      003FAD                       1138 ___str_6:
-      003FAD 3D 3D 3D 3D 3D 3D 3D  1139 	.ascii "============================================================"
+      0048A8                       1138 ___str_6:
+      0048A8 3D 3D 3D 3D 3D 3D 3D  1139 	.ascii "============================================================"
              3D 3D 3D 3D 3D 3D 3D
              3D 3D 3D 3D 3D 3D 3D
              3D 3D 3D 3D 3D 3D 3D
@@ -1169,28 +1169,28 @@
              3D 3D 3D 3D 3D 3D 3D
              3D 3D 3D 3D 3D 3D 3D
              3D 3D 3D 3D
-      003FE9 3D 3D 3D 3D 3D 3D 3D  1140 	.ascii "============="
+      0048E4 3D 3D 3D 3D 3D 3D 3D  1140 	.ascii "============="
              3D 3D 3D 3D 3D 3D
-      003FF6 0A                    1141 	.db 0x0a
-      003FF7 0D                    1142 	.db 0x0d
-      003FF8 00                    1143 	.db 0x00
+      0048F1 0A                    1141 	.db 0x0a
+      0048F2 0D                    1142 	.db 0x0d
+      0048F3 00                    1143 	.db 0x00
                                    1144 	.area CSEG    (CODE)
                                    1145 	.area CONST   (CODE)
-      003FF9                       1146 ___str_7:
-      003FF9 50 6C 65 61 73 65 20  1147 	.ascii "Please enter block # in hex format to read data"
+      0048F4                       1146 ___str_7:
+      0048F4 50 6C 65 61 73 65 20  1147 	.ascii "Please enter block # in hex format to read data"
              65 6E 74 65 72 20 62
              6C 6F 63 6B 20 23 20
              69 6E 20 68 65 78 20
              66 6F 72 6D 61 74 20
              74 6F 20 72 65 61 64
              20 64 61 74 61
-      004028 0A                    1148 	.db 0x0a
-      004029 0D                    1149 	.db 0x0d
-      00402A 00                    1150 	.db 0x00
+      004923 0A                    1148 	.db 0x0a
+      004924 0D                    1149 	.db 0x0d
+      004925 00                    1150 	.db 0x00
                                    1151 	.area CSEG    (CODE)
                                    1152 	.area CONST   (CODE)
-      00402B                       1153 ___str_8:
-      00402B 50 6C 65 61 73 65 20  1154 	.ascii "Please enter address in hex format to get the data byte"
+      004926                       1153 ___str_8:
+      004926 50 6C 65 61 73 65 20  1154 	.ascii "Please enter address in hex format to get the data byte"
              65 6E 74 65 72 20 61
              64 64 72 65 73 73 20
              69 6E 20 68 65 78 20
@@ -1198,47 +1198,47 @@
              74 6F 20 67 65 74 20
              74 68 65 20 64 61 74
              61 20 62 79 74 65
-      004062 0A                    1155 	.db 0x0a
-      004063 0D                    1156 	.db 0x0d
-      004064 00                    1157 	.db 0x00
+      00495D 0A                    1155 	.db 0x0a
+      00495E 0D                    1156 	.db 0x0d
+      00495F 00                    1157 	.db 0x00
                                    1158 	.area CSEG    (CODE)
                                    1159 	.area CONST   (CODE)
-      004065                       1160 ___str_9:
-      004065 52 65 61 64 20 62 79  1161 	.ascii "Read byte--> 0x%x: 0x%x"
+      004960                       1160 ___str_9:
+      004960 52 65 61 64 20 62 79  1161 	.ascii "Read byte--> 0x%x: 0x%x"
              74 65 2D 2D 3E 20 30
              78 25 78 3A 20 30 78
              25 78
-      00407C 0A                    1162 	.db 0x0a
-      00407D 0D                    1163 	.db 0x0d
-      00407E 00                    1164 	.db 0x00
+      004977 0A                    1162 	.db 0x0a
+      004978 0D                    1163 	.db 0x0d
+      004979 00                    1164 	.db 0x00
                                    1165 	.area CSEG    (CODE)
                                    1166 	.area CONST   (CODE)
-      00407F                       1167 ___str_10:
-      00407F 50 6C 65 61 73 65 20  1168 	.ascii "Please enter start address in hex format"
+      00497A                       1167 ___str_10:
+      00497A 50 6C 65 61 73 65 20  1168 	.ascii "Please enter start address in hex format"
              65 6E 74 65 72 20 73
              74 61 72 74 20 61 64
              64 72 65 73 73 20 69
              6E 20 68 65 78 20 66
              6F 72 6D 61 74
-      0040A7 0A                    1169 	.db 0x0a
-      0040A8 0D                    1170 	.db 0x0d
-      0040A9 00                    1171 	.db 0x00
+      0049A2 0A                    1169 	.db 0x0a
+      0049A3 0D                    1170 	.db 0x0d
+      0049A4 00                    1171 	.db 0x00
                                    1172 	.area CSEG    (CODE)
                                    1173 	.area CONST   (CODE)
-      0040AA                       1174 ___str_11:
-      0040AA 50 6C 65 61 73 65 20  1175 	.ascii "Please enter end address in hex format"
+      0049A5                       1174 ___str_11:
+      0049A5 50 6C 65 61 73 65 20  1175 	.ascii "Please enter end address in hex format"
              65 6E 74 65 72 20 65
              6E 64 20 61 64 64 72
              65 73 73 20 69 6E 20
              68 65 78 20 66 6F 72
              6D 61 74
-      0040D0 0A                    1176 	.db 0x0a
-      0040D1 0D                    1177 	.db 0x0d
-      0040D2 00                    1178 	.db 0x00
+      0049CB 0A                    1176 	.db 0x0a
+      0049CC 0D                    1177 	.db 0x0d
+      0049CD 00                    1178 	.db 0x00
                                    1179 	.area CSEG    (CODE)
                                    1180 	.area CONST   (CODE)
-      0040D3                       1181 ___str_12:
-      0040D3 49 6E 76 61 6C 69 64  1182 	.ascii "Invalid address range, end address should be greater than st"
+      0049CE                       1181 ___str_12:
+      0049CE 49 6E 76 61 6C 69 64  1182 	.ascii "Invalid address range, end address should be greater than st"
              20 61 64 64 72 65 73
              73 20 72 61 6E 67 65
              2C 20 65 6E 64 20 61
@@ -1247,31 +1247,31 @@
              62 65 20 67 72 65 61
              74 65 72 20 74 68 61
              6E 20 73 74
-      00410F 61 72 74 20 61 64 64  1183 	.ascii "art address"
+      004A0A 61 72 74 20 61 64 64  1183 	.ascii "art address"
              72 65 73 73
-      00411A 0A                    1184 	.db 0x0a
-      00411B 0D                    1185 	.db 0x0d
-      00411C 00                    1186 	.db 0x00
+      004A15 0A                    1184 	.db 0x0a
+      004A16 0D                    1185 	.db 0x0d
+      004A17 00                    1186 	.db 0x00
                                    1187 	.area CSEG    (CODE)
                                    1188 	.area CONST   (CODE)
-      00411D                       1189 ___str_13:
-      00411D 0A                    1190 	.db 0x0a
-      00411E 0D                    1191 	.db 0x0d
-      00411F 30 78 25 78 20 3A     1192 	.ascii "0x%x :"
-      004125 00                    1193 	.db 0x00
+      004A18                       1189 ___str_13:
+      004A18 0A                    1190 	.db 0x0a
+      004A19 0D                    1191 	.db 0x0d
+      004A1A 30 78 25 78 20 3A     1192 	.ascii "0x%x :"
+      004A20 00                    1193 	.db 0x00
                                    1194 	.area CSEG    (CODE)
                                    1195 	.area CONST   (CODE)
-      004126                       1196 ___str_14:
-      004126 20 30 78 25 78        1197 	.ascii " 0x%x"
-      00412B 00                    1198 	.db 0x00
+      004A21                       1196 ___str_14:
+      004A21 20 30 78 25 78        1197 	.ascii " 0x%x"
+      004A26 00                    1198 	.db 0x00
                                    1199 	.area CSEG    (CODE)
                                    1200 	.area CONST   (CODE)
-      00412C                       1201 ___str_15:
-      00412C 52 65 73 65 74 20 6D  1202 	.ascii "Reset mode"
+      004A27                       1201 ___str_15:
+      004A27 52 65 73 65 74 20 6D  1202 	.ascii "Reset mode"
              6F 64 65
-      004136 0A                    1203 	.db 0x0a
-      004137 0D                    1204 	.db 0x0d
-      004138 00                    1205 	.db 0x00
+      004A31 0A                    1203 	.db 0x0a
+      004A32 0D                    1204 	.db 0x0d
+      004A33 00                    1205 	.db 0x00
                                    1206 	.area CSEG    (CODE)
                                    1207 	.area XINIT   (CODE)
                                    1208 	.area CABS    (ABS,CODE)

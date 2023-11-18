@@ -1,5 +1,11 @@
 #include "stdint.h"
 
+#define PULSE_HIGH 1         // Constant representing a logic high level.
+#define PULSE_LOW 0          // Constant representing a logic low level.
+#define NOP __asm nop __endasm  // Assembly NOP instruction to introduce delays.
+#define SCL P1_2             // Pin configuration for the I2C clock line.
+#define SDA P1_3             // Pin configuration for the I2C data line.
+#define BYTE_LENGTH 8        // Number of bits in a byte.
 /**
  * @brief Delays the program execution for a specified number of cycles.
  * @param t Number of cycles to delay.
@@ -36,3 +42,5 @@ __xdata uint8_t * Byte_Read_Sequential(__xdata uint8_t block, __xdata uint8_t st
  * @brief Resets the EEPROM to its initial state.
  */
 void eeprom_reset();
+
+void sendByte(uint8_t byte);
