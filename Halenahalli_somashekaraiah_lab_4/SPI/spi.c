@@ -12,13 +12,11 @@
  */
 void spi_init() {
     printf("DAC\n\r");
-    SPCON |= (SPR1 << 1) | (SPR0 << 0); // Set baud rate for 57600
-    SPCON |= (CPHA << 2);               // Set clock phase to falling edge
-    SPCON |= (MSTR << 4);               // Set MCU as SPI master
-    SPCON |= (SSDIS << 5);              // Disable /SS in master and slave modes
-    SPCON |= (SPEN << 6);               // Enable SPI transmission
-
-    spi_wave_generator();  // Generate a waveform after SPI initialization
+    SPCON |= SPR1 | SPR0; // Set baud rate for 57600
+    SPCON |= CPHA;               // Set clock phase to falling edge
+    SPCON |= MSTR;               // Set MCU as SPI master
+    SPCON |= SSDIS;              // Disable /SS in master and slave modes
+    SPCON |= SPEN;               // Enable SPI transmission
 }
 
 
@@ -31,24 +29,17 @@ void spi_init() {
  * signal is used to select and deselect the SPI device for each data transmission.
  */
 void spi_wave_generator() {
-    uint8_t t = 10; // Number of times to repeat the waveform
+    uint32_t t = 1000; // Number of times to repeat the waveform
     while (t) {
         // Generate an ascending triangular waveform (0 to 255)
         for (uint16_t i = 0; i <= 255; i++) {
-            CS = 0;          // Select the SPI device (assert CS low)
-            SPDAT = i;        // Send data to SPI
-            while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
-            CS = 1;          // Deselect the SPI device (assert CS high)
+            spi_single_value(i);
         }
 
         // Generate a descending triangular waveform (255 to 0)
-        for (uint16_t j = 255; j >= 0 ; j--) {
-            CS = 0;          // Select the SPI device (assert CS low)
-            SPDAT = j;        // Send data to SPI
-            while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
-            CS = 1;          // Deselect the SPI device (assert CS high)
+        for (int16_t j = 255; j >= 0 ; j--) {
+           spi_single_value(j);
         }
-
         t--; // Decrement the repetition counter
     }
 }
@@ -63,8 +54,13 @@ void spi_wave_generator() {
  * @param level The 8-bit value to be sent to the SPI device.
  */
 void spi_single_value(uint8_t level) {
+    uint16_t cmd_data =  level;
+    cmd_data = (cmd_data << 4) | 0x1000;
+    uint8_t * c = &cmd_data;
     CS = 0;          // Select the SPI device (assert CS low)
-    SPDAT = level;    // Send data to SPI
+    SPDAT = c[1];    // Send Instruction to SPI
+    while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
+    SPDAT = c[0];    // Send data to SPI
     while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
     CS = 1;          // Deselect the SPI device (assert CS high)
 }

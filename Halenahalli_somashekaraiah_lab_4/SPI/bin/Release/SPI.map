@@ -67,7 +67,7 @@ CABS                                00000000    00000000 =           0. bytes (A
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   0000010D  l_CONST                         
-C:   00000B2B  l_CSEG                          
+C:   00000BA2  l_CSEG                          
 C:   00005000  s_HOME                          
 C:   00005006  s_GSINIT0                       
 C:   00005009  s_GSINIT1                       
@@ -78,8 +78,8 @@ C:   0000505F  s_GSFINAL
 C:   0000505F  s_GSINIT                        
 C:   0000505F  s_GSINIT5                       
 C:   00005062  s_CSEG                          
-C:   00005B8D  s_CONST                         
-C:   00005C9A  s_XINIT                         
+C:   00005C04  s_CONST                         
+C:   00005D11  s_XINIT                         
 C:   0000F000  s_PSEG                          
 C:   0000F000  s_XISEG                         
 C:   0000F000  s_XSEG                          
@@ -467,36 +467,36 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CSEG                                00005062    00000B2B =        2859. bytes (REL,CON,CODE)
+CSEG                                00005062    00000BA2 =        2978. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
 C:   00005062  __sdcc_external_startup            main
 C:   00005069  _main                              main
-C:   000050E6  _menu                              menu
-C:   00005132  _spi_init                          spi
-C:   00005159  _spi_wave_generator                spi
-C:   00005191  _spi_single_value                  spi
-C:   0000519F  _get_hex_value                     spi
-C:   0000527E  _putchar                           uart
-C:   0000528E  _getchar                           uart
-C:   0000529C  _putstr                            uart
-C:   000052E3  _echo                              uart
-C:   000052FC  _printf_tiny                       printf_tiny
-C:   00005414  _vprintf                           vprintf
-C:   0000542D  _printf                            vprintf
-C:   000054EE  __print_format                     printf_large
-C:   00005B3C  _strlen                            _strlen
-C:   00005B54  __mulint                           _mulint
-C:   00005B54  __mulint_dummy                     _mulint
-C:   00005B71  __gptrget                          _gptrget
+C:   000050E9  _menu                              menu
+C:   00005135  _spi_init                          spi
+C:   0000515A  _spi_wave_generator                spi
+C:   000051DC  _spi_single_value                  spi
+C:   00005216  _get_hex_value                     spi
+C:   000052F5  _putchar                           uart
+C:   00005305  _getchar                           uart
+C:   00005313  _putstr                            uart
+C:   0000535A  _echo                              uart
+C:   00005373  _printf_tiny                       printf_tiny
+C:   0000548B  _vprintf                           vprintf
+C:   000054A4  _printf                            vprintf
+C:   00005565  __print_format                     printf_large
+C:   00005BB3  _strlen                            _strlen
+C:   00005BCB  __mulint                           _mulint
+C:   00005BCB  __mulint_dummy                     _mulint
+C:   00005BE8  __gptrget                          _gptrget
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 20.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CONST                               00005B8D    0000010D =         269. bytes (REL,CON,CODE)
+CONST                               00005C04    0000010D =         269. bytes (REL,CON,CODE)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------

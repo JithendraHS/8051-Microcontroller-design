@@ -430,7 +430,8 @@ _P5_7	=	0x00ef
 ; overlayable items in internal ram
 ;--------------------------------------------------------
 	.area	OSEG    (OVR,DATA)
-	.area	OSEG    (OVR,DATA)
+_spi_single_value_cmd_data_65536_27:
+	.ds 2
 ;--------------------------------------------------------
 ; indirectly addressable internal ram data
 ;--------------------------------------------------------
@@ -489,7 +490,7 @@ _P5_7	=	0x00ef
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'spi_init'
 ;------------------------------------------------------------
-;	spi.c:7: void spi_init(){
+;	spi.c:13: void spi_init() {
 ;	-----------------------------------------
 ;	 function spi_init
 ;	-----------------------------------------
@@ -502,7 +503,7 @@ _spi_init:
 	ar2 = 0x02
 	ar1 = 0x01
 	ar0 = 0x00
-;	spi.c:8: printf("DAC\n\r");
+;	spi.c:14: printf("DAC\n\r");
 	mov	a,#___str_0
 	push	acc
 	mov	a,#(___str_0 >> 8)
@@ -513,109 +514,173 @@ _spi_init:
 	dec	sp
 	dec	sp
 	dec	sp
-;	spi.c:9: SPCON |= (SPR1 << 1) | (SPR0 << 0); //setting SPR0 and SPR1 to get baudrate of 57600
-	orl	_SPCON,#0x05
-;	spi.c:10: SPCON |= (CPHA << 2); // setting clock phase to falling edge
+;	spi.c:15: SPCON |= SPR1 | SPR0; // Set baud rate for 57600
+	orl	_SPCON,#0x03
+;	spi.c:16: SPCON |= CPHA;               // Set clock phase to falling edge
+	orl	_SPCON,#0x04
+;	spi.c:17: SPCON |= MSTR;               // Set MCU as SPI master
 	orl	_SPCON,#0x10
-;	spi.c:11: SPCON |= (MSTR << 4); // Setting MCU as master all the time
-	mov	_SPCON,_SPCON
-;	spi.c:12: SPCON |= (SSDIS << 5); // disabling /SS in master and slave modes
-	mov	_SPCON,_SPCON
-;	spi.c:13: SPCON |= (SPEN << 6); //Enabling SPI transmisson;
-	mov	_SPCON,_SPCON
-;	spi.c:15: spi_wave_generator();
-;	spi.c:16: }
-	ljmp	_spi_wave_generator
+;	spi.c:18: SPCON |= SSDIS;              // Disable /SS in master and slave modes
+	orl	_SPCON,#0x20
+;	spi.c:19: SPCON |= SPEN;               // Enable SPI transmission
+	orl	_SPCON,#0x40
+;	spi.c:20: }
+	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'spi_wave_generator'
 ;------------------------------------------------------------
-;t                         Allocated to registers 
-;i                         Allocated to registers r6 r7 
-;j                         Allocated to registers 
+;t                         Allocated to registers r4 r5 r6 r7 
+;i                         Allocated to registers r2 r3 
+;j                         Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	spi.c:18: void spi_wave_generator() {
+;	spi.c:31: void spi_wave_generator() {
 ;	-----------------------------------------
 ;	 function spi_wave_generator
 ;	-----------------------------------------
 _spi_wave_generator:
-;	spi.c:21: for(uint16_t i = 0; i <= 255; i++){
+;	spi.c:33: while (t) {
+	mov	r4,#0xe8
+	mov	r5,#0x03
 	mov	r6,#0x00
 	mov	r7,#0x00
-00113$:
-	mov	ar4,r6
-	mov	ar5,r7
+00103$:
+	mov	a,r4
+	orl	a,r5
+	orl	a,r6
+	orl	a,r7
+	jz	00112$
+;	spi.c:35: for (uint16_t i = 0; i <= 255; i++) {
+	mov	r2,#0x00
+	mov	r3,#0x00
+00107$:
+	mov	ar0,r2
+	mov	ar1,r3
 	clr	c
 	mov	a,#0xff
-	subb	a,r4
+	subb	a,r0
 	clr	a
-	subb	a,r5
-	jc	00104$
-;	spi.c:22: CS = 0; // Select the SPI device (assert CS low)
-;	assignBit
-	clr	_P1_4
-;	spi.c:24: SPDAT = i;
-	mov	_SPDAT,r6
-;	spi.c:25: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
+	subb	a,r1
+	jc	00101$
+;	spi.c:36: spi_single_value(i);
+	mov	dpl,r2
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	push	ar3
+	push	ar2
+	lcall	_spi_single_value
+	pop	ar2
+	pop	ar3
+	pop	ar4
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	spi.c:35: for (uint16_t i = 0; i <= 255; i++) {
+	inc	r2
+	cjne	r2,#0x00,00107$
+	inc	r3
+	sjmp	00107$
 00101$:
-	mov	a,_SPSTA
-	jnb	acc.7,00101$
-;	spi.c:26: CS = 1; // Deselect the SPI device (assert CS high)
-;	assignBit
-	setb	_P1_4
-;	spi.c:21: for(uint16_t i = 0; i <= 255; i++){
-	inc	r6
-	cjne	r6,#0x00,00113$
-	inc	r7
-	sjmp	00113$
-00104$:
-;	spi.c:28: for(uint16_t j = 255; j >= 0 ; j--){
-	mov	r6,#0xff
-	mov	r7,#0x00
-00115$:
-;	spi.c:29: CS = 0; // Select the SPI device (assert CS low)
-;	assignBit
-	clr	_P1_4
-;	spi.c:31: SPDAT = j;
-	mov	_SPDAT,r6
-;	spi.c:32: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
-00105$:
-	mov	a,_SPSTA
-	jnb	acc.7,00105$
-;	spi.c:33: CS = 1; // Deselect the SPI device (assert CS high)
-;	assignBit
-	setb	_P1_4
-;	spi.c:28: for(uint16_t j = 255; j >= 0 ; j--){
+;	spi.c:40: for (int16_t j = 255; j >= 0 ; j--) {
+	mov	r2,#0xff
+	mov	r3,#0x00
+00110$:
+	mov	ar0,r2
+	mov	ar1,r3
+	mov	a,r1
+	jb	acc.7,00102$
+;	spi.c:41: spi_single_value(j);
+	mov	dpl,r2
+	push	ar7
+	push	ar6
+	push	ar5
+	push	ar4
+	push	ar3
+	push	ar2
+	lcall	_spi_single_value
+	pop	ar2
+	pop	ar3
+	pop	ar4
+	pop	ar5
+	pop	ar6
+	pop	ar7
+;	spi.c:40: for (int16_t j = 255; j >= 0 ; j--) {
+	dec	r2
+	cjne	r2,#0xff,00145$
+	dec	r3
+00145$:
+	sjmp	00110$
+00102$:
+;	spi.c:43: t--; // Decrement the repetition counter
+	dec	r4
+	cjne	r4,#0xff,00146$
+	dec	r5
+	cjne	r5,#0xff,00146$
 	dec	r6
-	cjne	r6,#0xff,00154$
+	cjne	r6,#0xff,00146$
 	dec	r7
-00154$:
-;	spi.c:35: t--;
-;	spi.c:37: }
-	sjmp	00115$
+00146$:
+	sjmp	00103$
+00112$:
+;	spi.c:45: }
+	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'spi_single_value'
 ;------------------------------------------------------------
 ;level                     Allocated to registers r7 
+;cmd_data                  Allocated with name '_spi_single_value_cmd_data_65536_27'
+;c                         Allocated to registers 
 ;------------------------------------------------------------
-;	spi.c:39: void spi_single_value(uint8_t level){
+;	spi.c:56: void spi_single_value(uint8_t level) {
 ;	-----------------------------------------
 ;	 function spi_single_value
 ;	-----------------------------------------
 _spi_single_value:
 	mov	r7,dpl
-;	spi.c:40: CS = 0; // Select the SPI device (assert CS low)
+;	spi.c:57: uint16_t cmd_data =  level;
+	mov	r6,#0x00
+	mov	_spi_single_value_cmd_data_65536_27,r7
+;	spi.c:58: cmd_data = (cmd_data << 4) | 0x1000;
+	mov	a,r6
+	mov	(_spi_single_value_cmd_data_65536_27 + 1),a
+	swap	a
+	anl	a,#0xf0
+	xch	a,r7
+	swap	a
+	xch	a,r7
+	xrl	a,r7
+	xch	a,r7
+	anl	a,#0xf0
+	xch	a,r7
+	xrl	a,r7
+	mov	r6,a
+	orl	ar6,#0x10
+	mov	_spi_single_value_cmd_data_65536_27,r7
+	mov	(_spi_single_value_cmd_data_65536_27 + 1),r6
+;	spi.c:59: uint8_t * c = &cmd_data;
+;	spi.c:60: CS = 0;          // Select the SPI device (assert CS low)
 ;	assignBit
 	clr	_P1_4
-;	spi.c:42: SPDAT = level;
-	mov	_SPDAT,r7
-;	spi.c:43: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
+;	spi.c:61: SPDAT = c[1];    // Send Instruction to SPI
+	mov	dptr,#(_spi_single_value_cmd_data_65536_27 + 0x0001)
+	mov	b,#0x40
+	lcall	__gptrget
+	mov	_SPDAT,a
+;	spi.c:62: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
 00101$:
 	mov	a,_SPSTA
 	jnb	acc.7,00101$
-;	spi.c:44: CS = 1; // Deselect the SPI device (assert CS high)
+;	spi.c:63: SPDAT = c[0];    // Send data to SPI
+	mov	_SPDAT,_spi_single_value_cmd_data_65536_27
+;	spi.c:64: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
+00104$:
+	mov	a,_SPSTA
+	jnb	acc.7,00104$
+;	spi.c:65: CS = 1;          // Deselect the SPI device (assert CS high)
 ;	assignBit
 	setb	_P1_4
-;	spi.c:45: }
+;	spi.c:66: }
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'get_hex_value'
@@ -624,14 +689,14 @@ _spi_single_value:
 ;i                         Allocated to registers r5 r6 
 ;char_received             Allocated to registers r3 
 ;------------------------------------------------------------
-;	spi.c:51: uint8_t get_hex_value(){
+;	spi.c:73: uint8_t get_hex_value(){
 ;	-----------------------------------------
 ;	 function get_hex_value
 ;	-----------------------------------------
 _get_hex_value:
-;	spi.c:52: uint8_t value = 0;
+;	spi.c:74: uint8_t value = 0;
 	mov	r7,#0x00
-;	spi.c:53: for(int i = 0; i < 2; i++){
+;	spi.c:75: for(int i = 0; i < 2; i++){
 	mov	r5,#0x00
 	mov	r6,#0x00
 00125$:
@@ -644,7 +709,7 @@ _get_hex_value:
 	jc	00183$
 	ljmp	00123$
 00183$:
-;	spi.c:54: if(i == 0) printf_tiny("0x");
+;	spi.c:76: if(i == 0) printf_tiny("0x");
 	mov	a,r5
 	orl	a,r6
 	jnz	00102$
@@ -662,7 +727,7 @@ _get_hex_value:
 	pop	ar6
 	pop	ar7
 00102$:
-;	spi.c:55: uint8_t char_received = echo(); // Read a character from UART
+;	spi.c:77: uint8_t char_received = echo(); // Read a character from UART
 	push	ar7
 	push	ar6
 	push	ar5
@@ -671,55 +736,55 @@ _get_hex_value:
 	pop	ar5
 	pop	ar6
 	pop	ar7
-;	spi.c:56: if((char_received >= '0') && (char_received <= '9')){
+;	spi.c:78: if((char_received >= '0') && (char_received <= '9')){
 	cjne	r4,#0x30,00185$
 00185$:
 	jc	00116$
 	mov	a,r4
 	add	a,#0xff - 0x39
 	jc	00116$
-;	spi.c:57: char_received = char_received - '0'; // Convert ASCII character to its
+;	spi.c:79: char_received = char_received - '0'; // Convert ASCII character to its
 	mov	ar3,r4
 	mov	a,r3
 	add	a,#0xd0
 	mov	r3,a
 	sjmp	00117$
 00116$:
-;	spi.c:59: }else if((char_received >= 'A') && (char_received <= 'F')){
+;	spi.c:81: }else if((char_received >= 'A') && (char_received <= 'F')){
 	cjne	r4,#0x41,00188$
 00188$:
 	jc	00112$
 	mov	a,r4
 	add	a,#0xff - 0x46
 	jc	00112$
-;	spi.c:60: char_received = char_received - 'A' + 10; // Convert ASCII character to its
+;	spi.c:82: char_received = char_received - 'A' + 10; // Convert ASCII character to its
 	mov	ar2,r4
 	mov	a,#0xc9
 	add	a,r2
 	mov	r3,a
 	sjmp	00117$
 00112$:
-;	spi.c:62: }else if((char_received >= 'a') && (char_received <= 'f')){
+;	spi.c:84: }else if((char_received >= 'a') && (char_received <= 'f')){
 	cjne	r4,#0x61,00191$
 00191$:
 	jc	00108$
 	mov	a,r4
 	add	a,#0xff - 0x66
 	jc	00108$
-;	spi.c:63: char_received = char_received - 'a' + 10; // Convert ASCII character to its
+;	spi.c:85: char_received = char_received - 'a' + 10; // Convert ASCII character to its
 	mov	ar2,r4
 	mov	a,#0xa9
 	add	a,r2
 	mov	r3,a
 	sjmp	00117$
 00108$:
-;	spi.c:65: }else if((char_received == '\n') || (char_received == '\r')){
+;	spi.c:87: }else if((char_received == '\n') || (char_received == '\r')){
 	cjne	r4,#0x0a,00194$
 	sjmp	00103$
 00194$:
 	cjne	r4,#0x0d,00104$
 00103$:
-;	spi.c:66: printf_tiny("\n\r");
+;	spi.c:88: printf_tiny("\n\r");
 	push	ar7
 	mov	a,#___str_2
 	push	acc
@@ -729,11 +794,11 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	spi.c:67: return value;
+;	spi.c:89: return value;
 	mov	dpl,r7
 	ret
 00104$:
-;	spi.c:69: printf_tiny("-->Invalid input\n\r");
+;	spi.c:91: printf_tiny("-->Invalid input\n\r");
 	mov	a,#___str_3
 	push	acc
 	mov	a,#(___str_3 >> 8)
@@ -741,24 +806,24 @@ _get_hex_value:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	spi.c:70: i = -1;
+;	spi.c:92: i = -1;
 	mov	r5,#0xff
 	mov	r6,#0xff
-;	spi.c:71: value = 0;
+;	spi.c:93: value = 0;
 	mov	r7,#0x00
-;	spi.c:72: continue;
+;	spi.c:94: continue;
 	sjmp	00122$
 00117$:
-;	spi.c:74: if(i == 0){
+;	spi.c:96: if(i == 0){
 	mov	a,r5
 	orl	a,r6
 	jnz	00120$
-;	spi.c:75: value |= char_received;
+;	spi.c:97: value |= char_received;
 	mov	a,r3
 	orl	ar7,a
 	sjmp	00122$
 00120$:
-;	spi.c:77: value = (value << 4) | char_received;
+;	spi.c:99: value = (value << 4) | char_received;
 	mov	ar4,r7
 	mov	a,r4
 	swap	a
@@ -767,14 +832,14 @@ _get_hex_value:
 	orl	a,r3
 	mov	r7,a
 00122$:
-;	spi.c:53: for(int i = 0; i < 2; i++){
+;	spi.c:75: for(int i = 0; i < 2; i++){
 	inc	r5
 	cjne	r5,#0x00,00198$
 	inc	r6
 00198$:
 	ljmp	00125$
 00123$:
-;	spi.c:80: printf_tiny("\n\r");
+;	spi.c:102: printf_tiny("\n\r");
 	push	ar7
 	mov	a,#___str_2
 	push	acc
@@ -784,9 +849,9 @@ _get_hex_value:
 	dec	sp
 	dec	sp
 	pop	ar7
-;	spi.c:81: return value;
+;	spi.c:103: return value;
 	mov	dpl,r7
-;	spi.c:82: }
+;	spi.c:104: }
 	ret
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

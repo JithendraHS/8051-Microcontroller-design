@@ -10,6 +10,7 @@
 ;--------------------------------------------------------
 	.globl _main
 	.globl __sdcc_external_startup
+	.globl _menu
 	.globl _get_hex_value
 	.globl _spi_single_value
 	.globl _spi_wave_generator
@@ -568,14 +569,16 @@ __sdcc_external_startup:
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	main.c:42: spi_init();
+;	main.c:42: spi_init(); // Initialize SPI communication
 	lcall	_spi_init
-;	main.c:43: while (1)
+;	main.c:43: menu();
+	lcall	_menu
+;	main.c:44: while (1)
 00112$:
-;	main.c:45: int8_t user_input = echo(); // Read user input from UART
+;	main.c:46: int8_t user_input = echo(); // Read user input from UART
 	lcall	_echo
 	mov	r7,dpl
-;	main.c:46: if (((user_input >= '0') && (user_input <= '9')) ||
+;	main.c:49: if (((user_input >= '0') && (user_input <= '9')) ||
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -587,7 +590,7 @@ _main:
 	subb	a,b
 	jnc	00101$
 00106$:
-;	main.c:47: ((user_input >= 'A') && (user_input <= 'Z')))
+;	main.c:50: ((user_input >= 'A') && (user_input <= 'Z')))
 	clr	c
 	mov	a,r7
 	xrl	a,#0x80
@@ -599,7 +602,7 @@ _main:
 	subb	a,b
 	jc	00102$
 00101$:
-;	main.c:50: printf_tiny("Please enter commands in lowercase\n\r");
+;	main.c:53: printf_tiny("Please enter commands in lowercase\n\r");
 	push	ar7
 	mov	a,#___str_0
 	push	acc
@@ -611,7 +614,7 @@ _main:
 	pop	ar7
 	sjmp	00103$
 00102$:
-;	main.c:54: printf_tiny("\n\r"); // Print newline for better output formatting
+;	main.c:57: printf_tiny("\n\r"); // Print newline for better output formatting
 	push	ar7
 	mov	a,#___str_1
 	push	acc
@@ -622,21 +625,21 @@ _main:
 	dec	sp
 	pop	ar7
 00103$:
-;	main.c:57: switch (user_input)
+;	main.c:61: switch (user_input)
 	cjne	r7,#0x61,00140$
 	sjmp	00107$
 00140$:
-;	main.c:59: case 'a':
+;	main.c:63: case 'a':
 	cjne	r7,#0x62,00112$
 	sjmp	00108$
 00107$:
-;	main.c:60: spi_wave_generator();
+;	main.c:65: spi_wave_generator();
 	lcall	_spi_wave_generator
-;	main.c:61: break;
-;	main.c:63: case 'b':
+;	main.c:66: break;
+;	main.c:68: case 'b':
 	sjmp	00112$
 00108$:
-;	main.c:64: printf_tiny("Enter the level(0-255) in hex format\n\r");
+;	main.c:69: printf_tiny("Enter the level(0-255) in hex format\n\r");
 	mov	a,#___str_2
 	push	acc
 	mov	a,#(___str_2 >> 8)
@@ -644,13 +647,13 @@ _main:
 	lcall	_printf_tiny
 	dec	sp
 	dec	sp
-;	main.c:65: level = get_hex_value();
+;	main.c:70: level = get_hex_value(); // Get a hexadecimal value from the user
 	lcall	_get_hex_value
-;	main.c:66: spi_single_value((uint8_t)level);
+;	main.c:72: spi_single_value((uint8_t)level);
 	lcall	_spi_single_value
-;	main.c:67: break;
-;	main.c:72: }
-;	main.c:74: }
+;	main.c:73: break;
+;	main.c:78: }
+;	main.c:80: }
 	ljmp	00112$
 	.area CSEG    (CODE)
 	.area CONST   (CODE)

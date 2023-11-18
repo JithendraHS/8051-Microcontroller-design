@@ -430,392 +430,457 @@
                                     430 ; overlayable items in internal ram
                                     431 ;--------------------------------------------------------
                                     432 	.area	OSEG    (OVR,DATA)
-                                    433 	.area	OSEG    (OVR,DATA)
-                                    434 ;--------------------------------------------------------
-                                    435 ; indirectly addressable internal ram data
-                                    436 ;--------------------------------------------------------
-                                    437 	.area ISEG    (DATA)
-                                    438 ;--------------------------------------------------------
-                                    439 ; absolute internal ram data
-                                    440 ;--------------------------------------------------------
-                                    441 	.area IABS    (ABS,DATA)
+      000000                        433 _spi_single_value_cmd_data_65536_27:
+      000000                        434 	.ds 2
+                                    435 ;--------------------------------------------------------
+                                    436 ; indirectly addressable internal ram data
+                                    437 ;--------------------------------------------------------
+                                    438 	.area ISEG    (DATA)
+                                    439 ;--------------------------------------------------------
+                                    440 ; absolute internal ram data
+                                    441 ;--------------------------------------------------------
                                     442 	.area IABS    (ABS,DATA)
-                                    443 ;--------------------------------------------------------
-                                    444 ; bit data
-                                    445 ;--------------------------------------------------------
-                                    446 	.area BSEG    (BIT)
-                                    447 ;--------------------------------------------------------
-                                    448 ; paged external ram data
-                                    449 ;--------------------------------------------------------
-                                    450 	.area PSEG    (PAG,XDATA)
-                                    451 ;--------------------------------------------------------
-                                    452 ; external ram data
-                                    453 ;--------------------------------------------------------
-                                    454 	.area XSEG    (XDATA)
-                                    455 ;--------------------------------------------------------
-                                    456 ; absolute external ram data
-                                    457 ;--------------------------------------------------------
-                                    458 	.area XABS    (ABS,XDATA)
-                                    459 ;--------------------------------------------------------
-                                    460 ; external initialized ram data
-                                    461 ;--------------------------------------------------------
-                                    462 	.area XISEG   (XDATA)
-                                    463 	.area HOME    (CODE)
-                                    464 	.area GSINIT0 (CODE)
-                                    465 	.area GSINIT1 (CODE)
-                                    466 	.area GSINIT2 (CODE)
-                                    467 	.area GSINIT3 (CODE)
-                                    468 	.area GSINIT4 (CODE)
-                                    469 	.area GSINIT5 (CODE)
-                                    470 	.area GSINIT  (CODE)
-                                    471 	.area GSFINAL (CODE)
-                                    472 	.area CSEG    (CODE)
-                                    473 ;--------------------------------------------------------
-                                    474 ; global & static initialisations
-                                    475 ;--------------------------------------------------------
-                                    476 	.area HOME    (CODE)
-                                    477 	.area GSINIT  (CODE)
-                                    478 	.area GSFINAL (CODE)
-                                    479 	.area GSINIT  (CODE)
-                                    480 ;--------------------------------------------------------
-                                    481 ; Home
-                                    482 ;--------------------------------------------------------
-                                    483 	.area HOME    (CODE)
+                                    443 	.area IABS    (ABS,DATA)
+                                    444 ;--------------------------------------------------------
+                                    445 ; bit data
+                                    446 ;--------------------------------------------------------
+                                    447 	.area BSEG    (BIT)
+                                    448 ;--------------------------------------------------------
+                                    449 ; paged external ram data
+                                    450 ;--------------------------------------------------------
+                                    451 	.area PSEG    (PAG,XDATA)
+                                    452 ;--------------------------------------------------------
+                                    453 ; external ram data
+                                    454 ;--------------------------------------------------------
+                                    455 	.area XSEG    (XDATA)
+                                    456 ;--------------------------------------------------------
+                                    457 ; absolute external ram data
+                                    458 ;--------------------------------------------------------
+                                    459 	.area XABS    (ABS,XDATA)
+                                    460 ;--------------------------------------------------------
+                                    461 ; external initialized ram data
+                                    462 ;--------------------------------------------------------
+                                    463 	.area XISEG   (XDATA)
+                                    464 	.area HOME    (CODE)
+                                    465 	.area GSINIT0 (CODE)
+                                    466 	.area GSINIT1 (CODE)
+                                    467 	.area GSINIT2 (CODE)
+                                    468 	.area GSINIT3 (CODE)
+                                    469 	.area GSINIT4 (CODE)
+                                    470 	.area GSINIT5 (CODE)
+                                    471 	.area GSINIT  (CODE)
+                                    472 	.area GSFINAL (CODE)
+                                    473 	.area CSEG    (CODE)
+                                    474 ;--------------------------------------------------------
+                                    475 ; global & static initialisations
+                                    476 ;--------------------------------------------------------
+                                    477 	.area HOME    (CODE)
+                                    478 	.area GSINIT  (CODE)
+                                    479 	.area GSFINAL (CODE)
+                                    480 	.area GSINIT  (CODE)
+                                    481 ;--------------------------------------------------------
+                                    482 ; Home
+                                    483 ;--------------------------------------------------------
                                     484 	.area HOME    (CODE)
-                                    485 ;--------------------------------------------------------
-                                    486 ; code
-                                    487 ;--------------------------------------------------------
-                                    488 	.area CSEG    (CODE)
-                                    489 ;------------------------------------------------------------
-                                    490 ;Allocation info for local variables in function 'spi_init'
-                                    491 ;------------------------------------------------------------
-                                    492 ;	spi.c:7: void spi_init(){
-                                    493 ;	-----------------------------------------
-                                    494 ;	 function spi_init
-                                    495 ;	-----------------------------------------
-      000000                        496 _spi_init:
-                           000007   497 	ar7 = 0x07
-                           000006   498 	ar6 = 0x06
-                           000005   499 	ar5 = 0x05
-                           000004   500 	ar4 = 0x04
-                           000003   501 	ar3 = 0x03
-                           000002   502 	ar2 = 0x02
-                           000001   503 	ar1 = 0x01
-                           000000   504 	ar0 = 0x00
-                                    505 ;	spi.c:8: printf("DAC\n\r");
-      000000 74r00            [12]  506 	mov	a,#___str_0
-      000002 C0 E0            [24]  507 	push	acc
-      000004 74s00            [12]  508 	mov	a,#(___str_0 >> 8)
-      000006 C0 E0            [24]  509 	push	acc
-      000008 74 80            [12]  510 	mov	a,#0x80
-      00000A C0 E0            [24]  511 	push	acc
-      00000C 12r00r00         [24]  512 	lcall	_printf
-      00000F 15 81            [12]  513 	dec	sp
-      000011 15 81            [12]  514 	dec	sp
-      000013 15 81            [12]  515 	dec	sp
-                                    516 ;	spi.c:9: SPCON |= (SPR1 << 1) | (SPR0 << 0); //setting SPR0 and SPR1 to get baudrate of 57600
-      000015 43 C3 05         [24]  517 	orl	_SPCON,#0x05
-                                    518 ;	spi.c:10: SPCON |= (CPHA << 2); // setting clock phase to falling edge
-      000018 43 C3 10         [24]  519 	orl	_SPCON,#0x10
-                                    520 ;	spi.c:11: SPCON |= (MSTR << 4); // Setting MCU as master all the time
-      00001B 85 C3 C3         [24]  521 	mov	_SPCON,_SPCON
-                                    522 ;	spi.c:12: SPCON |= (SSDIS << 5); // disabling /SS in master and slave modes
-      00001E 85 C3 C3         [24]  523 	mov	_SPCON,_SPCON
-                                    524 ;	spi.c:13: SPCON |= (SPEN << 6); //Enabling SPI transmisson;
-      000021 85 C3 C3         [24]  525 	mov	_SPCON,_SPCON
-                                    526 ;	spi.c:15: spi_wave_generator();
-                                    527 ;	spi.c:16: }
-      000024 02r00r27         [24]  528 	ljmp	_spi_wave_generator
+                                    485 	.area HOME    (CODE)
+                                    486 ;--------------------------------------------------------
+                                    487 ; code
+                                    488 ;--------------------------------------------------------
+                                    489 	.area CSEG    (CODE)
+                                    490 ;------------------------------------------------------------
+                                    491 ;Allocation info for local variables in function 'spi_init'
+                                    492 ;------------------------------------------------------------
+                                    493 ;	spi.c:13: void spi_init() {
+                                    494 ;	-----------------------------------------
+                                    495 ;	 function spi_init
+                                    496 ;	-----------------------------------------
+      000000                        497 _spi_init:
+                           000007   498 	ar7 = 0x07
+                           000006   499 	ar6 = 0x06
+                           000005   500 	ar5 = 0x05
+                           000004   501 	ar4 = 0x04
+                           000003   502 	ar3 = 0x03
+                           000002   503 	ar2 = 0x02
+                           000001   504 	ar1 = 0x01
+                           000000   505 	ar0 = 0x00
+                                    506 ;	spi.c:14: printf("DAC\n\r");
+      000000 74r00            [12]  507 	mov	a,#___str_0
+      000002 C0 E0            [24]  508 	push	acc
+      000004 74s00            [12]  509 	mov	a,#(___str_0 >> 8)
+      000006 C0 E0            [24]  510 	push	acc
+      000008 74 80            [12]  511 	mov	a,#0x80
+      00000A C0 E0            [24]  512 	push	acc
+      00000C 12r00r00         [24]  513 	lcall	_printf
+      00000F 15 81            [12]  514 	dec	sp
+      000011 15 81            [12]  515 	dec	sp
+      000013 15 81            [12]  516 	dec	sp
+                                    517 ;	spi.c:15: SPCON |= SPR1 | SPR0; // Set baud rate for 57600
+      000015 43 C3 03         [24]  518 	orl	_SPCON,#0x03
+                                    519 ;	spi.c:16: SPCON |= CPHA;               // Set clock phase to falling edge
+      000018 43 C3 04         [24]  520 	orl	_SPCON,#0x04
+                                    521 ;	spi.c:17: SPCON |= MSTR;               // Set MCU as SPI master
+      00001B 43 C3 10         [24]  522 	orl	_SPCON,#0x10
+                                    523 ;	spi.c:18: SPCON |= SSDIS;              // Disable /SS in master and slave modes
+      00001E 43 C3 20         [24]  524 	orl	_SPCON,#0x20
+                                    525 ;	spi.c:19: SPCON |= SPEN;               // Enable SPI transmission
+      000021 43 C3 40         [24]  526 	orl	_SPCON,#0x40
+                                    527 ;	spi.c:20: }
+      000024 22               [24]  528 	ret
                                     529 ;------------------------------------------------------------
                                     530 ;Allocation info for local variables in function 'spi_wave_generator'
                                     531 ;------------------------------------------------------------
-                                    532 ;t                         Allocated to registers 
-                                    533 ;i                         Allocated to registers r6 r7 
-                                    534 ;j                         Allocated to registers 
+                                    532 ;t                         Allocated to registers r4 r5 r6 r7 
+                                    533 ;i                         Allocated to registers r2 r3 
+                                    534 ;j                         Allocated to registers r2 r3 
                                     535 ;------------------------------------------------------------
-                                    536 ;	spi.c:18: void spi_wave_generator() {
+                                    536 ;	spi.c:31: void spi_wave_generator() {
                                     537 ;	-----------------------------------------
                                     538 ;	 function spi_wave_generator
                                     539 ;	-----------------------------------------
-      000027                        540 _spi_wave_generator:
-                                    541 ;	spi.c:21: for(uint16_t i = 0; i <= 255; i++){
-      000027 7E 00            [12]  542 	mov	r6,#0x00
-      000029 7F 00            [12]  543 	mov	r7,#0x00
-      00002B                        544 00113$:
-      00002B 8E 04            [24]  545 	mov	ar4,r6
-      00002D 8F 05            [24]  546 	mov	ar5,r7
-      00002F C3               [12]  547 	clr	c
-      000030 74 FF            [12]  548 	mov	a,#0xff
-      000032 9C               [12]  549 	subb	a,r4
-      000033 E4               [12]  550 	clr	a
-      000034 9D               [12]  551 	subb	a,r5
-      000035 40 12            [24]  552 	jc	00104$
-                                    553 ;	spi.c:22: CS = 0; // Select the SPI device (assert CS low)
-                                    554 ;	assignBit
-      000037 C2 94            [12]  555 	clr	_P1_4
-                                    556 ;	spi.c:24: SPDAT = i;
-      000039 8E C5            [24]  557 	mov	_SPDAT,r6
-                                    558 ;	spi.c:25: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
-      00003B                        559 00101$:
-      00003B E5 C4            [12]  560 	mov	a,_SPSTA
-      00003D 30 E7 FB         [24]  561 	jnb	acc.7,00101$
-                                    562 ;	spi.c:26: CS = 1; // Deselect the SPI device (assert CS high)
-                                    563 ;	assignBit
-      000040 D2 94            [12]  564 	setb	_P1_4
-                                    565 ;	spi.c:21: for(uint16_t i = 0; i <= 255; i++){
-      000042 0E               [12]  566 	inc	r6
-      000043 BE 00 E5         [24]  567 	cjne	r6,#0x00,00113$
-      000046 0F               [12]  568 	inc	r7
-      000047 80 E2            [24]  569 	sjmp	00113$
-      000049                        570 00104$:
-                                    571 ;	spi.c:28: for(uint16_t j = 255; j >= 0 ; j--){
-      000049 7E FF            [12]  572 	mov	r6,#0xff
-      00004B 7F 00            [12]  573 	mov	r7,#0x00
-      00004D                        574 00115$:
-                                    575 ;	spi.c:29: CS = 0; // Select the SPI device (assert CS low)
-                                    576 ;	assignBit
-      00004D C2 94            [12]  577 	clr	_P1_4
-                                    578 ;	spi.c:31: SPDAT = j;
-      00004F 8E C5            [24]  579 	mov	_SPDAT,r6
-                                    580 ;	spi.c:32: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
-      000051                        581 00105$:
-      000051 E5 C4            [12]  582 	mov	a,_SPSTA
-      000053 30 E7 FB         [24]  583 	jnb	acc.7,00105$
-                                    584 ;	spi.c:33: CS = 1; // Deselect the SPI device (assert CS high)
-                                    585 ;	assignBit
-      000056 D2 94            [12]  586 	setb	_P1_4
-                                    587 ;	spi.c:28: for(uint16_t j = 255; j >= 0 ; j--){
-      000058 1E               [12]  588 	dec	r6
-      000059 BE FF 01         [24]  589 	cjne	r6,#0xff,00154$
-      00005C 1F               [12]  590 	dec	r7
-      00005D                        591 00154$:
-                                    592 ;	spi.c:35: t--;
-                                    593 ;	spi.c:37: }
-      00005D 80 EE            [24]  594 	sjmp	00115$
-                                    595 ;------------------------------------------------------------
-                                    596 ;Allocation info for local variables in function 'spi_single_value'
-                                    597 ;------------------------------------------------------------
-                                    598 ;level                     Allocated to registers r7 
-                                    599 ;------------------------------------------------------------
-                                    600 ;	spi.c:39: void spi_single_value(uint8_t level){
-                                    601 ;	-----------------------------------------
-                                    602 ;	 function spi_single_value
-                                    603 ;	-----------------------------------------
-      00005F                        604 _spi_single_value:
-      00005F AF 82            [24]  605 	mov	r7,dpl
-                                    606 ;	spi.c:40: CS = 0; // Select the SPI device (assert CS low)
-                                    607 ;	assignBit
-      000061 C2 94            [12]  608 	clr	_P1_4
-                                    609 ;	spi.c:42: SPDAT = level;
-      000063 8F C5            [24]  610 	mov	_SPDAT,r7
-                                    611 ;	spi.c:43: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
-      000065                        612 00101$:
-      000065 E5 C4            [12]  613 	mov	a,_SPSTA
-      000067 30 E7 FB         [24]  614 	jnb	acc.7,00101$
-                                    615 ;	spi.c:44: CS = 1; // Deselect the SPI device (assert CS high)
-                                    616 ;	assignBit
-      00006A D2 94            [12]  617 	setb	_P1_4
-                                    618 ;	spi.c:45: }
-      00006C 22               [24]  619 	ret
-                                    620 ;------------------------------------------------------------
-                                    621 ;Allocation info for local variables in function 'get_hex_value'
-                                    622 ;------------------------------------------------------------
-                                    623 ;value                     Allocated to registers r7 
-                                    624 ;i                         Allocated to registers r5 r6 
-                                    625 ;char_received             Allocated to registers r3 
-                                    626 ;------------------------------------------------------------
-                                    627 ;	spi.c:51: uint8_t get_hex_value(){
-                                    628 ;	-----------------------------------------
-                                    629 ;	 function get_hex_value
-                                    630 ;	-----------------------------------------
-      00006D                        631 _get_hex_value:
-                                    632 ;	spi.c:52: uint8_t value = 0;
-      00006D 7F 00            [12]  633 	mov	r7,#0x00
-                                    634 ;	spi.c:53: for(int i = 0; i < 2; i++){
-      00006F 7D 00            [12]  635 	mov	r5,#0x00
-      000071 7E 00            [12]  636 	mov	r6,#0x00
-      000073                        637 00125$:
-      000073 C3               [12]  638 	clr	c
-      000074 ED               [12]  639 	mov	a,r5
-      000075 94 02            [12]  640 	subb	a,#0x02
-      000077 EE               [12]  641 	mov	a,r6
-      000078 64 80            [12]  642 	xrl	a,#0x80
-      00007A 94 80            [12]  643 	subb	a,#0x80
-      00007C 40 03            [24]  644 	jc	00183$
-      00007E 02r01r36         [24]  645 	ljmp	00123$
-      000081                        646 00183$:
-                                    647 ;	spi.c:54: if(i == 0) printf_tiny("0x");
-      000081 ED               [12]  648 	mov	a,r5
-      000082 4E               [12]  649 	orl	a,r6
-      000083 70 1B            [24]  650 	jnz	00102$
-      000085 C0 07            [24]  651 	push	ar7
-      000087 C0 06            [24]  652 	push	ar6
-      000089 C0 05            [24]  653 	push	ar5
-      00008B 74r06            [12]  654 	mov	a,#___str_1
-      00008D C0 E0            [24]  655 	push	acc
-      00008F 74s00            [12]  656 	mov	a,#(___str_1 >> 8)
-      000091 C0 E0            [24]  657 	push	acc
-      000093 12r00r00         [24]  658 	lcall	_printf_tiny
-      000096 15 81            [12]  659 	dec	sp
-      000098 15 81            [12]  660 	dec	sp
-      00009A D0 05            [24]  661 	pop	ar5
-      00009C D0 06            [24]  662 	pop	ar6
-      00009E D0 07            [24]  663 	pop	ar7
-      0000A0                        664 00102$:
-                                    665 ;	spi.c:55: uint8_t char_received = echo(); // Read a character from UART
-      0000A0 C0 07            [24]  666 	push	ar7
-      0000A2 C0 06            [24]  667 	push	ar6
-      0000A4 C0 05            [24]  668 	push	ar5
-      0000A6 12r00r00         [24]  669 	lcall	_echo
-      0000A9 AC 82            [24]  670 	mov	r4,dpl
-      0000AB D0 05            [24]  671 	pop	ar5
-      0000AD D0 06            [24]  672 	pop	ar6
-      0000AF D0 07            [24]  673 	pop	ar7
-                                    674 ;	spi.c:56: if((char_received >= '0') && (char_received <= '9')){
-      0000B1 BC 30 00         [24]  675 	cjne	r4,#0x30,00185$
-      0000B4                        676 00185$:
-      0000B4 40 0D            [24]  677 	jc	00116$
-      0000B6 EC               [12]  678 	mov	a,r4
-      0000B7 24 C6            [12]  679 	add	a,#0xff - 0x39
-      0000B9 40 08            [24]  680 	jc	00116$
-                                    681 ;	spi.c:57: char_received = char_received - '0'; // Convert ASCII character to its
-      0000BB 8C 03            [24]  682 	mov	ar3,r4
-      0000BD EB               [12]  683 	mov	a,r3
-      0000BE 24 D0            [12]  684 	add	a,#0xd0
-      0000C0 FB               [12]  685 	mov	r3,a
-      0000C1 80 59            [24]  686 	sjmp	00117$
-      0000C3                        687 00116$:
-                                    688 ;	spi.c:59: }else if((char_received >= 'A') && (char_received <= 'F')){
-      0000C3 BC 41 00         [24]  689 	cjne	r4,#0x41,00188$
-      0000C6                        690 00188$:
-      0000C6 40 0D            [24]  691 	jc	00112$
-      0000C8 EC               [12]  692 	mov	a,r4
-      0000C9 24 B9            [12]  693 	add	a,#0xff - 0x46
-      0000CB 40 08            [24]  694 	jc	00112$
-                                    695 ;	spi.c:60: char_received = char_received - 'A' + 10; // Convert ASCII character to its
-      0000CD 8C 02            [24]  696 	mov	ar2,r4
-      0000CF 74 C9            [12]  697 	mov	a,#0xc9
-      0000D1 2A               [12]  698 	add	a,r2
-      0000D2 FB               [12]  699 	mov	r3,a
-      0000D3 80 47            [24]  700 	sjmp	00117$
-      0000D5                        701 00112$:
-                                    702 ;	spi.c:62: }else if((char_received >= 'a') && (char_received <= 'f')){
-      0000D5 BC 61 00         [24]  703 	cjne	r4,#0x61,00191$
-      0000D8                        704 00191$:
-      0000D8 40 0D            [24]  705 	jc	00108$
-      0000DA EC               [12]  706 	mov	a,r4
-      0000DB 24 99            [12]  707 	add	a,#0xff - 0x66
-      0000DD 40 08            [24]  708 	jc	00108$
-                                    709 ;	spi.c:63: char_received = char_received - 'a' + 10; // Convert ASCII character to its
-      0000DF 8C 02            [24]  710 	mov	ar2,r4
-      0000E1 74 A9            [12]  711 	mov	a,#0xa9
-      0000E3 2A               [12]  712 	add	a,r2
-      0000E4 FB               [12]  713 	mov	r3,a
-      0000E5 80 35            [24]  714 	sjmp	00117$
-      0000E7                        715 00108$:
-                                    716 ;	spi.c:65: }else if((char_received == '\n') || (char_received == '\r')){
-      0000E7 BC 0A 02         [24]  717 	cjne	r4,#0x0a,00194$
-      0000EA 80 03            [24]  718 	sjmp	00103$
-      0000EC                        719 00194$:
-      0000EC BC 0D 16         [24]  720 	cjne	r4,#0x0d,00104$
-      0000EF                        721 00103$:
-                                    722 ;	spi.c:66: printf_tiny("\n\r");
-      0000EF C0 07            [24]  723 	push	ar7
-      0000F1 74r09            [12]  724 	mov	a,#___str_2
-      0000F3 C0 E0            [24]  725 	push	acc
-      0000F5 74s00            [12]  726 	mov	a,#(___str_2 >> 8)
-      0000F7 C0 E0            [24]  727 	push	acc
-      0000F9 12r00r00         [24]  728 	lcall	_printf_tiny
-      0000FC 15 81            [12]  729 	dec	sp
-      0000FE 15 81            [12]  730 	dec	sp
-      000100 D0 07            [24]  731 	pop	ar7
-                                    732 ;	spi.c:67: return value;
-      000102 8F 82            [24]  733 	mov	dpl,r7
-      000104 22               [24]  734 	ret
-      000105                        735 00104$:
-                                    736 ;	spi.c:69: printf_tiny("-->Invalid input\n\r");
-      000105 74r0C            [12]  737 	mov	a,#___str_3
-      000107 C0 E0            [24]  738 	push	acc
-      000109 74s00            [12]  739 	mov	a,#(___str_3 >> 8)
-      00010B C0 E0            [24]  740 	push	acc
-      00010D 12r00r00         [24]  741 	lcall	_printf_tiny
-      000110 15 81            [12]  742 	dec	sp
-      000112 15 81            [12]  743 	dec	sp
-                                    744 ;	spi.c:70: i = -1;
-      000114 7D FF            [12]  745 	mov	r5,#0xff
-      000116 7E FF            [12]  746 	mov	r6,#0xff
-                                    747 ;	spi.c:71: value = 0;
-      000118 7F 00            [12]  748 	mov	r7,#0x00
-                                    749 ;	spi.c:72: continue;
-      00011A 80 12            [24]  750 	sjmp	00122$
-      00011C                        751 00117$:
-                                    752 ;	spi.c:74: if(i == 0){
-      00011C ED               [12]  753 	mov	a,r5
-      00011D 4E               [12]  754 	orl	a,r6
-      00011E 70 05            [24]  755 	jnz	00120$
-                                    756 ;	spi.c:75: value |= char_received;
-      000120 EB               [12]  757 	mov	a,r3
-      000121 42 07            [12]  758 	orl	ar7,a
-      000123 80 09            [24]  759 	sjmp	00122$
-      000125                        760 00120$:
-                                    761 ;	spi.c:77: value = (value << 4) | char_received;
-      000125 8F 04            [24]  762 	mov	ar4,r7
-      000127 EC               [12]  763 	mov	a,r4
-      000128 C4               [12]  764 	swap	a
-      000129 54 F0            [12]  765 	anl	a,#0xf0
-      00012B FC               [12]  766 	mov	r4,a
-      00012C 4B               [12]  767 	orl	a,r3
-      00012D FF               [12]  768 	mov	r7,a
-      00012E                        769 00122$:
-                                    770 ;	spi.c:53: for(int i = 0; i < 2; i++){
-      00012E 0D               [12]  771 	inc	r5
-      00012F BD 00 01         [24]  772 	cjne	r5,#0x00,00198$
-      000132 0E               [12]  773 	inc	r6
-      000133                        774 00198$:
-      000133 02r00r73         [24]  775 	ljmp	00125$
-      000136                        776 00123$:
-                                    777 ;	spi.c:80: printf_tiny("\n\r");
-      000136 C0 07            [24]  778 	push	ar7
-      000138 74r09            [12]  779 	mov	a,#___str_2
-      00013A C0 E0            [24]  780 	push	acc
-      00013C 74s00            [12]  781 	mov	a,#(___str_2 >> 8)
-      00013E C0 E0            [24]  782 	push	acc
-      000140 12r00r00         [24]  783 	lcall	_printf_tiny
-      000143 15 81            [12]  784 	dec	sp
-      000145 15 81            [12]  785 	dec	sp
-      000147 D0 07            [24]  786 	pop	ar7
-                                    787 ;	spi.c:81: return value;
-      000149 8F 82            [24]  788 	mov	dpl,r7
-                                    789 ;	spi.c:82: }
-      00014B 22               [24]  790 	ret
-                                    791 	.area CSEG    (CODE)
-                                    792 	.area CONST   (CODE)
-                                    793 	.area CONST   (CODE)
-      000000                        794 ___str_0:
-      000000 44 41 43               795 	.ascii "DAC"
-      000003 0A                     796 	.db 0x0a
-      000004 0D                     797 	.db 0x0d
-      000005 00                     798 	.db 0x00
-                                    799 	.area CSEG    (CODE)
-                                    800 	.area CONST   (CODE)
-      000006                        801 ___str_1:
-      000006 30 78                  802 	.ascii "0x"
-      000008 00                     803 	.db 0x00
-                                    804 	.area CSEG    (CODE)
-                                    805 	.area CONST   (CODE)
-      000009                        806 ___str_2:
-      000009 0A                     807 	.db 0x0a
-      00000A 0D                     808 	.db 0x0d
-      00000B 00                     809 	.db 0x00
-                                    810 	.area CSEG    (CODE)
-                                    811 	.area CONST   (CODE)
-      00000C                        812 ___str_3:
-      00000C 2D 2D 3E 49 6E 76 61   813 	.ascii "-->Invalid input"
+      000025                        540 _spi_wave_generator:
+                                    541 ;	spi.c:33: while (t) {
+      000025 7C E8            [12]  542 	mov	r4,#0xe8
+      000027 7D 03            [12]  543 	mov	r5,#0x03
+      000029 7E 00            [12]  544 	mov	r6,#0x00
+      00002B 7F 00            [12]  545 	mov	r7,#0x00
+      00002D                        546 00103$:
+      00002D EC               [12]  547 	mov	a,r4
+      00002E 4D               [12]  548 	orl	a,r5
+      00002F 4E               [12]  549 	orl	a,r6
+      000030 4F               [12]  550 	orl	a,r7
+      000031 60 73            [24]  551 	jz	00112$
+                                    552 ;	spi.c:35: for (uint16_t i = 0; i <= 255; i++) {
+      000033 7A 00            [12]  553 	mov	r2,#0x00
+      000035 7B 00            [12]  554 	mov	r3,#0x00
+      000037                        555 00107$:
+      000037 8A 00            [24]  556 	mov	ar0,r2
+      000039 8B 01            [24]  557 	mov	ar1,r3
+      00003B C3               [12]  558 	clr	c
+      00003C 74 FF            [12]  559 	mov	a,#0xff
+      00003E 98               [12]  560 	subb	a,r0
+      00003F E4               [12]  561 	clr	a
+      000040 99               [12]  562 	subb	a,r1
+      000041 40 24            [24]  563 	jc	00101$
+                                    564 ;	spi.c:36: spi_single_value(i);
+      000043 8A 82            [24]  565 	mov	dpl,r2
+      000045 C0 07            [24]  566 	push	ar7
+      000047 C0 06            [24]  567 	push	ar6
+      000049 C0 05            [24]  568 	push	ar5
+      00004B C0 04            [24]  569 	push	ar4
+      00004D C0 03            [24]  570 	push	ar3
+      00004F C0 02            [24]  571 	push	ar2
+      000051 12r00rA7         [24]  572 	lcall	_spi_single_value
+      000054 D0 02            [24]  573 	pop	ar2
+      000056 D0 03            [24]  574 	pop	ar3
+      000058 D0 04            [24]  575 	pop	ar4
+      00005A D0 05            [24]  576 	pop	ar5
+      00005C D0 06            [24]  577 	pop	ar6
+      00005E D0 07            [24]  578 	pop	ar7
+                                    579 ;	spi.c:35: for (uint16_t i = 0; i <= 255; i++) {
+      000060 0A               [12]  580 	inc	r2
+      000061 BA 00 D3         [24]  581 	cjne	r2,#0x00,00107$
+      000064 0B               [12]  582 	inc	r3
+      000065 80 D0            [24]  583 	sjmp	00107$
+      000067                        584 00101$:
+                                    585 ;	spi.c:40: for (int16_t j = 255; j >= 0 ; j--) {
+      000067 7A FF            [12]  586 	mov	r2,#0xff
+      000069 7B 00            [12]  587 	mov	r3,#0x00
+      00006B                        588 00110$:
+      00006B 8A 00            [24]  589 	mov	ar0,r2
+      00006D 8B 01            [24]  590 	mov	ar1,r3
+      00006F E9               [12]  591 	mov	a,r1
+      000070 20 E7 24         [24]  592 	jb	acc.7,00102$
+                                    593 ;	spi.c:41: spi_single_value(j);
+      000073 8A 82            [24]  594 	mov	dpl,r2
+      000075 C0 07            [24]  595 	push	ar7
+      000077 C0 06            [24]  596 	push	ar6
+      000079 C0 05            [24]  597 	push	ar5
+      00007B C0 04            [24]  598 	push	ar4
+      00007D C0 03            [24]  599 	push	ar3
+      00007F C0 02            [24]  600 	push	ar2
+      000081 12r00rA7         [24]  601 	lcall	_spi_single_value
+      000084 D0 02            [24]  602 	pop	ar2
+      000086 D0 03            [24]  603 	pop	ar3
+      000088 D0 04            [24]  604 	pop	ar4
+      00008A D0 05            [24]  605 	pop	ar5
+      00008C D0 06            [24]  606 	pop	ar6
+      00008E D0 07            [24]  607 	pop	ar7
+                                    608 ;	spi.c:40: for (int16_t j = 255; j >= 0 ; j--) {
+      000090 1A               [12]  609 	dec	r2
+      000091 BA FF 01         [24]  610 	cjne	r2,#0xff,00145$
+      000094 1B               [12]  611 	dec	r3
+      000095                        612 00145$:
+      000095 80 D4            [24]  613 	sjmp	00110$
+      000097                        614 00102$:
+                                    615 ;	spi.c:43: t--; // Decrement the repetition counter
+      000097 1C               [12]  616 	dec	r4
+      000098 BC FF 09         [24]  617 	cjne	r4,#0xff,00146$
+      00009B 1D               [12]  618 	dec	r5
+      00009C BD FF 05         [24]  619 	cjne	r5,#0xff,00146$
+      00009F 1E               [12]  620 	dec	r6
+      0000A0 BE FF 01         [24]  621 	cjne	r6,#0xff,00146$
+      0000A3 1F               [12]  622 	dec	r7
+      0000A4                        623 00146$:
+      0000A4 80 87            [24]  624 	sjmp	00103$
+      0000A6                        625 00112$:
+                                    626 ;	spi.c:45: }
+      0000A6 22               [24]  627 	ret
+                                    628 ;------------------------------------------------------------
+                                    629 ;Allocation info for local variables in function 'spi_single_value'
+                                    630 ;------------------------------------------------------------
+                                    631 ;level                     Allocated to registers r7 
+                                    632 ;cmd_data                  Allocated with name '_spi_single_value_cmd_data_65536_27'
+                                    633 ;c                         Allocated to registers 
+                                    634 ;------------------------------------------------------------
+                                    635 ;	spi.c:56: void spi_single_value(uint8_t level) {
+                                    636 ;	-----------------------------------------
+                                    637 ;	 function spi_single_value
+                                    638 ;	-----------------------------------------
+      0000A7                        639 _spi_single_value:
+      0000A7 AF 82            [24]  640 	mov	r7,dpl
+                                    641 ;	spi.c:57: uint16_t cmd_data =  level;
+      0000A9 7E 00            [12]  642 	mov	r6,#0x00
+      0000AB 8F*00            [24]  643 	mov	_spi_single_value_cmd_data_65536_27,r7
+                                    644 ;	spi.c:58: cmd_data = (cmd_data << 4) | 0x1000;
+      0000AD EE               [12]  645 	mov	a,r6
+      0000AE F5*01            [12]  646 	mov	(_spi_single_value_cmd_data_65536_27 + 1),a
+      0000B0 C4               [12]  647 	swap	a
+      0000B1 54 F0            [12]  648 	anl	a,#0xf0
+      0000B3 CF               [12]  649 	xch	a,r7
+      0000B4 C4               [12]  650 	swap	a
+      0000B5 CF               [12]  651 	xch	a,r7
+      0000B6 6F               [12]  652 	xrl	a,r7
+      0000B7 CF               [12]  653 	xch	a,r7
+      0000B8 54 F0            [12]  654 	anl	a,#0xf0
+      0000BA CF               [12]  655 	xch	a,r7
+      0000BB 6F               [12]  656 	xrl	a,r7
+      0000BC FE               [12]  657 	mov	r6,a
+      0000BD 43 06 10         [24]  658 	orl	ar6,#0x10
+      0000C0 8F*00            [24]  659 	mov	_spi_single_value_cmd_data_65536_27,r7
+      0000C2 8E*01            [24]  660 	mov	(_spi_single_value_cmd_data_65536_27 + 1),r6
+                                    661 ;	spi.c:59: uint8_t * c = &cmd_data;
+                                    662 ;	spi.c:60: CS = 0;          // Select the SPI device (assert CS low)
+                                    663 ;	assignBit
+      0000C4 C2 94            [12]  664 	clr	_P1_4
+                                    665 ;	spi.c:61: SPDAT = c[1];    // Send Instruction to SPI
+      0000C6 90r00r01         [24]  666 	mov	dptr,#(_spi_single_value_cmd_data_65536_27 + 0x0001)
+      0000C9 75 F0 40         [24]  667 	mov	b,#0x40
+      0000CC 12r00r00         [24]  668 	lcall	__gptrget
+      0000CF F5 C5            [12]  669 	mov	_SPDAT,a
+                                    670 ;	spi.c:62: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
+      0000D1                        671 00101$:
+      0000D1 E5 C4            [12]  672 	mov	a,_SPSTA
+      0000D3 30 E7 FB         [24]  673 	jnb	acc.7,00101$
+                                    674 ;	spi.c:63: SPDAT = c[0];    // Send data to SPI
+      0000D6 85*00 C5         [24]  675 	mov	_SPDAT,_spi_single_value_cmd_data_65536_27
+                                    676 ;	spi.c:64: while (!(SPSTA & SPIF)) ; // Wait for SPI transmission to complete
+      0000D9                        677 00104$:
+      0000D9 E5 C4            [12]  678 	mov	a,_SPSTA
+      0000DB 30 E7 FB         [24]  679 	jnb	acc.7,00104$
+                                    680 ;	spi.c:65: CS = 1;          // Deselect the SPI device (assert CS high)
+                                    681 ;	assignBit
+      0000DE D2 94            [12]  682 	setb	_P1_4
+                                    683 ;	spi.c:66: }
+      0000E0 22               [24]  684 	ret
+                                    685 ;------------------------------------------------------------
+                                    686 ;Allocation info for local variables in function 'get_hex_value'
+                                    687 ;------------------------------------------------------------
+                                    688 ;value                     Allocated to registers r7 
+                                    689 ;i                         Allocated to registers r5 r6 
+                                    690 ;char_received             Allocated to registers r3 
+                                    691 ;------------------------------------------------------------
+                                    692 ;	spi.c:73: uint8_t get_hex_value(){
+                                    693 ;	-----------------------------------------
+                                    694 ;	 function get_hex_value
+                                    695 ;	-----------------------------------------
+      0000E1                        696 _get_hex_value:
+                                    697 ;	spi.c:74: uint8_t value = 0;
+      0000E1 7F 00            [12]  698 	mov	r7,#0x00
+                                    699 ;	spi.c:75: for(int i = 0; i < 2; i++){
+      0000E3 7D 00            [12]  700 	mov	r5,#0x00
+      0000E5 7E 00            [12]  701 	mov	r6,#0x00
+      0000E7                        702 00125$:
+      0000E7 C3               [12]  703 	clr	c
+      0000E8 ED               [12]  704 	mov	a,r5
+      0000E9 94 02            [12]  705 	subb	a,#0x02
+      0000EB EE               [12]  706 	mov	a,r6
+      0000EC 64 80            [12]  707 	xrl	a,#0x80
+      0000EE 94 80            [12]  708 	subb	a,#0x80
+      0000F0 40 03            [24]  709 	jc	00183$
+      0000F2 02r01rAA         [24]  710 	ljmp	00123$
+      0000F5                        711 00183$:
+                                    712 ;	spi.c:76: if(i == 0) printf_tiny("0x");
+      0000F5 ED               [12]  713 	mov	a,r5
+      0000F6 4E               [12]  714 	orl	a,r6
+      0000F7 70 1B            [24]  715 	jnz	00102$
+      0000F9 C0 07            [24]  716 	push	ar7
+      0000FB C0 06            [24]  717 	push	ar6
+      0000FD C0 05            [24]  718 	push	ar5
+      0000FF 74r06            [12]  719 	mov	a,#___str_1
+      000101 C0 E0            [24]  720 	push	acc
+      000103 74s00            [12]  721 	mov	a,#(___str_1 >> 8)
+      000105 C0 E0            [24]  722 	push	acc
+      000107 12r00r00         [24]  723 	lcall	_printf_tiny
+      00010A 15 81            [12]  724 	dec	sp
+      00010C 15 81            [12]  725 	dec	sp
+      00010E D0 05            [24]  726 	pop	ar5
+      000110 D0 06            [24]  727 	pop	ar6
+      000112 D0 07            [24]  728 	pop	ar7
+      000114                        729 00102$:
+                                    730 ;	spi.c:77: uint8_t char_received = echo(); // Read a character from UART
+      000114 C0 07            [24]  731 	push	ar7
+      000116 C0 06            [24]  732 	push	ar6
+      000118 C0 05            [24]  733 	push	ar5
+      00011A 12r00r00         [24]  734 	lcall	_echo
+      00011D AC 82            [24]  735 	mov	r4,dpl
+      00011F D0 05            [24]  736 	pop	ar5
+      000121 D0 06            [24]  737 	pop	ar6
+      000123 D0 07            [24]  738 	pop	ar7
+                                    739 ;	spi.c:78: if((char_received >= '0') && (char_received <= '9')){
+      000125 BC 30 00         [24]  740 	cjne	r4,#0x30,00185$
+      000128                        741 00185$:
+      000128 40 0D            [24]  742 	jc	00116$
+      00012A EC               [12]  743 	mov	a,r4
+      00012B 24 C6            [12]  744 	add	a,#0xff - 0x39
+      00012D 40 08            [24]  745 	jc	00116$
+                                    746 ;	spi.c:79: char_received = char_received - '0'; // Convert ASCII character to its
+      00012F 8C 03            [24]  747 	mov	ar3,r4
+      000131 EB               [12]  748 	mov	a,r3
+      000132 24 D0            [12]  749 	add	a,#0xd0
+      000134 FB               [12]  750 	mov	r3,a
+      000135 80 59            [24]  751 	sjmp	00117$
+      000137                        752 00116$:
+                                    753 ;	spi.c:81: }else if((char_received >= 'A') && (char_received <= 'F')){
+      000137 BC 41 00         [24]  754 	cjne	r4,#0x41,00188$
+      00013A                        755 00188$:
+      00013A 40 0D            [24]  756 	jc	00112$
+      00013C EC               [12]  757 	mov	a,r4
+      00013D 24 B9            [12]  758 	add	a,#0xff - 0x46
+      00013F 40 08            [24]  759 	jc	00112$
+                                    760 ;	spi.c:82: char_received = char_received - 'A' + 10; // Convert ASCII character to its
+      000141 8C 02            [24]  761 	mov	ar2,r4
+      000143 74 C9            [12]  762 	mov	a,#0xc9
+      000145 2A               [12]  763 	add	a,r2
+      000146 FB               [12]  764 	mov	r3,a
+      000147 80 47            [24]  765 	sjmp	00117$
+      000149                        766 00112$:
+                                    767 ;	spi.c:84: }else if((char_received >= 'a') && (char_received <= 'f')){
+      000149 BC 61 00         [24]  768 	cjne	r4,#0x61,00191$
+      00014C                        769 00191$:
+      00014C 40 0D            [24]  770 	jc	00108$
+      00014E EC               [12]  771 	mov	a,r4
+      00014F 24 99            [12]  772 	add	a,#0xff - 0x66
+      000151 40 08            [24]  773 	jc	00108$
+                                    774 ;	spi.c:85: char_received = char_received - 'a' + 10; // Convert ASCII character to its
+      000153 8C 02            [24]  775 	mov	ar2,r4
+      000155 74 A9            [12]  776 	mov	a,#0xa9
+      000157 2A               [12]  777 	add	a,r2
+      000158 FB               [12]  778 	mov	r3,a
+      000159 80 35            [24]  779 	sjmp	00117$
+      00015B                        780 00108$:
+                                    781 ;	spi.c:87: }else if((char_received == '\n') || (char_received == '\r')){
+      00015B BC 0A 02         [24]  782 	cjne	r4,#0x0a,00194$
+      00015E 80 03            [24]  783 	sjmp	00103$
+      000160                        784 00194$:
+      000160 BC 0D 16         [24]  785 	cjne	r4,#0x0d,00104$
+      000163                        786 00103$:
+                                    787 ;	spi.c:88: printf_tiny("\n\r");
+      000163 C0 07            [24]  788 	push	ar7
+      000165 74r09            [12]  789 	mov	a,#___str_2
+      000167 C0 E0            [24]  790 	push	acc
+      000169 74s00            [12]  791 	mov	a,#(___str_2 >> 8)
+      00016B C0 E0            [24]  792 	push	acc
+      00016D 12r00r00         [24]  793 	lcall	_printf_tiny
+      000170 15 81            [12]  794 	dec	sp
+      000172 15 81            [12]  795 	dec	sp
+      000174 D0 07            [24]  796 	pop	ar7
+                                    797 ;	spi.c:89: return value;
+      000176 8F 82            [24]  798 	mov	dpl,r7
+      000178 22               [24]  799 	ret
+      000179                        800 00104$:
+                                    801 ;	spi.c:91: printf_tiny("-->Invalid input\n\r");
+      000179 74r0C            [12]  802 	mov	a,#___str_3
+      00017B C0 E0            [24]  803 	push	acc
+      00017D 74s00            [12]  804 	mov	a,#(___str_3 >> 8)
+      00017F C0 E0            [24]  805 	push	acc
+      000181 12r00r00         [24]  806 	lcall	_printf_tiny
+      000184 15 81            [12]  807 	dec	sp
+      000186 15 81            [12]  808 	dec	sp
+                                    809 ;	spi.c:92: i = -1;
+      000188 7D FF            [12]  810 	mov	r5,#0xff
+      00018A 7E FF            [12]  811 	mov	r6,#0xff
+                                    812 ;	spi.c:93: value = 0;
+      00018C 7F 00            [12]  813 	mov	r7,#0x00
+                                    814 ;	spi.c:94: continue;
+      00018E 80 12            [24]  815 	sjmp	00122$
+      000190                        816 00117$:
+                                    817 ;	spi.c:96: if(i == 0){
+      000190 ED               [12]  818 	mov	a,r5
+      000191 4E               [12]  819 	orl	a,r6
+      000192 70 05            [24]  820 	jnz	00120$
+                                    821 ;	spi.c:97: value |= char_received;
+      000194 EB               [12]  822 	mov	a,r3
+      000195 42 07            [12]  823 	orl	ar7,a
+      000197 80 09            [24]  824 	sjmp	00122$
+      000199                        825 00120$:
+                                    826 ;	spi.c:99: value = (value << 4) | char_received;
+      000199 8F 04            [24]  827 	mov	ar4,r7
+      00019B EC               [12]  828 	mov	a,r4
+      00019C C4               [12]  829 	swap	a
+      00019D 54 F0            [12]  830 	anl	a,#0xf0
+      00019F FC               [12]  831 	mov	r4,a
+      0001A0 4B               [12]  832 	orl	a,r3
+      0001A1 FF               [12]  833 	mov	r7,a
+      0001A2                        834 00122$:
+                                    835 ;	spi.c:75: for(int i = 0; i < 2; i++){
+      0001A2 0D               [12]  836 	inc	r5
+      0001A3 BD 00 01         [24]  837 	cjne	r5,#0x00,00198$
+      0001A6 0E               [12]  838 	inc	r6
+      0001A7                        839 00198$:
+      0001A7 02r00rE7         [24]  840 	ljmp	00125$
+      0001AA                        841 00123$:
+                                    842 ;	spi.c:102: printf_tiny("\n\r");
+      0001AA C0 07            [24]  843 	push	ar7
+      0001AC 74r09            [12]  844 	mov	a,#___str_2
+      0001AE C0 E0            [24]  845 	push	acc
+      0001B0 74s00            [12]  846 	mov	a,#(___str_2 >> 8)
+      0001B2 C0 E0            [24]  847 	push	acc
+      0001B4 12r00r00         [24]  848 	lcall	_printf_tiny
+      0001B7 15 81            [12]  849 	dec	sp
+      0001B9 15 81            [12]  850 	dec	sp
+      0001BB D0 07            [24]  851 	pop	ar7
+                                    852 ;	spi.c:103: return value;
+      0001BD 8F 82            [24]  853 	mov	dpl,r7
+                                    854 ;	spi.c:104: }
+      0001BF 22               [24]  855 	ret
+                                    856 	.area CSEG    (CODE)
+                                    857 	.area CONST   (CODE)
+                                    858 	.area CONST   (CODE)
+      000000                        859 ___str_0:
+      000000 44 41 43               860 	.ascii "DAC"
+      000003 0A                     861 	.db 0x0a
+      000004 0D                     862 	.db 0x0d
+      000005 00                     863 	.db 0x00
+                                    864 	.area CSEG    (CODE)
+                                    865 	.area CONST   (CODE)
+      000006                        866 ___str_1:
+      000006 30 78                  867 	.ascii "0x"
+      000008 00                     868 	.db 0x00
+                                    869 	.area CSEG    (CODE)
+                                    870 	.area CONST   (CODE)
+      000009                        871 ___str_2:
+      000009 0A                     872 	.db 0x0a
+      00000A 0D                     873 	.db 0x0d
+      00000B 00                     874 	.db 0x00
+                                    875 	.area CSEG    (CODE)
+                                    876 	.area CONST   (CODE)
+      00000C                        877 ___str_3:
+      00000C 2D 2D 3E 49 6E 76 61   878 	.ascii "-->Invalid input"
              6C 69 64 20 69 6E 70
              75 74
-      00001C 0A                     814 	.db 0x0a
-      00001D 0D                     815 	.db 0x0d
-      00001E 00                     816 	.db 0x00
-                                    817 	.area CSEG    (CODE)
-                                    818 	.area XINIT   (CODE)
-                                    819 	.area CABS    (ABS,CODE)
+      00001C 0A                     879 	.db 0x0a
+      00001D 0D                     880 	.db 0x0d
+      00001E 00                     881 	.db 0x00
+                                    882 	.area CSEG    (CODE)
+                                    883 	.area XINIT   (CODE)
+                                    884 	.area CABS    (ABS,CODE)

@@ -6,7 +6,7 @@
 	<stdint.h>
 	<at89c51ed2.h>
 
-1700252426 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\main.c
+1700262586 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\main.c
 	<at89c51ed2.h>
 	<mcs51/8051.h>
 	<mcs51reg.h>
@@ -15,8 +15,9 @@
 	"stdint.h"
 	"uart.h"
 	"spi.h"
+	"menu.h"
 
-1700257642 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\spi.h
+1700258085 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\spi.h
 	"stdint.h"
 
 1700256701 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\menu.c
@@ -25,7 +26,7 @@
 
 1699656272 c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\menu.h
 
-1700257790 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\spi.c
+1700259879 source:c:\users\jithe\onedrive\desktop\esd\code_blocks\lcd_interfacing\spi\spi.c
 	"spi.h"
 	<at89c51ed2.h>
 	"stdio.h"

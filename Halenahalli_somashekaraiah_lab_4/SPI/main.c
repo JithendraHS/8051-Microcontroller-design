@@ -40,7 +40,7 @@ void main(void)
 {
     uint16_t level = 0;
     spi_init(); // Initialize SPI communication
-
+    menu();
     while (1)
     {
         int8_t user_input = echo(); // Read user input from UART
