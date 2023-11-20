@@ -12,9 +12,19 @@
 				<Option object_output="obj/Release/" />
 				<Option type="5" />
 				<Option compiler="sdcc" />
+				<Option projectCompilerOptionsRelation="1" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Option projectIncludeDirsRelation="1" />
 				<Compiler>
+					<Add option="--out-fmt-ihx" />
 					<Add option="--opt-code-size" />
+					<Add option="--std-sdcc99" />
+					<Add option="--verbose" />
+					<Add directory="../SPI" />
 				</Compiler>
+				<Linker>
+					<Add option="--code-loc 0x5000 --code-size 0x7000 --xram-loc 0xF000 --xram-size  0xFBFF -D DEBUG=1" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -33,6 +43,18 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="menu.h" />
+		<Unit filename="spi.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="spi.h" />
+		<Unit filename="uart.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="uart.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
