@@ -1,0 +1,43 @@
+Name     LAB4 ;
+PartNo   00 ;
+Date     10/9/2023 ;
+Revision 01 ;
+Designer Jithendra H S ;
+Company  University of Colorado ;
+Assembly None ;
+Location  ;
+Device   g16v8a ;
+
+/* *************** INPUT PINS *********************/
+PIN 2 =  A15;            /* Allocating A15 to 2 */
+PIN 3 =  A14;            /* Allocating A14 to 3 */
+
+PIN 5 =  A13;            /* Allocating A13 to 5 */
+PIN 6 =  A12;            /* Allocating A12 to 6 */
+PIN 7 =  RD;            /* Allocating RD to 7 */
+PIN 8 =  PSEN;            /* Allocating PSEN to 8 */
+PIN 9 =  WR;            /* Allocating WR to 9 */
+
+PIN 19 =  A11;            /* Allocating A11 to 19 */
+PIN 18 =  A10;            /* Allocating A10 to 18 */
+
+/* *************** OUTPUT PINS *********************/
+PIN 12  =  WRITE;        /* Allocating WRITE to 12 */
+PIN 13  =  WE ;        /* Allocating WE to 13 */ 
+PIN 14  =  OE ;          /* Allocating OE to 14 */
+PIN 15  =  CE ;          /* Allocating CE to 15 */
+PIN 17  =  LCD_ENABLE ;          /* Allocating LCD_ENABLE to 17 */
+
+/*
+ * Logic:  
+ */
+WRITE = !(A15 # WR);  /* Enabling write to buffer by providing clock */
+CE = !(A10 # A11 #A12 # A13 #A14) # A15 ; /* Enable chip if any A10 to A14 address bits are high */
+WE = WR ;   /* Enabling write to NVRAM which depend on write from MCU */
+OE = RD ;   /* Enabling output enable of NVRAM which depend on read from MCU */
+LCD_ENABLE = (A10 & A11 & A12 & A13 & A14 & A15) & !(RD & WR); /* Enabling LCD when accessing address A15 to A10 is HIGH */
+
+
+
+
+
