@@ -49,6 +49,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="i2c_bit_bang.h" />
+		<Unit filename="ioexpander.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ioexpander.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
