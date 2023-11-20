@@ -518,8 +518,8 @@
                                     518 ; external ram data
                                     519 ;--------------------------------------------------------
                                     520 	.area XSEG    (XDATA)
-      000000                        521 _show_custom_character_a_65536_96:
-      000000                        522 	.ds 32
+      00FC00                        521 _show_custom_character_a_65536_96:
+      00FC00                        522 	.ds 32
                                     523 ;--------------------------------------------------------
                                     524 ; absolute external ram data
                                     525 ;--------------------------------------------------------
@@ -2022,105 +2022,105 @@
                                    2022 ;k                         Allocated to registers r7 
                                    2023 ;a                         Allocated with name '_show_custom_character_a_65536_96'
                                    2024 ;------------------------------------------------------------
-                                   2025 ;	lcd.c:506: void show_custom_character(){
+                                   2025 ;	lcd.c:514: void show_custom_character() {
                                    2026 ;	-----------------------------------------
                                    2027 ;	 function show_custom_character
                                    2028 ;	-----------------------------------------
       002891                       2029 _show_custom_character:
-                                   2030 ;	lcd.c:507: uint8_t address[4] = {0x4d, 0x1c, 0x1d, 0x1e};
+                                   2030 ;	lcd.c:516: uint8_t address[4] = {0x4d, 0x1c, 0x1d, 0x1e};
       002891 75 3C 4D         [24] 2031 	mov	_show_custom_character_address_65536_96,#0x4d
       002894 75 3D 1C         [24] 2032 	mov	(_show_custom_character_address_65536_96 + 0x0001),#0x1c
       002897 75 3E 1D         [24] 2033 	mov	(_show_custom_character_address_65536_96 + 0x0002),#0x1d
       00289A 75 3F 1E         [24] 2034 	mov	(_show_custom_character_address_65536_96 + 0x0003),#0x1e
-                                   2035 ;	lcd.c:508: uint8_t ccode[4] = {0x00, 0x01, 0x02, 0x03};
+                                   2035 ;	lcd.c:517: uint8_t ccode[4] = {0x00, 0x01, 0x02, 0x03};
       00289D 75 40 00         [24] 2036 	mov	_show_custom_character_ccode_65536_96,#0x00
       0028A0 75 41 01         [24] 2037 	mov	(_show_custom_character_ccode_65536_96 + 0x0001),#0x01
       0028A3 75 42 02         [24] 2038 	mov	(_show_custom_character_ccode_65536_96 + 0x0002),#0x02
       0028A6 75 43 03         [24] 2039 	mov	(_show_custom_character_ccode_65536_96 + 0x0003),#0x03
-                                   2040 ;	lcd.c:509: __xdata uint8_t a[4][8] = {{0x00, 0x02, 0x06,0x0C,0x18,0x0c,0x06,0x04},
-      0028A9 90 00 00         [24] 2041 	mov	dptr,#_show_custom_character_a_65536_96
+                                   2040 ;	lcd.c:520: __xdata uint8_t a[4][8] = {{0x00, 0x02, 0x06, 0x0C, 0x18, 0x0c, 0x06, 0x04},
+      0028A9 90 FC 00         [24] 2041 	mov	dptr,#_show_custom_character_a_65536_96
       0028AC E4               [12] 2042 	clr	a
       0028AD F0               [24] 2043 	movx	@dptr,a
-      0028AE 90 00 01         [24] 2044 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0001)
+      0028AE 90 FC 01         [24] 2044 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0001)
       0028B1 74 02            [12] 2045 	mov	a,#0x02
       0028B3 F0               [24] 2046 	movx	@dptr,a
-      0028B4 90 00 02         [24] 2047 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0002)
+      0028B4 90 FC 02         [24] 2047 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0002)
       0028B7 74 06            [12] 2048 	mov	a,#0x06
       0028B9 F0               [24] 2049 	movx	@dptr,a
-      0028BA 90 00 03         [24] 2050 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0003)
+      0028BA 90 FC 03         [24] 2050 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0003)
       0028BD 23               [12] 2051 	rl	a
       0028BE F0               [24] 2052 	movx	@dptr,a
-      0028BF 90 00 04         [24] 2053 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0004)
+      0028BF 90 FC 04         [24] 2053 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0004)
       0028C2 23               [12] 2054 	rl	a
       0028C3 F0               [24] 2055 	movx	@dptr,a
-      0028C4 90 00 05         [24] 2056 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0005)
+      0028C4 90 FC 05         [24] 2056 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0005)
       0028C7 03               [12] 2057 	rr	a
       0028C8 F0               [24] 2058 	movx	@dptr,a
-      0028C9 90 00 06         [24] 2059 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0006)
+      0028C9 90 FC 06         [24] 2059 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0006)
       0028CC 03               [12] 2060 	rr	a
       0028CD F0               [24] 2061 	movx	@dptr,a
-      0028CE 90 00 07         [24] 2062 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0007)
+      0028CE 90 FC 07         [24] 2062 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0007)
       0028D1 74 04            [12] 2063 	mov	a,#0x04
       0028D3 F0               [24] 2064 	movx	@dptr,a
-      0028D4 90 00 08         [24] 2065 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0008)
+      0028D4 90 FC 08         [24] 2065 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0008)
       0028D7 74 1F            [12] 2066 	mov	a,#0x1f
       0028D9 F0               [24] 2067 	movx	@dptr,a
-      0028DA 90 00 09         [24] 2068 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0009)
+      0028DA 90 FC 09         [24] 2068 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0009)
       0028DD F0               [24] 2069 	movx	@dptr,a
-      0028DE 90 00 0A         [24] 2070 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000a)
+      0028DE 90 FC 0A         [24] 2070 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000a)
       0028E1 74 0F            [12] 2071 	mov	a,#0x0f
       0028E3 F0               [24] 2072 	movx	@dptr,a
-      0028E4 90 00 0B         [24] 2073 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000b)
+      0028E4 90 FC 0B         [24] 2073 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000b)
       0028E7 F0               [24] 2074 	movx	@dptr,a
-      0028E8 90 00 0C         [24] 2075 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000c)
+      0028E8 90 FC 0C         [24] 2075 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000c)
       0028EB 74 07            [12] 2076 	mov	a,#0x07
       0028ED F0               [24] 2077 	movx	@dptr,a
-      0028EE 90 00 0D         [24] 2078 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000d)
+      0028EE 90 FC 0D         [24] 2078 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000d)
       0028F1 74 03            [12] 2079 	mov	a,#0x03
       0028F3 F0               [24] 2080 	movx	@dptr,a
-      0028F4 90 00 0E         [24] 2081 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000e)
+      0028F4 90 FC 0E         [24] 2081 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000e)
       0028F7 74 01            [12] 2082 	mov	a,#0x01
       0028F9 F0               [24] 2083 	movx	@dptr,a
-      0028FA 90 00 0F         [24] 2084 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000f)
+      0028FA 90 FC 0F         [24] 2084 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x000f)
       0028FD F0               [24] 2085 	movx	@dptr,a
-      0028FE 90 00 10         [24] 2086 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0010)
+      0028FE 90 FC 10         [24] 2086 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0010)
       002901 74 1F            [12] 2087 	mov	a,#0x1f
       002903 F0               [24] 2088 	movx	@dptr,a
-      002904 90 00 11         [24] 2089 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0011)
+      002904 90 FC 11         [24] 2089 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0011)
       002907 F0               [24] 2090 	movx	@dptr,a
-      002908 90 00 12         [24] 2091 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0012)
+      002908 90 FC 12         [24] 2091 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0012)
       00290B F0               [24] 2092 	movx	@dptr,a
-      00290C 90 00 13         [24] 2093 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0013)
+      00290C 90 FC 13         [24] 2093 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0013)
       00290F F0               [24] 2094 	movx	@dptr,a
-      002910 90 00 14         [24] 2095 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0014)
+      002910 90 FC 14         [24] 2095 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0014)
       002913 F0               [24] 2096 	movx	@dptr,a
-      002914 90 00 15         [24] 2097 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0015)
+      002914 90 FC 15         [24] 2097 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0015)
       002917 F0               [24] 2098 	movx	@dptr,a
-      002918 90 00 16         [24] 2099 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0016)
+      002918 90 FC 16         [24] 2099 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0016)
       00291B F0               [24] 2100 	movx	@dptr,a
-      00291C 90 00 17         [24] 2101 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0017)
+      00291C 90 FC 17         [24] 2101 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0017)
       00291F F0               [24] 2102 	movx	@dptr,a
-      002920 90 00 18         [24] 2103 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0018)
+      002920 90 FC 18         [24] 2103 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0018)
       002923 F0               [24] 2104 	movx	@dptr,a
-      002924 90 00 19         [24] 2105 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0019)
+      002924 90 FC 19         [24] 2105 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x0019)
       002927 F0               [24] 2106 	movx	@dptr,a
-      002928 90 00 1A         [24] 2107 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001a)
+      002928 90 FC 1A         [24] 2107 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001a)
       00292B 14               [12] 2108 	dec	a
       00292C F0               [24] 2109 	movx	@dptr,a
-      00292D 90 00 1B         [24] 2110 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001b)
+      00292D 90 FC 1B         [24] 2110 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001b)
       002930 F0               [24] 2111 	movx	@dptr,a
-      002931 90 00 1C         [24] 2112 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001c)
+      002931 90 FC 1C         [24] 2112 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001c)
       002934 74 1C            [12] 2113 	mov	a,#0x1c
       002936 F0               [24] 2114 	movx	@dptr,a
-      002937 90 00 1D         [24] 2115 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001d)
+      002937 90 FC 1D         [24] 2115 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001d)
       00293A 74 18            [12] 2116 	mov	a,#0x18
       00293C F0               [24] 2117 	movx	@dptr,a
-      00293D 90 00 1E         [24] 2118 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001e)
+      00293D 90 FC 1E         [24] 2118 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001e)
       002940 74 10            [12] 2119 	mov	a,#0x10
       002942 F0               [24] 2120 	movx	@dptr,a
-      002943 90 00 1F         [24] 2121 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001f)
+      002943 90 FC 1F         [24] 2121 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001f)
       002946 F0               [24] 2122 	movx	@dptr,a
-                                   2123 ;	lcd.c:513: uint8_t char_array[8] = {0};
+                                   2123 ;	lcd.c:526: uint8_t char_array[8] = {0};
       002947 75 44 00         [24] 2124 	mov	_show_custom_character_char_array_65536_96,#0x00
       00294A 75 45 00         [24] 2125 	mov	(_show_custom_character_char_array_65536_96 + 0x0001),#0x00
       00294D 75 46 00         [24] 2126 	mov	(_show_custom_character_char_array_65536_96 + 0x0002),#0x00
@@ -2129,13 +2129,13 @@
       002956 75 49 00         [24] 2129 	mov	(_show_custom_character_char_array_65536_96 + 0x0005),#0x00
       002959 75 4A 00         [24] 2130 	mov	(_show_custom_character_char_array_65536_96 + 0x0006),#0x00
       00295C 75 4B 00         [24] 2131 	mov	(_show_custom_character_char_array_65536_96 + 0x0007),#0x00
-                                   2132 ;	lcd.c:514: for(uint8_t j = 0; j< 4; j++){
+                                   2132 ;	lcd.c:529: for (uint8_t j = 0; j < 4; j++) {
       00295F 7F 00            [12] 2133 	mov	r7,#0x00
       002961                       2134 00108$:
       002961 BF 04 00         [24] 2135 	cjne	r7,#0x04,00142$
       002964                       2136 00142$:
       002964 50 57            [24] 2137 	jnc	00102$
-                                   2138 ;	lcd.c:516: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+                                   2138 ;	lcd.c:531: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
       002966 EF               [12] 2139 	mov	a,r7
       002967 24 40            [12] 2140 	add	a,#_show_custom_character_ccode_65536_96
       002969 F9               [12] 2141 	mov	r1,a
@@ -2144,7 +2144,7 @@
       00296E A4               [48] 2144 	mul	ab
       00296F 24 00            [12] 2145 	add	a,#_show_custom_character_a_65536_96
       002971 FD               [12] 2146 	mov	r5,a
-      002972 74 00            [12] 2147 	mov	a,#(_show_custom_character_a_65536_96 >> 8)
+      002972 74 FC            [12] 2147 	mov	a,#(_show_custom_character_a_65536_96 >> 8)
       002974 35 F0            [12] 2148 	addc	a,b
       002976 FE               [12] 2149 	mov	r6,a
       002977 7C 00            [12] 2150 	mov	r4,#0x00
@@ -2152,7 +2152,7 @@
       002979 BC 08 00         [24] 2152 	cjne	r4,#0x08,00144$
       00297C                       2153 00144$:
       00297C 50 3C            [24] 2154 	jnc	00109$
-                                   2155 ;	lcd.c:519: uint8_t cgram_address = 0b01000000 | (ccode[j] << 3) | i;
+                                   2155 ;	lcd.c:533: uint8_t cgram_address = 0b01000000 | (ccode[j] << 3) | i;
       00297E E7               [12] 2156 	mov	a,@r1
       00297F C4               [12] 2157 	swap	a
       002980 03               [12] 2158 	rr	a
@@ -2162,7 +2162,7 @@
       002986 4B               [12] 2162 	orl	a,r3
       002987 4C               [12] 2163 	orl	a,r4
       002988 FB               [12] 2164 	mov	r3,a
-                                   2165 ;	lcd.c:522: char_array[i] = a[j][i] & 0b00011111;
+                                   2165 ;	lcd.c:536: char_array[i] = a[j][i] & 0b00011111;
       002989 EC               [12] 2166 	mov	a,r4
       00298A 24 44            [12] 2167 	add	a,#_show_custom_character_char_array_65536_96
       00298C F8               [12] 2168 	mov	r0,a
@@ -2176,7 +2176,7 @@
       002996 FA               [12] 2176 	mov	r2,a
       002997 53 02 1F         [24] 2177 	anl	ar2,#0x1f
       00299A A6 02            [24] 2178 	mov	@r0,ar2
-                                   2179 ;	lcd.c:524: lcdcreatechar(cgram_address, char_array[i]);
+                                   2179 ;	lcd.c:539: lcdcreatechar(cgram_address, char_array[i]);
       00299C 8A 31            [24] 2180 	mov	_lcdcreatechar_PARM_2,r2
       00299E 8B 82            [24] 2181 	mov	dpl,r3
       0029A0 C0 07            [24] 2182 	push	ar7
@@ -2190,21 +2190,21 @@
       0029B1 D0 05            [24] 2190 	pop	ar5
       0029B3 D0 06            [24] 2191 	pop	ar6
       0029B5 D0 07            [24] 2192 	pop	ar7
-                                   2193 ;	lcd.c:516: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+                                   2193 ;	lcd.c:531: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
       0029B7 0C               [12] 2194 	inc	r4
       0029B8 80 BF            [24] 2195 	sjmp	00105$
       0029BA                       2196 00109$:
-                                   2197 ;	lcd.c:514: for(uint8_t j = 0; j< 4; j++){
+                                   2197 ;	lcd.c:529: for (uint8_t j = 0; j < 4; j++) {
       0029BA 0F               [12] 2198 	inc	r7
       0029BB 80 A4            [24] 2199 	sjmp	00108$
       0029BD                       2200 00102$:
-                                   2201 ;	lcd.c:528: for(uint8_t k = 0; k < 4; k++){
+                                   2201 ;	lcd.c:544: for (uint8_t k = 0; k < 4; k++) {
       0029BD 7F 00            [12] 2202 	mov	r7,#0x00
       0029BF                       2203 00111$:
       0029BF BF 04 00         [24] 2204 	cjne	r7,#0x04,00146$
       0029C2                       2205 00146$:
       0029C2 50 1D            [24] 2206 	jnc	00113$
-                                   2207 ;	lcd.c:530: lcdgotoaddr(address[k]);
+                                   2207 ;	lcd.c:545: lcdgotoaddr(address[k]);
       0029C4 EF               [12] 2208 	mov	a,r7
       0029C5 24 3C            [12] 2209 	add	a,#_show_custom_character_address_65536_96
       0029C7 F9               [12] 2210 	mov	r1,a
@@ -2212,7 +2212,7 @@
       0029CA C0 07            [24] 2212 	push	ar7
       0029CC 12 21 0D         [24] 2213 	lcall	_lcdgotoaddr
       0029CF D0 07            [24] 2214 	pop	ar7
-                                   2215 ;	lcd.c:531: lcdputch(ccode[k]);
+                                   2215 ;	lcd.c:546: lcdputch(ccode[k]);
       0029D1 EF               [12] 2216 	mov	a,r7
       0029D2 24 40            [12] 2217 	add	a,#_show_custom_character_ccode_65536_96
       0029D4 F9               [12] 2218 	mov	r1,a
@@ -2220,11 +2220,11 @@
       0029D7 C0 07            [24] 2220 	push	ar7
       0029D9 12 21 6D         [24] 2221 	lcall	_lcdputch
       0029DC D0 07            [24] 2222 	pop	ar7
-                                   2223 ;	lcd.c:528: for(uint8_t k = 0; k < 4; k++){
+                                   2223 ;	lcd.c:544: for (uint8_t k = 0; k < 4; k++) {
       0029DE 0F               [12] 2224 	inc	r7
       0029DF 80 DE            [24] 2225 	sjmp	00111$
       0029E1                       2226 00113$:
-                                   2227 ;	lcd.c:533: }
+                                   2227 ;	lcd.c:548: }
       0029E1 22               [24] 2228 	ret
                                    2229 	.area CSEG    (CODE)
                                    2230 	.area CONST   (CODE)

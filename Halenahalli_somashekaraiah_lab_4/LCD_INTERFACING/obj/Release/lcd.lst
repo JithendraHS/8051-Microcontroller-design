@@ -2022,22 +2022,22 @@
                                    2022 ;k                         Allocated to registers r7 
                                    2023 ;a                         Allocated with name '_show_custom_character_a_65536_96'
                                    2024 ;------------------------------------------------------------
-                                   2025 ;	lcd.c:506: void show_custom_character(){
+                                   2025 ;	lcd.c:514: void show_custom_character() {
                                    2026 ;	-----------------------------------------
                                    2027 ;	 function show_custom_character
                                    2028 ;	-----------------------------------------
       0007A9                       2029 _show_custom_character:
-                                   2030 ;	lcd.c:507: uint8_t address[4] = {0x4d, 0x1c, 0x1d, 0x1e};
+                                   2030 ;	lcd.c:516: uint8_t address[4] = {0x4d, 0x1c, 0x1d, 0x1e};
       0007A9 75*1A 4D         [24] 2031 	mov	_show_custom_character_address_65536_96,#0x4d
       0007AC 75*1B 1C         [24] 2032 	mov	(_show_custom_character_address_65536_96 + 0x0001),#0x1c
       0007AF 75*1C 1D         [24] 2033 	mov	(_show_custom_character_address_65536_96 + 0x0002),#0x1d
       0007B2 75*1D 1E         [24] 2034 	mov	(_show_custom_character_address_65536_96 + 0x0003),#0x1e
-                                   2035 ;	lcd.c:508: uint8_t ccode[4] = {0x00, 0x01, 0x02, 0x03};
+                                   2035 ;	lcd.c:517: uint8_t ccode[4] = {0x00, 0x01, 0x02, 0x03};
       0007B5 75*1E 00         [24] 2036 	mov	_show_custom_character_ccode_65536_96,#0x00
       0007B8 75*1F 01         [24] 2037 	mov	(_show_custom_character_ccode_65536_96 + 0x0001),#0x01
       0007BB 75*20 02         [24] 2038 	mov	(_show_custom_character_ccode_65536_96 + 0x0002),#0x02
       0007BE 75*21 03         [24] 2039 	mov	(_show_custom_character_ccode_65536_96 + 0x0003),#0x03
-                                   2040 ;	lcd.c:509: __xdata uint8_t a[4][8] = {{0x00, 0x02, 0x06,0x0C,0x18,0x0c,0x06,0x04},
+                                   2040 ;	lcd.c:520: __xdata uint8_t a[4][8] = {{0x00, 0x02, 0x06, 0x0C, 0x18, 0x0c, 0x06, 0x04},
       0007C1 90r00r00         [24] 2041 	mov	dptr,#_show_custom_character_a_65536_96
       0007C4 E4               [12] 2042 	clr	a
       0007C5 F0               [24] 2043 	movx	@dptr,a
@@ -2120,7 +2120,7 @@
       00085A F0               [24] 2120 	movx	@dptr,a
       00085B 90r00r1F         [24] 2121 	mov	dptr,#(_show_custom_character_a_65536_96 + 0x001f)
       00085E F0               [24] 2122 	movx	@dptr,a
-                                   2123 ;	lcd.c:513: uint8_t char_array[8] = {0};
+                                   2123 ;	lcd.c:526: uint8_t char_array[8] = {0};
       00085F 75*22 00         [24] 2124 	mov	_show_custom_character_char_array_65536_96,#0x00
       000862 75*23 00         [24] 2125 	mov	(_show_custom_character_char_array_65536_96 + 0x0001),#0x00
       000865 75*24 00         [24] 2126 	mov	(_show_custom_character_char_array_65536_96 + 0x0002),#0x00
@@ -2129,13 +2129,13 @@
       00086E 75*27 00         [24] 2129 	mov	(_show_custom_character_char_array_65536_96 + 0x0005),#0x00
       000871 75*28 00         [24] 2130 	mov	(_show_custom_character_char_array_65536_96 + 0x0006),#0x00
       000874 75*29 00         [24] 2131 	mov	(_show_custom_character_char_array_65536_96 + 0x0007),#0x00
-                                   2132 ;	lcd.c:514: for(uint8_t j = 0; j< 4; j++){
+                                   2132 ;	lcd.c:529: for (uint8_t j = 0; j < 4; j++) {
       000877 7F 00            [12] 2133 	mov	r7,#0x00
       000879                       2134 00108$:
       000879 BF 04 00         [24] 2135 	cjne	r7,#0x04,00142$
       00087C                       2136 00142$:
       00087C 50 57            [24] 2137 	jnc	00102$
-                                   2138 ;	lcd.c:516: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+                                   2138 ;	lcd.c:531: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
       00087E EF               [12] 2139 	mov	a,r7
       00087F 24r1E            [12] 2140 	add	a,#_show_custom_character_ccode_65536_96
       000881 F9               [12] 2141 	mov	r1,a
@@ -2152,7 +2152,7 @@
       000891 BC 08 00         [24] 2152 	cjne	r4,#0x08,00144$
       000894                       2153 00144$:
       000894 50 3C            [24] 2154 	jnc	00109$
-                                   2155 ;	lcd.c:519: uint8_t cgram_address = 0b01000000 | (ccode[j] << 3) | i;
+                                   2155 ;	lcd.c:533: uint8_t cgram_address = 0b01000000 | (ccode[j] << 3) | i;
       000896 E7               [12] 2156 	mov	a,@r1
       000897 C4               [12] 2157 	swap	a
       000898 03               [12] 2158 	rr	a
@@ -2162,7 +2162,7 @@
       00089E 4B               [12] 2162 	orl	a,r3
       00089F 4C               [12] 2163 	orl	a,r4
       0008A0 FB               [12] 2164 	mov	r3,a
-                                   2165 ;	lcd.c:522: char_array[i] = a[j][i] & 0b00011111;
+                                   2165 ;	lcd.c:536: char_array[i] = a[j][i] & 0b00011111;
       0008A1 EC               [12] 2166 	mov	a,r4
       0008A2 24r22            [12] 2167 	add	a,#_show_custom_character_char_array_65536_96
       0008A4 F8               [12] 2168 	mov	r0,a
@@ -2176,7 +2176,7 @@
       0008AE FA               [12] 2176 	mov	r2,a
       0008AF 53 02 1F         [24] 2177 	anl	ar2,#0x1f
       0008B2 A6 02            [24] 2178 	mov	@r0,ar2
-                                   2179 ;	lcd.c:524: lcdcreatechar(cgram_address, char_array[i]);
+                                   2179 ;	lcd.c:539: lcdcreatechar(cgram_address, char_array[i]);
       0008B4 8A*0F            [24] 2180 	mov	_lcdcreatechar_PARM_2,r2
       0008B6 8B 82            [24] 2181 	mov	dpl,r3
       0008B8 C0 07            [24] 2182 	push	ar7
@@ -2190,21 +2190,21 @@
       0008C9 D0 05            [24] 2190 	pop	ar5
       0008CB D0 06            [24] 2191 	pop	ar6
       0008CD D0 07            [24] 2192 	pop	ar7
-                                   2193 ;	lcd.c:516: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
+                                   2193 ;	lcd.c:531: for (uint8_t i = 0; i < BYTE_LENGTH; i++) {
       0008CF 0C               [12] 2194 	inc	r4
       0008D0 80 BF            [24] 2195 	sjmp	00105$
       0008D2                       2196 00109$:
-                                   2197 ;	lcd.c:514: for(uint8_t j = 0; j< 4; j++){
+                                   2197 ;	lcd.c:529: for (uint8_t j = 0; j < 4; j++) {
       0008D2 0F               [12] 2198 	inc	r7
       0008D3 80 A4            [24] 2199 	sjmp	00108$
       0008D5                       2200 00102$:
-                                   2201 ;	lcd.c:528: for(uint8_t k = 0; k < 4; k++){
+                                   2201 ;	lcd.c:544: for (uint8_t k = 0; k < 4; k++) {
       0008D5 7F 00            [12] 2202 	mov	r7,#0x00
       0008D7                       2203 00111$:
       0008D7 BF 04 00         [24] 2204 	cjne	r7,#0x04,00146$
       0008DA                       2205 00146$:
       0008DA 50 1D            [24] 2206 	jnc	00113$
-                                   2207 ;	lcd.c:530: lcdgotoaddr(address[k]);
+                                   2207 ;	lcd.c:545: lcdgotoaddr(address[k]);
       0008DC EF               [12] 2208 	mov	a,r7
       0008DD 24r1A            [12] 2209 	add	a,#_show_custom_character_address_65536_96
       0008DF F9               [12] 2210 	mov	r1,a
@@ -2212,7 +2212,7 @@
       0008E2 C0 07            [24] 2212 	push	ar7
       0008E4 12r00r25         [24] 2213 	lcall	_lcdgotoaddr
       0008E7 D0 07            [24] 2214 	pop	ar7
-                                   2215 ;	lcd.c:531: lcdputch(ccode[k]);
+                                   2215 ;	lcd.c:546: lcdputch(ccode[k]);
       0008E9 EF               [12] 2216 	mov	a,r7
       0008EA 24r1E            [12] 2217 	add	a,#_show_custom_character_ccode_65536_96
       0008EC F9               [12] 2218 	mov	r1,a
@@ -2220,11 +2220,11 @@
       0008EF C0 07            [24] 2220 	push	ar7
       0008F1 12r00r85         [24] 2221 	lcall	_lcdputch
       0008F4 D0 07            [24] 2222 	pop	ar7
-                                   2223 ;	lcd.c:528: for(uint8_t k = 0; k < 4; k++){
+                                   2223 ;	lcd.c:544: for (uint8_t k = 0; k < 4; k++) {
       0008F6 0F               [12] 2224 	inc	r7
       0008F7 80 DE            [24] 2225 	sjmp	00111$
       0008F9                       2226 00113$:
-                                   2227 ;	lcd.c:533: }
+                                   2227 ;	lcd.c:548: }
       0008F9 22               [24] 2228 	ret
                                    2229 	.area CSEG    (CODE)
                                    2230 	.area CONST   (CODE)

@@ -2,7 +2,7 @@
 -i bin\Release\LCD_INTERFACING.ihx
 -M
 -X 0xffff
--C 0x4000
+-C 0x3f40
 -b HOME = 0x2000
 -b XSEG = 0xfc00
 -b PSEG = 0xfc00
