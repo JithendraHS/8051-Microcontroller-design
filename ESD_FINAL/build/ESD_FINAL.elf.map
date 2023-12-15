@@ -1146,9 +1146,9 @@ Discarded input sections
                 0x00000000       0x3e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
  .text.i2c_read_timeout_per_char_us
                 0x00000000       0x3e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
- .text          0x00000000        0x0 C:\Users\jithe\AppData\Local\Temp\ccABR8NE.o
- .data          0x00000000        0x0 C:\Users\jithe\AppData\Local\Temp\ccABR8NE.o
- .bss           0x00000000        0x0 C:\Users\jithe\AppData\Local\Temp\ccABR8NE.o
+ .text          0x00000000        0x0 C:\Users\jithe\AppData\Local\Temp\ccsYWsxm.o
+ .data          0x00000000        0x0 C:\Users\jithe\AppData\Local\Temp\ccsYWsxm.o
+ .bss           0x00000000        0x0 C:\Users\jithe\AppData\Local\Temp\ccsYWsxm.o
  .data          0x00000000        0x0 c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .bss           0x00000000        0x0 c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .text          0x00000000        0x0 c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libg.a(lib_a-calloc.o)
@@ -1307,7 +1307,7 @@ LOAD c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../a
 .boot2          0x10000000      0x100
                 0x10000000                __boot2_start__ = .
  *(.boot2)
- .boot2         0x10000000      0x100 C:\Users\jithe\AppData\Local\Temp\ccABR8NE.o
+ .boot2         0x10000000      0x100 C:\Users\jithe\AppData\Local\Temp\ccsYWsxm.o
                 0x10000100                __boot2_end__ = .
                 0x00000001                ASSERT (((__boot2_end__ - __boot2_start__) == 0x100), ERROR: Pico second stage bootloader must be 256 bytes in size)
 
@@ -2666,7 +2666,7 @@ LOAD CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_sta
 LOAD CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
 LOAD CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
 LOAD CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
-LOAD C:\Users\jithe\AppData\Local\Temp\ccABR8NE.o
+LOAD C:\Users\jithe\AppData\Local\Temp\ccsYWsxm.o
 LOAD c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libstdc++.a
 LOAD c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libm.a
 START GROUP
@@ -2783,7 +2783,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x000007a2       0x2c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
  .ARM.attributes
-                0x000007ce       0x22 C:\Users\jithe\AppData\Local\Temp\ccABR8NE.o
+                0x000007ce       0x22 C:\Users\jithe\AppData\Local\Temp\ccsYWsxm.o
  .ARM.attributes
                 0x000007f0       0x1e c:/vsarm/armcc/10 2021.10/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .ARM.attributes
@@ -2846,54 +2846,54 @@ LOAD linker stubs
  .comment       0x00000049       0x4a CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
  .comment       0x00000049       0x4a CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
 
-.debug_info     0x00000000    0x1e524
+.debug_info     0x00000000    0x1e529
  .debug_info    0x00000000      0x488 CMakeFiles/ESD_FINAL.dir/main.c.obj
  .debug_info    0x00000488      0x783 CMakeFiles/ESD_FINAL.dir/i2c_code.c.obj
  .debug_info    0x00000c0b      0x4ad CMakeFiles/ESD_FINAL.dir/lidar.c.obj
  .debug_info    0x000010b8      0x88a CMakeFiles/ESD_FINAL.dir/spi_code.c.obj
- .debug_info    0x00001942     0x2283 CMakeFiles/ESD_FINAL.dir/oled.c.obj
- .debug_info    0x00003bc5      0x233 CMakeFiles/ESD_FINAL.dir/fonts.c.obj
- .debug_info    0x00003df8      0x7c0 CMakeFiles/ESD_FINAL.dir/menu.c.obj
- .debug_info    0x000045b8     0x1b79 CMakeFiles/ESD_FINAL.dir/area.c.obj
- .debug_info    0x00006131      0x523 CMakeFiles/ESD_FINAL.dir/button.c.obj
- .debug_info    0x00006654      0x9c5 CMakeFiles/ESD_FINAL.dir/user_interface.c.obj
- .debug_info    0x00007019      0x667 CMakeFiles/ESD_FINAL.dir/mpu6050.c.obj
- .debug_info    0x00007680     0x187e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
- .debug_info    0x00008efe      0x1e3 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
- .debug_info    0x000090e1      0x6be CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
- .debug_info    0x0000979f      0x58e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
- .debug_info    0x00009d2d     0x1c9e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
- .debug_info    0x0000b9cb      0x1a4 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
- .debug_info    0x0000bb6f     0x20d5 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/mutex.c.obj
- .debug_info    0x0000dc44     0x4068 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_time/time.c.obj
- .debug_info    0x00011cac     0x13f0 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
- .debug_info    0x0001309c     0x123b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_util/pheap.c.obj
- .debug_info    0x000142d7      0xdd2 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
- .debug_info    0x000150a9      0xfcf CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
- .debug_info    0x00016078      0x51b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
- .debug_info    0x00016593      0x4ee CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
- .debug_info    0x00016a81      0x1d8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
- .debug_info    0x00016c59     0x1053 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
- .debug_info    0x00017cac     0x1a5f CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
- .debug_info    0x0001970b       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
- .debug_info    0x0001972d      0x27c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
- .debug_info    0x000199a9       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
- .debug_info    0x000199cb       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
- .debug_info    0x000199ed      0x2d1 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
- .debug_info    0x00019cbe       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
- .debug_info    0x00019ce0       0x26 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
- .debug_info    0x00019d06       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
- .debug_info    0x00019d28      0x2eb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
- .debug_info    0x0001a013       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
- .debug_info    0x0001a035      0x334 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
- .debug_info    0x0001a369       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
- .debug_info    0x0001a38b       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
- .debug_info    0x0001a3ad      0x2fb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .debug_info    0x0001a6a8     0x1827 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
- .debug_info    0x0001becf     0x104f CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
- .debug_info    0x0001cf1e     0x1606 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
+ .debug_info    0x00001942     0x2285 CMakeFiles/ESD_FINAL.dir/oled.c.obj
+ .debug_info    0x00003bc7      0x233 CMakeFiles/ESD_FINAL.dir/fonts.c.obj
+ .debug_info    0x00003dfa      0x7c0 CMakeFiles/ESD_FINAL.dir/menu.c.obj
+ .debug_info    0x000045ba     0x1b7c CMakeFiles/ESD_FINAL.dir/area.c.obj
+ .debug_info    0x00006136      0x523 CMakeFiles/ESD_FINAL.dir/button.c.obj
+ .debug_info    0x00006659      0x9c5 CMakeFiles/ESD_FINAL.dir/user_interface.c.obj
+ .debug_info    0x0000701e      0x667 CMakeFiles/ESD_FINAL.dir/mpu6050.c.obj
+ .debug_info    0x00007685     0x187e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+ .debug_info    0x00008f03      0x1e3 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+ .debug_info    0x000090e6      0x6be CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+ .debug_info    0x000097a4      0x58e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+ .debug_info    0x00009d32     0x1c9e CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+ .debug_info    0x0000b9d0      0x1a4 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
+ .debug_info    0x0000bb74     0x20d5 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/mutex.c.obj
+ .debug_info    0x0000dc49     0x4068 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_time/time.c.obj
+ .debug_info    0x00011cb1     0x13f0 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+ .debug_info    0x000130a1     0x123b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_util/pheap.c.obj
+ .debug_info    0x000142dc      0xdd2 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
+ .debug_info    0x000150ae      0xfcf CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+ .debug_info    0x0001607d      0x51b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
+ .debug_info    0x00016598      0x4ee CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+ .debug_info    0x00016a86      0x1d8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
+ .debug_info    0x00016c5e     0x1053 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+ .debug_info    0x00017cb1     0x1a5f CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+ .debug_info    0x00019710       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+ .debug_info    0x00019732      0x27c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+ .debug_info    0x000199ae       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+ .debug_info    0x000199d0       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+ .debug_info    0x000199f2      0x2d1 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+ .debug_info    0x00019cc3       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+ .debug_info    0x00019ce5       0x26 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
+ .debug_info    0x00019d0b       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+ .debug_info    0x00019d2d      0x2eb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+ .debug_info    0x0001a018       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+ .debug_info    0x0001a03a      0x334 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
+ .debug_info    0x0001a36e       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+ .debug_info    0x0001a390       0x22 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
+ .debug_info    0x0001a3b2      0x2fb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+ .debug_info    0x0001a6ad     0x1827 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+ .debug_info    0x0001bed4     0x104f CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
+ .debug_info    0x0001cf23     0x1606 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
 
-.debug_abbrev   0x00000000     0x59db
+.debug_abbrev   0x00000000     0x59c7
  .debug_abbrev  0x00000000      0x13b CMakeFiles/ESD_FINAL.dir/main.c.obj
  .debug_abbrev  0x0000013b      0x21a CMakeFiles/ESD_FINAL.dir/i2c_code.c.obj
  .debug_abbrev  0x00000355      0x16f CMakeFiles/ESD_FINAL.dir/lidar.c.obj
@@ -2901,44 +2901,44 @@ LOAD linker stubs
  .debug_abbrev  0x00000718      0x345 CMakeFiles/ESD_FINAL.dir/oled.c.obj
  .debug_abbrev  0x00000a5d       0xc1 CMakeFiles/ESD_FINAL.dir/fonts.c.obj
  .debug_abbrev  0x00000b1e      0x1b6 CMakeFiles/ESD_FINAL.dir/menu.c.obj
- .debug_abbrev  0x00000cd4      0x275 CMakeFiles/ESD_FINAL.dir/area.c.obj
- .debug_abbrev  0x00000f49       0xe0 CMakeFiles/ESD_FINAL.dir/button.c.obj
- .debug_abbrev  0x00001029      0x171 CMakeFiles/ESD_FINAL.dir/user_interface.c.obj
- .debug_abbrev  0x0000119a      0x1cb CMakeFiles/ESD_FINAL.dir/mpu6050.c.obj
- .debug_abbrev  0x00001365      0x379 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
- .debug_abbrev  0x000016de       0xeb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
- .debug_abbrev  0x000017c9      0x2e9 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
- .debug_abbrev  0x00001ab2      0x21b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
- .debug_abbrev  0x00001ccd      0x4e7 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
- .debug_abbrev  0x000021b4      0x116 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
- .debug_abbrev  0x000022ca      0x397 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/mutex.c.obj
- .debug_abbrev  0x00002661      0x571 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_time/time.c.obj
- .debug_abbrev  0x00002bd2      0x3b8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
- .debug_abbrev  0x00002f8a      0x297 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_util/pheap.c.obj
- .debug_abbrev  0x00003221      0x31c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
- .debug_abbrev  0x0000353d      0x3c7 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
- .debug_abbrev  0x00003904      0x1ea CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
- .debug_abbrev  0x00003aee      0x1a8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
- .debug_abbrev  0x00003c96      0x109 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
- .debug_abbrev  0x00003d9f      0x4cb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
- .debug_abbrev  0x0000426a      0x384 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
- .debug_abbrev  0x000045ee       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
- .debug_abbrev  0x00004600      0x13b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
- .debug_abbrev  0x0000473b       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
- .debug_abbrev  0x0000474d       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
- .debug_abbrev  0x0000475f      0x179 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
- .debug_abbrev  0x000048d8       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
- .debug_abbrev  0x000048ea       0x14 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
- .debug_abbrev  0x000048fe       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
- .debug_abbrev  0x00004910      0x18c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
- .debug_abbrev  0x00004a9c       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
- .debug_abbrev  0x00004aae      0x159 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
- .debug_abbrev  0x00004c07       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
- .debug_abbrev  0x00004c19       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
- .debug_abbrev  0x00004c2b       0xad CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
- .debug_abbrev  0x00004cd8      0x4a5 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
- .debug_abbrev  0x0000517d      0x3e8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
- .debug_abbrev  0x00005565      0x476 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
+ .debug_abbrev  0x00000cd4      0x261 CMakeFiles/ESD_FINAL.dir/area.c.obj
+ .debug_abbrev  0x00000f35       0xe0 CMakeFiles/ESD_FINAL.dir/button.c.obj
+ .debug_abbrev  0x00001015      0x171 CMakeFiles/ESD_FINAL.dir/user_interface.c.obj
+ .debug_abbrev  0x00001186      0x1cb CMakeFiles/ESD_FINAL.dir/mpu6050.c.obj
+ .debug_abbrev  0x00001351      0x379 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+ .debug_abbrev  0x000016ca       0xeb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+ .debug_abbrev  0x000017b5      0x2e9 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+ .debug_abbrev  0x00001a9e      0x21b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+ .debug_abbrev  0x00001cb9      0x4e7 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+ .debug_abbrev  0x000021a0      0x116 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/lock_core.c.obj
+ .debug_abbrev  0x000022b6      0x397 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_sync/mutex.c.obj
+ .debug_abbrev  0x0000264d      0x571 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_time/time.c.obj
+ .debug_abbrev  0x00002bbe      0x3b8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+ .debug_abbrev  0x00002f76      0x297 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/common/pico_util/pheap.c.obj
+ .debug_abbrev  0x0000320d      0x31c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
+ .debug_abbrev  0x00003529      0x3c7 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+ .debug_abbrev  0x000038f0      0x1ea CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
+ .debug_abbrev  0x00003ada      0x1a8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+ .debug_abbrev  0x00003c82      0x109 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
+ .debug_abbrev  0x00003d8b      0x4cb CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+ .debug_abbrev  0x00004256      0x384 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+ .debug_abbrev  0x000045da       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+ .debug_abbrev  0x000045ec      0x13b CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+ .debug_abbrev  0x00004727       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+ .debug_abbrev  0x00004739       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+ .debug_abbrev  0x0000474b      0x179 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+ .debug_abbrev  0x000048c4       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+ .debug_abbrev  0x000048d6       0x14 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
+ .debug_abbrev  0x000048ea       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+ .debug_abbrev  0x000048fc      0x18c CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+ .debug_abbrev  0x00004a88       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+ .debug_abbrev  0x00004a9a      0x159 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
+ .debug_abbrev  0x00004bf3       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+ .debug_abbrev  0x00004c05       0x12 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
+ .debug_abbrev  0x00004c17       0xad CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+ .debug_abbrev  0x00004cc4      0x4a5 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+ .debug_abbrev  0x00005169      0x3e8 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_stdio_uart/stdio_uart.c.obj
+ .debug_abbrev  0x00005551      0x476 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_i2c/i2c.c.obj
 
 .debug_aranges  0x00000000     0x11c0
  .debug_aranges
@@ -3078,16 +3078,16 @@ LOAD linker stubs
 
 .debug_line     0x00000000    0x1271b
  .debug_line    0x00000000      0x2a6 CMakeFiles/ESD_FINAL.dir/main.c.obj
- .debug_line    0x000002a6      0x348 CMakeFiles/ESD_FINAL.dir/i2c_code.c.obj
- .debug_line    0x000005ee      0x24f CMakeFiles/ESD_FINAL.dir/lidar.c.obj
- .debug_line    0x0000083d      0x5bf CMakeFiles/ESD_FINAL.dir/spi_code.c.obj
- .debug_line    0x00000dfc     0x15f5 CMakeFiles/ESD_FINAL.dir/oled.c.obj
- .debug_line    0x000023f1       0xdb CMakeFiles/ESD_FINAL.dir/fonts.c.obj
- .debug_line    0x000024cc      0x2d9 CMakeFiles/ESD_FINAL.dir/menu.c.obj
- .debug_line    0x000027a5      0xaa2 CMakeFiles/ESD_FINAL.dir/area.c.obj
- .debug_line    0x00003247      0x2b4 CMakeFiles/ESD_FINAL.dir/button.c.obj
- .debug_line    0x000034fb      0x321 CMakeFiles/ESD_FINAL.dir/user_interface.c.obj
- .debug_line    0x0000381c      0x34e CMakeFiles/ESD_FINAL.dir/mpu6050.c.obj
+ .debug_line    0x000002a6      0x349 CMakeFiles/ESD_FINAL.dir/i2c_code.c.obj
+ .debug_line    0x000005ef      0x24f CMakeFiles/ESD_FINAL.dir/lidar.c.obj
+ .debug_line    0x0000083e      0x5c0 CMakeFiles/ESD_FINAL.dir/spi_code.c.obj
+ .debug_line    0x00000dfe     0x15f5 CMakeFiles/ESD_FINAL.dir/oled.c.obj
+ .debug_line    0x000023f3       0xdb CMakeFiles/ESD_FINAL.dir/fonts.c.obj
+ .debug_line    0x000024ce      0x2d9 CMakeFiles/ESD_FINAL.dir/menu.c.obj
+ .debug_line    0x000027a7      0xaa3 CMakeFiles/ESD_FINAL.dir/area.c.obj
+ .debug_line    0x0000324a      0x2b0 CMakeFiles/ESD_FINAL.dir/button.c.obj
+ .debug_line    0x000034fa      0x321 CMakeFiles/ESD_FINAL.dir/user_interface.c.obj
+ .debug_line    0x0000381b      0x34f CMakeFiles/ESD_FINAL.dir/mpu6050.c.obj
  .debug_line    0x00003b6a      0xca7 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
  .debug_line    0x00004811      0x255 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
  .debug_line    0x00004a66      0x445 CMakeFiles/ESD_FINAL.dir/C_/VSARM/sdk/pico/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
