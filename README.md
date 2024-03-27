@@ -1,4 +1,4 @@
-The development of the 8051 Microcontroller board represents a comprehensive integration of various components and functionalities to create a versatile embedded system platform. Here's a detailed breakdown of the key features and components incorporated into the design:
+![IMG_20231119_165359](https://github.com/JithendraHS/8051-Microcontroller-design/assets/37045723/1eee62c9-de67-4379-953e-e77e732fb16f)The development of the 8051 Microcontroller board represents a comprehensive integration of various components and functionalities to create a versatile embedded system platform. Here's a detailed breakdown of the key features and components incorporated into the design:
 
 1. **AT89C51RC2 CPU**: The heart of the board is the AT89C51RC2 microcontroller unit (MCU). This 8051-compatible MCU provides the processing power and control necessary for executing tasks and interfacing with external devices.
 
@@ -11,3 +11,7 @@ The development of the 8051 Microcontroller board represents a comprehensive int
 5. **Interrupt-based RS232 UART Connection**: The board includes an RS232 Universal Asynchronous Receiver-Transmitter (UART) interface with interrupt capability. This UART interface facilitates serial communication between the board and external devices, such as computers, microcontrollers, or sensors. The interrupt-based design allows the MCU to respond promptly to incoming data or events, improving system responsiveness and efficiency.
 
 6. **I2C Bit-banged EEPROM Drivers**: Inter-Integrated Circuit (I2C) bit-banged EEPROM drivers are implemented to enable communication with external EEPROM memory devices. Bit-banging refers to the software-based emulation of hardware communication protocols, allowing the MCU to communicate with I2C devices using GPIO pins. This approach provides flexibility and compatibility with a wide range of I2C-compatible EEPROM chips, enabling data storage and retrieval functionalities.
+
+**Board at Final stage:**
+![IMG_20231119_165359](https://github.com/JithendraHS/8051-Microcontroller-design/assets/37045723/a9bf7601-7b16-4547-a73f-7d61d243a95b)
+![IMG_20231119_165413](https://github.com/JithendraHS/8051-Microcontroller-design/assets/37045723/d89ec092-4336-4d46-b235-7ca489f7c7e9)
