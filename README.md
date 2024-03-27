@@ -1,4 +1,4 @@
-![IMG_20231119_165359](https://github.com/JithendraHS/8051-Microcontroller-design/assets/37045723/1eee62c9-de67-4379-953e-e77e732fb16f)The development of the 8051 Microcontroller board represents a comprehensive integration of various components and functionalities to create a versatile embedded system platform. Here's a detailed breakdown of the key features and components incorporated into the design:
+The development of the 8051 Microcontroller board represents a comprehensive integration of various components and functionalities to create a versatile embedded system platform. Here's a detailed breakdown of the key features and components incorporated into the design:
 
 1. **AT89C51RC2 CPU**: The heart of the board is the AT89C51RC2 microcontroller unit (MCU). This 8051-compatible MCU provides the processing power and control necessary for executing tasks and interfacing with external devices.
 
